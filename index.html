@@ -386,6 +386,33 @@
             opacity: 1;
         }
 
+        /* Toast Notification */
+        .toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1000;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-size: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transition: opacity 0.3s, bottom 0.3s;
+        }
+
+        .toast.show {
+            visibility: visible;
+            opacity: 1;
+            bottom: 50px;
+        }
+
+
         .footer-social {
             margin: 2rem 0;
             display: flex;
@@ -632,7 +659,8 @@
                     <path d="M10 8.5L15.5 12L10 15.5V8.5Z" fill="white" />
                 </svg>
             </a>
-            <a href="mailto:dev.amitkadia+business@gmail.com" class="social-link" aria-label="Email">
+            <a href="mailto:dev.amitkadia+business@gmail.com" class="social-link" aria-label="Email"
+                id="business-email-link">
                 📧
             </a>
         </div>
@@ -644,6 +672,29 @@
                 IndiaMart sellers</p>
         </div>
     </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">Email copied to clipboard!</div>
+
+    <script>
+        document.getElementById('business-email-link').addEventListener('click', function (e) {
+            // Allow default mailto behavior, but also copy to clipboard as backup
+            const email = 'dev.amitkadia+business@gmail.com';
+
+            navigator.clipboard.writeText(email).then(() => {
+                showToast();
+                console.log('Email copied to clipboard');
+            }).catch(err => {
+                console.error('Failed to copy email: ', err);
+            });
+        });
+
+        function showToast() {
+            var x = document.getElementById("toast");
+            x.className = "toast show";
+            setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+        }
+    </script>
 </body>
 
 </html>
