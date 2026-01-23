@@ -648,7 +648,7 @@
         <div class="footer-links">
             <a href="https://www.youtube.com/@AIAutomationwithAmit" target="_blank" rel="noopener">YouTube Channel</a>
             <a href="https://www.aiautomationwithamit.in" target="_blank" rel="noopener">Website</a>
-            <a href="mailto:dev.amitkadia+support@gmail.com">Support</a>
+            <a href="mailto:dev.amitkadia+business@gmail.com" id="support-text-link">Support</a>
         </div>
 
         <div class="footer-social">
@@ -679,6 +679,21 @@
     <script>
         document.getElementById('business-email-link').addEventListener('click', function (e) {
             // Allow default mailto behavior, but also copy to clipboard as backup
+            const email = 'dev.amitkadia+business@gmail.com';
+
+            navigator.clipboard.writeText(email).then(() => {
+                showToast();
+                console.log('Email copied to clipboard');
+            }).catch(err => {
+                console.error('Failed to copy email: ', err);
+            });
+        });
+
+            });
+        });
+
+        // Also add listener to the "Support" text link
+        document.getElementById('support-text-link').addEventListener('click', function (e) {
             const email = 'dev.amitkadia+business@gmail.com';
 
             navigator.clipboard.writeText(email).then(() => {
