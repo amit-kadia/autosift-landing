@@ -1,170 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy Policy - AutoSift</title>
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #4F46E5;
-            --primary-light: #818CF8;
-            --primary-dark: #3730A3;
-            --text-main: #1F2937;
-            --text-muted: #6B7280;
-            --bg-body: #F3F4F6;
-            --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        }
+# Privacy Policy for AutoSift
 
-        body {
-            font-family: 'Outfit', sans-serif;
-            background-color: var(--bg-body);
-            color: var(--text-main);
-            margin: 0;
-            line-height: 1.6;
-        }
+**Last Updated:** January 22, 2026
 
-        .header {
-            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
-            color: white;
-            padding: 60px 20px;
-            text-align: center;
-        }
+AutoSift ("we", "our", or "us") is committed to protecting your privacy. This Privacy Policy explains how your information is collected, used, and disclosed by the AutoSift Chrome Extension.
 
-        .header h1 {
-            margin: 0;
-            font-size: 2.5rem;
-            font-weight: 800;
-        }
+## 1. Information We Collect
 
-        .nav-link {
-            display: inline-block;
-            margin-top: 20px;
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
+### A. Personal Information (Via Authentication)
+We use **Supabase** (a secure, third-party backend) to manage user accounts. When you sign in using Google, we collect basic profile information provided by Google:
+-   Email address
+-   Name/Display Name
+-   Profile Picture
 
-        .nav-link:hover {
-            color: white;
-        }
+This information is used strictly for:
+-   Verifying your identity.
+-   Managing your subscription/trial status.
+-   Syncing your basic usage metrics (e.g., "hours used today") across your devices.
 
-        .container {
-            max-width: 900px;
-            margin: -40px auto 60px;
-            padding: 0 20px;
-        }
+### B. Usage Data
+We collect minimal, non-sensitive usage statistics to enforce plan limits (e.g., Free Trial limits) and improve the service:
+-   Number of leads processed.
+-   Duration of automation sessions.
+-   Application errors (for debugging purposes).
 
-        .card {
-            background: white;
-            border-radius: 16px;
-            padding: 40px;
-            box-shadow: var(--card-shadow);
-        }
+### C. Lead Data (Processed Locally)
+**We do NOT collect or store the business leads you process.**
+-   All lead filtering, extraction within the extension happens **locally on your device**.
+-   Lead data (Buyer Name, Phone, Email, etc.) is temporarily processed in your browser's memory to perform the automation actions (Hide/Shortlist/Contact).
+-   This data is **never sent to our servers**.
 
-        .content {
-            font-size: 1.1rem;
-        }
+## 2. How We Use and Share Information
+-   **No Sale of Data:** We do not sell your personal data to third parties.
+-   **Service Providers:** We share necessary authentication data with Supabase (our backend provider) strictly to operate the login and database service.
+-   **Legal Requirements:** We may disclose information if required to do so by law or in the good faith belief that such action is necessary to comply with a legal obligation.
 
-        .content h1, .content h2, .content h3 {
-            color: var(--primary-dark);
-            margin-top: 2rem;
-        }
+## 3. Data Security
+We implement industry-standard security measures to protect your information. Authentication tokens are stored securely in your browser's local storage. However, no security system is impenetrable, and we cannot guarantee the security of our systems 100%.
 
-        .content hr {
-            border: 0;
-            border-top: 1px solid #E5E7EB;
-            margin: 2rem 0;
-        }
+## 4. Your Rights
+You may request the deletion of your account and associated data at any time by contacting us at the support email provided in the extension.
 
-        .footer {
-            text-align: center;
-            padding: 40px 20px;
-            color: var(--text-muted);
-            border-top: 1px solid #E5E7EB;
-        }
-
-        #loading {
-            text-align: center;
-            padding: 60px;
-            font-size: 1.2rem;
-            color: var(--text-muted);
-        }
-
-        /* Spinner */
-        .spinner {
-            border: 4px solid rgba(0, 0, 0, 0.1);
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            border-left-color: var(--primary);
-            animation: spin 1s linear infinite;
-            display: inline-block;
-            vertical-align: middle;
-            margin-right: 10px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        @media (max-width: 640px) {
-            .header h1 { font-size: 2rem; }
-            .card { padding: 25px; }
-        }
-    </style>
-</head>
-<body>
-
-    <header class="header">
-        <h1>Privacy Policy</h1>
-        <a href="index.html" class="nav-link">← Back to AutoSift Home</a>
-    </header>
-
-    <div class="container">
-        <div class="card">
-            <div id="loading">
-                <div class="spinner"></div>
-                Loading latest policy...
-            </div>
-            <div id="content" class="content"></div>
-        </div>
-    </div>
-
-    <footer class="footer">
-        © 2026 AutoSift by AI Automation with Amit. All rights reserved.
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script>
-        const url = 'PRIVACY_POLICY.md';
-        
-        // Configure marked to handle GitHub flavored markdown correctly
-        marked.setOptions({
-            gfm: true,
-            breaks: true,
-            sanitize: false
-        });
-
-        fetch(url)
-            .then(res => {
-                if (!res.ok) throw new Error('Failed to fetch');
-                return res.text();
-            })
-            .then(text => {
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('content').innerHTML = marked.parse(text);
-            })
-            .catch(err => {
-                console.error(err);
-                document.getElementById('loading').innerHTML = 
-                    '<div style="color: #EF4444;">Error loading policy document. Please check back later or contact autosiftindia+support@gmail.com directly.</div>';
-            });
-    </script>
-</body>
-</html>
+## 5. Contact Us
+If you have any questions about this Privacy Policy, please contact us at:
+**Email:** autosiftindia+support@gmail.com
+**Website:** https://autosift.aiautomationwithamit.in

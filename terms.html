@@ -1,170 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terms of Service - AutoSift</title>
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #4F46E5;
-            --primary-light: #818CF8;
-            --primary-dark: #3730A3;
-            --text-main: #1F2937;
-            --text-muted: #6B7280;
-            --bg-body: #F3F4F6;
-            --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        }
+# Terms of Service for AutoSift
 
-        body {
-            font-family: 'Outfit', sans-serif;
-            background-color: var(--bg-body);
-            color: var(--text-main);
-            margin: 0;
-            line-height: 1.6;
-        }
+**Last Updated:** January 26, 2026
 
-        .header {
-            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
-            color: white;
-            padding: 60px 20px;
-            text-align: center;
-        }
+Welcome to AutoSift! By using our Chrome Extension (the "Service"), you agree to be bound by the following terms and conditions.
 
-        .header h1 {
-            margin: 0;
-            font-size: 2.5rem;
-            font-weight: 800;
-        }
+## 1. Description of Service
+AutoSift is a B2B productivity tool designed to help users filter, extract, and manage business leads from supported platforms (e.g., IndiaMart). 
 
-        .nav-link {
-            display: inline-block;
-            margin-top: 20px;
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
+## 2. Acceptable Use
+You agree to use AutoSift only for lawful purposes. You are solely responsible for:
+- Complying with the Terms of Service of the platforms you use AutoSift on (e.g., IndiaMart).
+- Ensuring you have the right to contact the leads you generate.
+- Not using the tool for spamming or any activity that violates anti-spam laws.
 
-        .nav-link:hover {
-            color: white;
-        }
+## 3. Account and Subscription
+- **Account Security:** You are responsible for maintaining the confidentiality of your Google/Supabase account credentials.
+- **Fair Use:** Automation speeds and limits are set to ensure the stability of the platforms you are browsing. Attempting to bypass these limits may result in account suspension.
+- **Payments:** Subscription fees are non-refundable unless stated otherwise at the time of purchase.
 
-        .container {
-            max-width: 900px;
-            margin: -40px auto 60px;
-            padding: 0 20px;
-        }
+## 4. Intellectual Property
+All content, features, and functionality of the AutoSift extension are the exclusive property of AutoSift. You are granted a limited, non-transferable license to use the extension for its intended purpose.
 
-        .card {
-            background: white;
-            border-radius: 16px;
-            padding: 40px;
-            box-shadow: var(--card-shadow);
-        }
+## 5. Limitation of Liability
+AutoSift is provided "as is" without warranties of any kind. We are not liable for:
+- Any account blocks or restrictions imposed on you by third-party platforms (e.g., IndiaMart) resulting from the use of automation.
+- Any loss of data or business opportunity.
 
-        .content {
-            font-size: 1.1rem;
-        }
+## 6. Data Privacy
+Your use of the Service is also governed by our [Privacy Policy](PRIVACY_POLICY.md).
 
-        .content h1, .content h2, .content h3 {
-            color: var(--primary-dark);
-            margin-top: 2rem;
-        }
+## 7. Changes to Terms
+We reserve the right to modify these terms at any time. Continued use of the extension after changes constitutes acceptance of the new terms.
 
-        .content hr {
-            border: 0;
-            border-top: 1px solid #E5E7EB;
-            margin: 2rem 0;
-        }
-
-        .footer {
-            text-align: center;
-            padding: 40px 20px;
-            color: var(--text-muted);
-            border-top: 1px solid #E5E7EB;
-        }
-
-        #loading {
-            text-align: center;
-            padding: 60px;
-            font-size: 1.2rem;
-            color: var(--text-muted);
-        }
-
-        /* Spinner */
-        .spinner {
-            border: 4px solid rgba(0, 0, 0, 0.1);
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            border-left-color: var(--primary);
-            animation: spin 1s linear infinite;
-            display: inline-block;
-            vertical-align: middle;
-            margin-right: 10px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        @media (max-width: 640px) {
-            .header h1 { font-size: 2rem; }
-            .card { padding: 25px; }
-        }
-    </style>
-</head>
-<body>
-
-    <header class="header">
-        <h1>Terms of Service</h1>
-        <a href="index.html" class="nav-link">← Back to AutoSift Home</a>
-    </header>
-
-    <div class="container">
-        <div class="card">
-            <div id="loading">
-                <div class="spinner"></div>
-                Loading latest terms...
-            </div>
-            <div id="content" class="content"></div>
-        </div>
-    </div>
-
-    <footer class="footer">
-        © 2026 AutoSift by AI Automation with Amit. All rights reserved.
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script>
-        const url = 'TERMS_OF_SERVICE.md';
-        
-        // Configure marked to handle GitHub flavored markdown correctly
-        marked.setOptions({
-            gfm: true,
-            breaks: true,
-            sanitize: false
-        });
-
-        fetch(url)
-            .then(res => {
-                if (!res.ok) throw new Error('Failed to fetch');
-                return res.text();
-            })
-            .then(text => {
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('content').innerHTML = marked.parse(text);
-            })
-            .catch(err => {
-                console.error(err);
-                document.getElementById('loading').innerHTML = 
-                    '<div style="color: #EF4444;">Error loading terms of service document. Please check back later or contact autosiftindia+support@gmail.com directly.</div>';
-            });
-    </script>
-</body>
-</html>
+## 8. Contact
+For support or inquiries, contact us at **autosiftindia+support@gmail.com**.
