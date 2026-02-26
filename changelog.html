@@ -5,101 +5,198 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Changelog - AutoSift</title>
-
-    <!-- Favicon -->
     <link rel="icon" type="image/png" href="assets/images/logo.png">
-
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap"
         rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --text-dark: #1e293b;
+            --text-gray: #64748b;
+            --bg-light: #f8fafc;
+        }
 
-    <!-- Styles -->
-    <link rel="stylesheet" href="assets/css/legal-style.css">
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: var(--bg-light);
+        }
+
+        header {
+            background: white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.25rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+
+        .logo {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .back-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 4rem auto;
+            padding: 4rem;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            min-height: 600px;
+        }
+
+        /* Markdown Styles */
+        #content h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            border-bottom: 2px solid var(--bg-light);
+            padding-bottom: 1rem;
+        }
+
+        #content h2 {
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        #content h3 {
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--primary);
+        }
+
+        #content p {
+            margin-bottom: 1.25rem;
+            color: #475569;
+        }
+
+        #content ul {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+            list-style-type: disc;
+        }
+
+        #content li {
+            margin-bottom: 0.5rem;
+            color: #475569;
+        }
+
+        #content strong {
+            color: var(--text-dark);
+        }
+
+        #content a {
+            color: var(--primary);
+            text-decoration: none;
+            border-bottom: 1px dashed var(--primary);
+        }
+
+        footer {
+            background: var(--text-dark);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            main {
+                padding: 2rem;
+                margin: 2rem 1rem;
+            }
+        }
+    </style>
 </head>
 
 <body>
-
-    <!-- Header -->
     <header>
         <nav>
             <a href="index.html" class="logo-container">
-                <img src="assets/images/logo.png" alt="AutoSift Logo" class="logo-icon">
                 <div class="logo">AutoSift</div>
             </a>
-            <a href="index.html#download" class="nav-cta">Get Started Free</a>
+            <a href="index.html" class="back-link">← Home</a>
         </nav>
     </header>
-
-    <main class="content-wrapper">
-        <div class="legal-card">
-            <h1>AutoSift - What's New</h1>
-            <p>Stay updated with the latest features, improvements, and bug fixes.</p>
-
-            <hr>
-
-            <h2>v1.0.9 <small
-                    style="color: var(--text-gray); font-size: 0.9rem; font-family: 'Inter', sans-serif;">(2026-02-26)</small>
-            </h2>
-
-            <div class="release-intro">
-                <p><strong>The "Enterprise Ready" Release!</strong> This version is built for professional IndiaMart
-                    sellers who need 100% reliability and zero lead loss. We have significantly hardened the automation
-                    engine to keep your leads safe.</p>
-            </div>
-
-            <div class="feature-grid">
-                <!-- Card 1 -->
-                <div class="feature-card">
-                    <div class="feature-icon">⚡</div>
-                    <h4>Never Miss a Lead</h4>
-                    <p>AutoSift now stays active even if you switch tabs. We've added technical "guards" to ensure your
-                        leads are processed safely without errors.</p>
-                </div>
-
-                <!-- Card 2 -->
-                <div class="feature-card">
-                    <div class="feature-icon">💎</div>
-                    <h4>Higher Rewards</h4>
-                    <p>Sharing is now more rewarding. Referral bonuses are highlighted in bright yellow so you and your
-                        friends can clearly see the extra days you earn.</p>
-                </div>
-
-                <!-- Card 3 -->
-                <div class="feature-card">
-                    <div class="feature-icon">✨</div>
-                    <h4>Faster & Cleaner</h4>
-                    <p>We've removed the clutter. Your WhatsApp/Email templates are shorter and more professional, and
-                        the menu works smoothly on all screen sizes.</p>
-                </div>
-            </div>
-
-
-            <hr>
-            <p style="text-align: center;">Built with ❤️ for IndiaMart Sellers.</p>
-        </div>
+    <main>
+        <div id="content">Loading content...</div>
     </main>
-
-    <!-- Footer -->
     <footer>
-        <div class="footer-links">
-            <a href="https://www.youtube.com/@AIAutomationwithAmit" target="_blank" rel="noopener">YouTube Channel</a>
-            <a href="https://www.aiautomationwithamit.in" target="_blank" rel="noopener">Website</a>
-            <a href="privacy.html">Privacy Policy</a>
-            <a href="terms.html">Terms of Service</a>
-            <a href="changelog.html">What's New</a>
-            <br>
-            <a href="mailto:autosiftindia+support@gmail.com">Support</a>
-        </div>
-
-        <div class="footer-credit">
-            <p>&copy; 2026 AutoSift by AI Automation with Amit. All rights reserved.</p>
-            <p style="margin-top: 0.5rem;">Made with ❤️ for IndiaMart sellers</p>
-        </div>
+        <p>&copy; 2026 AutoSift. All rights reserved.</p>
     </footer>
 
+    <script id="markdown-data" type="text/markdown"># AutoSift - What's New
+
+## v1.0.9 (2026-02-26)
+The "Enterprise Ready" Release! This version is built for professional IndiaMart sellers who need 100% reliability and zero lead loss.
+
+### 🚀 Why this matters for your business:
+We have significantly hardened the automation engine. Thousands of leads are now safer with our new "Silent Guard" system that prevents technical errors while you work.
+
+### ⚡ Never Miss a Lead (Reliability)
+- **Active in Background**: Your automation now stays alive even if you're looking at other tabs. No more "sleeping" extension issues.
+- **Zero-Error Engine**: Added technical guards that keep the system running smoothly without crashing or showing technical messages.
+- **Lead Sync Protection**: Improved counting logic ensures your daily lead stats are always 100% accurate.
+
+### 💎 Higher Rewards (Referral System)
+- **Clear Bonus Tracking**: Referral bonuses (+21 and +30 days) are now highlighted in bright yellow so you know exactly what you've earned.
+- **Easy Sharing**: Cleaned up the "Share & Earn" menus to make it simple to invite your business friends.
+
+### ✨ Shorter, Better Messages (UX)
+- **Professional Templates**: WhatsApp and Email templates are now shorter, cleaner, and more professional to help you convert leads faster.
+- **Smooth Menus**: Fixed menu clipping and rotation – the layout now fits perfectly on all screens without stretching.
+
+---
+Built with ❤️ for IndiaMart Sellers.
+</script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const mdText = document.getElementById('markdown-data').textContent;
+            document.getElementById('content').innerHTML = marked.parse(mdText);
+        });
+    </script>
 </body>
 
 </html>

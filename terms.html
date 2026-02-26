@@ -5,109 +5,211 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Terms of Service - AutoSift</title>
-
-    <!-- Favicon -->
     <link rel="icon" type="image/png" href="assets/images/logo.png">
-
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap"
         rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --text-dark: #1e293b;
+            --text-gray: #64748b;
+            --bg-light: #f8fafc;
+        }
 
-    <!-- Styles -->
-    <link rel="stylesheet" href="assets/css/legal-style.css">
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: var(--bg-light);
+        }
+
+        header {
+            background: white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.25rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+
+        .logo {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .back-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 4rem auto;
+            padding: 4rem;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            min-height: 600px;
+        }
+
+        /* Markdown Styles */
+        #content h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            border-bottom: 2px solid var(--bg-light);
+            padding-bottom: 1rem;
+        }
+
+        #content h2 {
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        #content h3 {
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--primary);
+        }
+
+        #content p {
+            margin-bottom: 1.25rem;
+            color: #475569;
+        }
+
+        #content ul {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+            list-style-type: disc;
+        }
+
+        #content li {
+            margin-bottom: 0.5rem;
+            color: #475569;
+        }
+
+        #content strong {
+            color: var(--text-dark);
+        }
+
+        #content a {
+            color: var(--primary);
+            text-decoration: none;
+            border-bottom: 1px dashed var(--primary);
+        }
+
+        footer {
+            background: var(--text-dark);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            main {
+                padding: 2rem;
+                margin: 2rem 1rem;
+            }
+        }
+    </style>
 </head>
 
 <body>
-
-    <!-- Header -->
     <header>
         <nav>
             <a href="index.html" class="logo-container">
-                <img src="assets/images/logo.png" alt="AutoSift Logo" class="logo-icon">
                 <div class="logo">AutoSift</div>
             </a>
-            <a href="index.html#download" class="nav-cta">Get Started Free</a>
+            <a href="index.html" class="back-link">← Home</a>
         </nav>
     </header>
-
-    <main class="content-wrapper">
-        <div class="legal-card">
-            <h1>Terms of Service for AutoSift</h1>
-            <span class="last-updated"><strong>Last Updated:</strong> January 26, 2026</span>
-
-            <p>Welcome to AutoSift! By using our Chrome Extension (the "Service"), you agree to be bound by the
-                following terms and conditions.</p>
-
-            <h2>1. Description of Service</h2>
-            <p>AutoSift is a B2B productivity tool designed to help users filter, extract, and manage business leads
-                from supported platforms (e.g., IndiaMart).</p>
-
-            <h2>2. Acceptable Use</h2>
-            <p>You agree to use AutoSift only for lawful purposes. You are solely responsible for:</p>
-            <ul>
-                <li>Complying with the Terms of Service of the platforms you use AutoSift on (e.g., IndiaMart).</li>
-                <li>Ensuring you have the right to contact the leads you generate.</li>
-                <li>Not using the tool for spamming or any activity that violates anti-spam laws.</li>
-            </ul>
-
-            <h2>3. Account and Subscription</h2>
-            <ul>
-                <li><strong>Account Security:</strong> You are responsible for maintaining the confidentiality of your
-                    Google/Supabase account credentials.</li>
-                <li><strong>Fair Use:</strong> Automation speeds and limits are set to ensure the stability of the
-                    platforms you are browsing. Attempting to bypass these limits may result in account suspension.</li>
-                <li><strong>Payments:</strong> Subscription fees are non-refundable unless stated otherwise at the time
-                    of purchase.</li>
-            </ul>
-
-            <h2>4. Intellectual Property</h2>
-            <p>All content, features, and functionality of the AutoSift extension are the exclusive property of
-                AutoSift. You are granted a limited, non-transferable license to use the extension for its intended
-                purpose.</p>
-
-            <h2>5. Limitation of Liability</h2>
-            <p>AutoSift is provided "as is" without warranties of any kind. We are not liable for:</p>
-            <ul>
-                <li>Any account blocks or restrictions imposed on you by third-party platforms (e.g., IndiaMart)
-                    resulting from the use of automation.</li>
-                <li>Any loss of data or business opportunity.</li>
-            </ul>
-
-            <h2>6. Data Privacy</h2>
-            <p>Your use of the Service is also governed by our <a href="privacy.html">Privacy Policy</a>.</p>
-
-            <h2>7. Changes to Terms</h2>
-            <p>We reserve the right to modify these terms at any time. Continued use of the extension after changes
-                constitutes acceptance of the new terms.</p>
-
-            <h2>8. Contact</h2>
-            <p>For support or inquiries, contact us at <a
-                    href="mailto:autosiftindia+support@gmail.com"><strong>autosiftindia+support@gmail.com</strong></a>.
-            </p>
-        </div>
+    <main>
+        <div id="content">Loading content...</div>
     </main>
-
-    <!-- Footer -->
     <footer>
-        <div class="footer-links">
-            <a href="https://www.youtube.com/@AIAutomationwithAmit" target="_blank" rel="noopener">YouTube Channel</a>
-            <a href="https://www.aiautomationwithamit.in" target="_blank" rel="noopener">Website</a>
-            <a href="privacy.html">Privacy Policy</a>
-            <a href="terms.html">Terms of Service</a>
-            <a href="changelog.html">What's New</a>
-            <br>
-            <a href="mailto:autosiftindia+support@gmail.com">Support</a>
-        </div>
-
-        <div class="footer-credit">
-            <p>&copy; 2026 AutoSift by AI Automation with Amit. All rights reserved.</p>
-            <p style="margin-top: 0.5rem;">Made with ❤️ for IndiaMart sellers</p>
-        </div>
+        <p>&copy; 2026 AutoSift. All rights reserved.</p>
     </footer>
 
+    <script id="markdown-data" type="text/markdown"># Terms of Service for AutoSift
+
+**Last Updated:** January 26, 2026
+
+Welcome to AutoSift! By using our Chrome Extension (the "Service"), you agree to be bound by the following terms and conditions.
+
+## 1. Description of Service
+AutoSift is a B2B productivity tool designed to help users filter, extract, and manage business leads from supported platforms (e.g., IndiaMart). 
+
+## 2. Acceptable Use
+You agree to use AutoSift only for lawful purposes. You are solely responsible for:
+- Complying with the Terms of Service of the platforms you use AutoSift on (e.g., IndiaMart).
+- Ensuring you have the right to contact the leads you generate.
+- Not using the tool for spamming or any activity that violates anti-spam laws.
+
+## 3. Account and Subscription
+- **Account Security:** You are responsible for maintaining the confidentiality of your Google/Supabase account credentials.
+- **Fair Use:** Automation speeds and limits are set to ensure the stability of the platforms you are browsing. Attempting to bypass these limits may result in account suspension.
+- **Payments:** Subscription fees are non-refundable unless stated otherwise at the time of purchase.
+
+## 4. Intellectual Property
+All content, features, and functionality of the AutoSift extension are the exclusive property of AutoSift. You are granted a limited, non-transferable license to use the extension for its intended purpose.
+
+## 5. Limitation of Liability
+AutoSift is provided "as is" without warranties of any kind. We are not liable for:
+- Any account blocks or restrictions imposed on you by third-party platforms (e.g., IndiaMart) resulting from the use of automation.
+- Any loss of data or business opportunity.
+
+## 6. Data Privacy
+Your use of the Service is also governed by our [Privacy Policy](PRIVACY_POLICY.md).
+
+## 7. Changes to Terms
+We reserve the right to modify these terms at any time. Continued use of the extension after changes constitutes acceptance of the new terms.
+
+## 8. Contact
+For support or inquiries, contact us at **autosiftindia+support@gmail.com**.
+</script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const mdText = document.getElementById('markdown-data').textContent;
+            document.getElementById('content').innerHTML = marked.parse(mdText);
+        });
+    </script>
 </body>
 
 </html>
