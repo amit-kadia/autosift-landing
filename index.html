@@ -253,7 +253,7 @@
         /* Features */
         .features {
             padding: 6rem 2rem;
-            background: var(--bg-light);
+            background: white;
         }
 
         .features-grid {
@@ -295,7 +295,7 @@
         /* Benefits */
         .benefits {
             padding: 6rem 2rem;
-            background: white;
+            background: var(--bg-light);
         }
 
         .benefits-list {
@@ -483,7 +483,7 @@
         /* Proof / Case Study */
         .proof-section {
             padding: 6rem 2rem;
-            background: var(--bg-light);
+            background: white;
         }
 
         .proof-stats {
@@ -540,7 +540,9 @@
 
         .proof-slide img {
             width: 100%;
-            height: auto;
+            height: 480px;
+            object-fit: cover;
+            object-position: top;
             display: block;
         }
 
@@ -626,7 +628,7 @@
 
         .video-demo {
             padding: 6rem 2rem;
-            background: white;
+            background: var(--bg-light);
         }
 
         .video-container {
@@ -872,8 +874,7 @@
                 <button class="proof-dot" data-index="3" aria-label="Go to slide 4"></button>
             </div>
 
-            <p class="proof-caption">🔒 All buyer details blurred for privacy. Screenshots from a real IndiaMart seller
-                account.</p>
+            <p class="proof-caption">Screenshots from a real IndiaMart seller account.</p>
         </div>
     </section>
 
@@ -973,11 +974,19 @@
             var scrollAmount = 296; // slide width (280) + gap (16)
 
             prevBtn.addEventListener('click', function () {
-                carousel.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+                if (carousel.scrollLeft <= 10) {
+                    carousel.scrollTo({ left: carousel.scrollWidth, behavior: 'smooth' });
+                } else {
+                    carousel.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+                }
             });
 
             nextBtn.addEventListener('click', function () {
-                carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+                if (carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth - 10) {
+                    carousel.scrollTo({ left: 0, behavior: 'smooth' });
+                } else {
+                    carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+                }
             });
 
             // Dot click navigation
