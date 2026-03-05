@@ -480,6 +480,33 @@
             }
         }
 
+        .video-demo {
+            padding: 6rem 2rem;
+            background: white;
+        }
+
+        .video-container {
+            max-width: 900px;
+            margin: 3rem auto 0;
+            position: relative;
+            padding-bottom: 56.25%;
+            /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            background: #000;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
         /* Animations */
         @keyframes fadeInUp {
             from {
@@ -551,6 +578,19 @@
                     <p>Click "Start" and let AutoSift filter leads automatically. Export detailed CSV reports anytime.
                     </p>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Demo -->
+    <section class="video-demo">
+        <div class="container" style="text-align: center;">
+            <h2 class="section-title">See AutoSift in Action</h2>
+            <p class="section-subtitle">Watch our step-by-step tutorial to see how you can save 2+ hours daily.</p>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/OlFYmnkAd04" title="AutoSift Demo" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             </div>
         </div>
     </section>
