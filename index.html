@@ -55,10 +55,10 @@
         /* Header */
         header {
             background: white;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
             position: sticky;
             top: 0;
-            z-index: 100;
+            z-index: 1000;
         }
 
         nav {
@@ -95,27 +95,33 @@
         }
 
         .nav-links {
+            display: flex;
+            gap: 1.25rem;
+            align-items: center;
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            padding: 0.5rem 0;
+            margin: 0 1rem;
+            flex-grow: 1;
+            justify-content: center;
+        }
+
+        .nav-links::-webkit-scrollbar {
             display: none;
         }
 
-        @media (min-width: 768px) {
-            .nav-links {
-                display: flex;
-                gap: 2rem;
-                align-items: center;
-            }
+        .nav-links a {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+            white-space: nowrap;
+        }
 
-            .nav-links a {
-                color: var(--text-dark);
-                text-decoration: none;
-                font-weight: 600;
-                font-size: 0.95rem;
-                transition: color 0.3s ease;
-            }
-
-            .nav-links a:hover {
-                color: var(--primary);
-            }
+        .nav-links a:hover {
+            color: var(--primary);
         }
 
         .bg-brand {
@@ -128,11 +134,34 @@
         }
 
         .bg-brand .section-subtitle {
-            color: rgba(255, 255, 255, 0.9) !important;
+            color: rgba(255, 255, 255, 0.95) !important;
+        }
+
+        .bg-brand h3,
+        .bg-brand p {
+            color: white !important;
         }
 
         .bg-brand .benefit-item p {
             color: white !important;
+        }
+
+        .bg-brand .check-icon {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid white;
+        }
+
+        @media (max-width: 767px) {
+            .nav-links {
+                justify-content: flex-start;
+                margin-left: 0.5rem;
+            }
+
+            .nav-cta {
+                padding: 0.5rem 1rem !important;
+                font-size: 0.85rem !important;
+            }
         }
 
         .nav-cta {
@@ -669,7 +698,6 @@
 
         .video-demo {
             padding: 6rem 2rem;
-            background: var(--bg-light);
         }
 
         .video-container {
@@ -722,12 +750,12 @@
                 <div class="logo">AutoSift</div>
             </a>
             <div class="nav-links">
-                <a href="#how-it-works">How It Works</a>
-                <a href="#demo">Watch Demo</a>
+                <a href="#how-it-works">Process</a>
+                <a href="#demo">Demo</a>
                 <a href="#features">Features</a>
                 <a href="#proof">Proof</a>
             </div>
-            <a href="#download" class="nav-cta">Get Started Free</a>
+            <a href="#download" class="nav-cta" style="flex-shrink: 0;">Get Started</a>
         </nav>
     </header>
 
@@ -1018,56 +1046,73 @@
 
             if (!carousel || !slides.length) return;
 
-            var scrollAmount = 296; // slide width (280) + gap (16)
+            var currentIdx = 0;
 
-            function updateDots() {
-                var center = carousel.scrollLeft + carousel.clientWidth / 2;
-                var closestIdx = 0;
-                var minDiff = Infinity;
-                slides.forEach(function (slide, idx) {
-                    var slideCenter = slide.offsetLeft - carousel.offsetLeft + slide.clientWidth / 2;
-                    var diff = Math.abs(center - slideCenter);
-                    if (diff < minDiff) {
-                        minDiff = diff;
-                        closestIdx = idx;
-                    }
+            function goToSlide(idx, smooth) {
+                if (idx < 0) idx = slides.length - 1;
+                if (idx >= slides.length) idx = 0;
+
+                currentIdx = idx;
+                var targetSlide = slides[currentIdx];
+
+                // Calculate position to center the slide if possible, 
+                // or just align left if at edges
+                var scrollPos = targetSlide.offsetLeft - carousel.offsetLeft;
+
+                carousel.scrollTo({
+                    left: scrollPos,
+                    behavior: smooth ? 'smooth' : 'auto'
                 });
+
+                updateDots(currentIdx);
+            }
+
+            function updateDots(idx) {
                 dots.forEach(function (d, i) {
-                    d.classList.toggle('active', i === closestIdx);
+                    d.classList.toggle('active', i === idx);
                 });
             }
 
-            carousel.addEventListener('scroll', updateDots);
-            window.addEventListener('resize', updateDots);
-
-            // Initialization
-            setTimeout(updateDots, 100);
-
+            // Clicking buttons moves by 1 slide explicitly
             prevBtn.addEventListener('click', function () {
-                if (carousel.scrollLeft <= 10) {
-                    carousel.scrollTo({ left: carousel.scrollWidth, behavior: 'smooth' });
-                } else {
-                    carousel.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-                }
+                goToSlide(currentIdx - 1, true);
             });
 
             nextBtn.addEventListener('click', function () {
-                if (carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth - 10) {
-                    carousel.scrollTo({ left: 0, behavior: 'smooth' });
-                } else {
-                    carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-                }
+                goToSlide(currentIdx + 1, true);
             });
 
-            // Dot click navigation
+            // Clicking dots
             dots.forEach(function (dot) {
                 dot.addEventListener('click', function () {
                     var idx = parseInt(dot.getAttribute('data-index'));
-                    var targetSlide = slides[idx];
-                    var scrollPos = targetSlide.offsetLeft - carousel.offsetLeft - (carousel.clientWidth / 2) + (targetSlide.clientWidth / 2);
-                    carousel.scrollTo({ left: scrollPos, behavior: 'smooth' });
+                    goToSlide(idx, true);
                 });
             });
+
+            // Sync dots on manual scrolling (swiping)
+            var isScrolling;
+            carousel.addEventListener('scroll', function () {
+                window.clearTimeout(isScrolling);
+                isScrolling = setTimeout(function () {
+                    // Logic to find closest slide after swipe ends
+                    var scrollLeft = carousel.scrollLeft;
+                    var closestIdx = 0;
+                    var minDiff = Infinity;
+                    slides.forEach(function (slide, idx) {
+                        var diff = Math.abs(slide.offsetLeft - carousel.offsetLeft - scrollLeft);
+                        if (diff < minDiff) {
+                            minDiff = diff;
+                            closestIdx = idx;
+                        }
+                    });
+                    currentIdx = closestIdx;
+                    updateDots(currentIdx);
+                }, 100);
+            });
+
+            // Init
+            updateDots(0);
         })();
     </script>
 </body>
