@@ -592,20 +592,30 @@
         }
 
         .proof-slide {
-            flex: 0 0 280px;
+            flex: 0 0 450px;
             scroll-snap-align: center;
             border-radius: 20px;
             overflow: hidden;
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
             background: white;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: all 0.3s ease;
             border: 3px solid transparent;
         }
 
-        .proof-slide:hover {
-            transform: translateY(-6px) scale(1.02);
-            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.18);
+        .proof-slide.active-slide {
             border-color: var(--primary);
+            transform: scale(1.02);
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.18);
+        }
+
+        @media (max-width: 768px) {
+            .proof-slide {
+                flex: 0 0 85%;
+            }
+        }
+
+        .proof-slide:hover {
+            transform: translateY(-6px);
         }
 
         .proof-slide img {
@@ -1055,9 +1065,10 @@
                 currentIdx = idx;
                 var targetSlide = slides[currentIdx];
 
-                // Calculate position to center the slide if possible, 
-                // or just align left if at edges
-                var scrollPos = targetSlide.offsetLeft - carousel.offsetLeft;
+                // Calculate position to center the slide
+                var containerCenter = carousel.clientWidth / 2;
+                var slideCenter = targetSlide.clientWidth / 2;
+                var scrollPos = targetSlide.offsetLeft - containerCenter + slideCenter;
 
                 carousel.scrollTo({
                     left: scrollPos,
@@ -1068,6 +1079,9 @@
             }
 
             function updateDots(idx) {
+                slides.forEach(function (s, i) {
+                    s.classList.toggle('active-slide', i === idx);
+                });
                 dots.forEach(function (d, i) {
                     d.classList.toggle('active', i === idx);
                 });
@@ -1096,11 +1110,12 @@
                 window.clearTimeout(isScrolling);
                 isScrolling = setTimeout(function () {
                     // Logic to find closest slide after swipe ends
-                    var scrollLeft = carousel.scrollLeft;
+                    var center = carousel.scrollLeft + carousel.clientWidth / 2;
                     var closestIdx = 0;
                     var minDiff = Infinity;
                     slides.forEach(function (slide, idx) {
-                        var diff = Math.abs(slide.offsetLeft - carousel.offsetLeft - scrollLeft);
+                        var slideCenter = slide.offsetLeft + slide.clientWidth / 2;
+                        var diff = Math.abs(center - slideCenter);
                         if (diff < minDiff) {
                             minDiff = diff;
                             closestIdx = idx;
