@@ -480,6 +480,150 @@
             }
         }
 
+        /* Proof / Case Study */
+        .proof-section {
+            padding: 6rem 2rem;
+            background: var(--bg-light);
+        }
+
+        .proof-stats {
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .proof-stat {
+            font-size: 1.05rem;
+            color: var(--text-gray);
+            font-weight: 500;
+        }
+
+        .proof-carousel-wrapper {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .proof-carousel {
+            display: flex;
+            gap: 1.5rem;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            padding: 1rem 0;
+        }
+
+        .proof-carousel::-webkit-scrollbar {
+            display: none;
+        }
+
+        .proof-slide {
+            flex: 0 0 280px;
+            scroll-snap-align: center;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            background: white;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 3px solid transparent;
+        }
+
+        .proof-slide:hover {
+            transform: translateY(-6px) scale(1.02);
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.18);
+            border-color: var(--primary);
+        }
+
+        .proof-slide img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .proof-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: white;
+            border: 2px solid var(--border);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            color: var(--text-dark);
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .proof-nav:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .proof-nav.prev {
+            left: -24px;
+        }
+
+        .proof-nav.next {
+            right: -24px;
+        }
+
+        .proof-dots {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .proof-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--border);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .proof-dot.active {
+            background: var(--primary);
+            transform: scale(1.3);
+        }
+
+        .proof-caption {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-gray);
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .proof-slide {
+                flex: 0 0 240px;
+            }
+
+            .proof-nav {
+                display: none;
+            }
+
+            .proof-stats {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+        }
+
         .video-demo {
             padding: 6rem 2rem;
             background: white;
@@ -685,6 +829,54 @@
         </div>
     </section>
 
+    <!-- Proof / Case Study -->
+    <section class="proof-section" id="proof">
+        <div class="container">
+            <h2 class="section-title">Real Results from Real Sellers</h2>
+            <p class="section-subtitle">See how AutoSift processes 10+ leads daily for a Solar Street Light seller on
+                IndiaMart</p>
+
+            <div class="proof-stats">
+                <span class="proof-stat">📊 30+ days of daily use</span>
+                <span class="proof-stat">✔✔ Auto-replies sent</span>
+                <span class="proof-stat">🏷️ Leads auto-purchased</span>
+            </div>
+
+            <div class="proof-carousel-wrapper">
+                <button class="proof-nav prev" id="proofPrev" aria-label="Previous screenshot">❮</button>
+                <div class="proof-carousel" id="proofCarousel">
+                    <div class="proof-slide">
+                        <img src="assets/images/proof/proof-1.jpg"
+                            alt="AutoSift processing 15+ IndiaMart leads with timestamps" loading="lazy">
+                    </div>
+                    <div class="proof-slide">
+                        <img src="assets/images/proof/proof-2.jpg"
+                            alt="Auto-replies sent and leads purchased via AutoSift" loading="lazy">
+                    </div>
+                    <div class="proof-slide">
+                        <img src="assets/images/proof/proof-3.jpg" alt="Pan-India leads from Srinagar to Dharamsala"
+                            loading="lazy">
+                    </div>
+                    <div class="proof-slide">
+                        <img src="assets/images/proof/proof-4.jpg" alt="1500-piece bulk order processed by AutoSift"
+                            loading="lazy">
+                    </div>
+                </div>
+                <button class="proof-nav next" id="proofNext" aria-label="Next screenshot">❯</button>
+            </div>
+
+            <div class="proof-dots" id="proofDots">
+                <button class="proof-dot active" data-index="0" aria-label="Go to slide 1"></button>
+                <button class="proof-dot" data-index="1" aria-label="Go to slide 2"></button>
+                <button class="proof-dot" data-index="2" aria-label="Go to slide 3"></button>
+                <button class="proof-dot" data-index="3" aria-label="Go to slide 4"></button>
+            </div>
+
+            <p class="proof-caption">🔒 All buyer details blurred for privacy. Screenshots from a real IndiaMart seller
+                account.</p>
+        </div>
+    </section>
+
     <!-- CTA -->
     <section class="cta-section" id="download">
         <div class="container">
@@ -767,6 +959,53 @@
             x.className = "toast show";
             setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
         }
+
+        // Proof Carousel Logic
+        (function () {
+            var carousel = document.getElementById('proofCarousel');
+            var prevBtn = document.getElementById('proofPrev');
+            var nextBtn = document.getElementById('proofNext');
+            var dots = document.querySelectorAll('.proof-dot');
+            var slides = document.querySelectorAll('.proof-slide');
+
+            if (!carousel || !slides.length) return;
+
+            var scrollAmount = 296; // slide width (280) + gap (16)
+
+            prevBtn.addEventListener('click', function () {
+                carousel.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+            });
+
+            nextBtn.addEventListener('click', function () {
+                carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+            });
+
+            // Dot click navigation
+            dots.forEach(function (dot) {
+                dot.addEventListener('click', function () {
+                    var idx = parseInt(dot.getAttribute('data-index'));
+                    slides[idx].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                });
+            });
+
+            // Update active dot on scroll
+            if ('IntersectionObserver' in window) {
+                var observer = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (entry) {
+                        if (entry.isIntersecting) {
+                            var idx = Array.from(slides).indexOf(entry.target);
+                            dots.forEach(function (d, i) {
+                                d.classList.toggle('active', i === idx);
+                            });
+                        }
+                    });
+                }, { root: carousel, threshold: 0.6 });
+
+                slides.forEach(function (slide) {
+                    observer.observe(slide);
+                });
+            }
+        })();
     </script>
 </body>
 
