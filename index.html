@@ -593,7 +593,7 @@
 
         .proof-slide {
             flex: 0 0 280px;
-            scroll-snap-align: center;
+            scroll-snap-align: start;
             border-radius: 20px;
             overflow: hidden;
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
@@ -613,6 +613,7 @@
             .proof-slide {
                 flex: 0 0 calc(100% - 2rem);
                 margin: 0 1rem;
+                scroll-snap-align: center;
             }
 
             .proof-carousel {
@@ -1073,22 +1074,35 @@
             if (!carousel || !slides.length) return;
 
             var currentIdx = 0;
+            var isAnimating = false;
+            var animationTimeout;
 
-            function goToSlide(idx, smooth) {
+            function goToSlide(idx) {
                 if (idx < 0) idx = slides.length - 1;
                 if (idx >= slides.length) idx = 0;
 
                 currentIdx = idx;
-                var targetSlide = slides[currentIdx];
 
-                // Calculate position to center the slide
-                var containerCenter = carousel.clientWidth / 2;
-                var slideCenter = targetSlide.clientWidth / 2;
-                var scrollPos = targetSlide.offsetLeft - containerCenter + slideCenter;
+                // Lock the scroll listener during programmatic moves
+                isAnimating = true;
+                clearTimeout(animationTimeout);
+                animationTimeout = setTimeout(function () { isAnimating = false; }, 600);
+
+                var targetSlide = slides[currentIdx];
+                var isMobile = window.innerWidth <= 768;
+                var scrollPos = 0;
+
+                if (isMobile) {
+                    var containerCenter = carousel.clientWidth / 2;
+                    var slideCenter = targetSlide.clientWidth / 2;
+                    scrollPos = targetSlide.offsetLeft - containerCenter + slideCenter;
+                } else {
+                    scrollPos = targetSlide.offsetLeft - 24; // Align near left edge (accounting for some gap)
+                }
 
                 carousel.scrollTo({
                     left: scrollPos,
-                    behavior: smooth ? 'smooth' : 'auto'
+                    behavior: 'smooth'
                 });
 
                 updateDots(currentIdx);
@@ -1105,41 +1119,46 @@
 
             // Clicking buttons moves by 1 slide explicitly
             prevBtn.addEventListener('click', function () {
-                goToSlide(currentIdx - 1, true);
+                goToSlide(currentIdx - 1);
             });
 
             nextBtn.addEventListener('click', function () {
-                goToSlide(currentIdx + 1, true);
+                goToSlide(currentIdx + 1);
             });
 
             // Clicking dots
             dots.forEach(function (dot) {
                 dot.addEventListener('click', function () {
                     var idx = parseInt(dot.getAttribute('data-index'));
-                    goToSlide(idx, true);
+                    goToSlide(idx);
                 });
             });
 
             // Sync dots on manual scrolling (swiping)
             var isScrolling;
             carousel.addEventListener('scroll', function () {
+                if (isAnimating) return; // Let goToSlide handle its own state so it doesn't flip back
+
                 window.clearTimeout(isScrolling);
                 isScrolling = setTimeout(function () {
-                    // Logic to find closest slide after swipe ends
-                    var center = carousel.scrollLeft + carousel.clientWidth / 2;
+                    var isMobile = window.innerWidth <= 768;
+                    var viewPos = isMobile ? (carousel.scrollLeft + carousel.clientWidth / 2) : carousel.scrollLeft;
+
                     var closestIdx = 0;
                     var minDiff = Infinity;
+
                     slides.forEach(function (slide, idx) {
-                        var slideCenter = slide.offsetLeft + slide.clientWidth / 2;
-                        var diff = Math.abs(center - slideCenter);
+                        var slidePos = isMobile ? (slide.offsetLeft + slide.clientWidth / 2) : slide.offsetLeft;
+                        var diff = Math.abs(viewPos - slidePos);
                         if (diff < minDiff) {
                             minDiff = diff;
                             closestIdx = idx;
                         }
                     });
+
                     currentIdx = closestIdx;
                     updateDots(currentIdx);
-                }, 100);
+                }, 150);
             });
 
             // Init
