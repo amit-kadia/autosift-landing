@@ -592,7 +592,7 @@
         }
 
         .proof-slide {
-            flex: 0 0 450px;
+            flex: 0 0 280px;
             scroll-snap-align: center;
             border-radius: 20px;
             overflow: hidden;
@@ -604,13 +604,19 @@
 
         .proof-slide.active-slide {
             border-color: var(--primary);
-            transform: scale(1.02);
-            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.18);
+            transform: scale(1.05);
+            box-shadow: 0 20px 50px rgba(79, 70, 229, 0.15);
+            z-index: 5;
         }
 
         @media (max-width: 768px) {
             .proof-slide {
-                flex: 0 0 85%;
+                flex: 0 0 calc(100% - 2rem);
+                margin: 0 1rem;
+            }
+
+            .proof-carousel {
+                gap: 0;
             }
         }
 
@@ -654,11 +660,21 @@
         }
 
         .proof-nav.prev {
-            left: -24px;
+            left: -60px;
         }
 
         .proof-nav.next {
-            right: -24px;
+            right: -60px;
+        }
+
+        @media (max-width: 1100px) {
+            .proof-nav.prev {
+                left: -20px;
+            }
+
+            .proof-nav.next {
+                right: -20px;
+            }
         }
 
         .proof-dots {
