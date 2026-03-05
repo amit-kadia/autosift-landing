@@ -94,6 +94,47 @@
             background-clip: text;
         }
 
+        .nav-links {
+            display: none;
+        }
+
+        @media (min-width: 768px) {
+            .nav-links {
+                display: flex;
+                gap: 2rem;
+                align-items: center;
+            }
+
+            .nav-links a {
+                color: var(--text-dark);
+                text-decoration: none;
+                font-weight: 600;
+                font-size: 0.95rem;
+                transition: color 0.3s ease;
+            }
+
+            .nav-links a:hover {
+                color: var(--primary);
+            }
+        }
+
+        .bg-brand {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+            color: white !important;
+        }
+
+        .bg-brand .section-title {
+            color: white !important;
+        }
+
+        .bg-brand .section-subtitle {
+            color: rgba(255, 255, 255, 0.9) !important;
+        }
+
+        .bg-brand .benefit-item p {
+            color: white !important;
+        }
+
         .nav-cta {
             background: var(--primary);
             color: white;
@@ -680,6 +721,12 @@
                 <img src="assets/images/logo.png" alt="AutoSift Logo" class="logo-icon">
                 <div class="logo">AutoSift</div>
             </a>
+            <div class="nav-links">
+                <a href="#how-it-works">How It Works</a>
+                <a href="#demo">Watch Demo</a>
+                <a href="#features">Features</a>
+                <a href="#proof">Proof</a>
+            </div>
             <a href="#download" class="nav-cta">Get Started Free</a>
         </nav>
     </header>
@@ -699,7 +746,7 @@
     </section>
 
     <!-- How It Works -->
-    <section class="how-it-works">
+    <section class="how-it-works" id="how-it-works">
         <div class="container">
             <h2 class="section-title">How It Works</h2>
             <p class="section-subtitle">Get started in 3 simple steps</p>
@@ -729,7 +776,7 @@
     </section>
 
     <!-- Video Demo -->
-    <section class="video-demo">
+    <section class="video-demo bg-brand" id="demo">
         <div class="container" style="text-align: center;">
             <h2 class="section-title">See AutoSift in Action</h2>
             <p class="section-subtitle">Watch our step-by-step tutorial to see how you can save 4+ hours daily.</p>
@@ -742,7 +789,7 @@
     </section>
 
     <!-- Features -->
-    <section class="features">
+    <section class="features" id="features">
         <div class="container">
             <h2 class="section-title">Powerful Features for B2B Sellers</h2>
 
@@ -793,7 +840,7 @@
     </section>
 
     <!-- Benefits -->
-    <section class="benefits">
+    <section class="benefits bg-brand" id="benefits">
         <div class="container">
             <h2 class="section-title">Why IndiaMart Sellers Love AutoSift</h2>
 
@@ -973,6 +1020,29 @@
 
             var scrollAmount = 296; // slide width (280) + gap (16)
 
+            function updateDots() {
+                var center = carousel.scrollLeft + carousel.clientWidth / 2;
+                var closestIdx = 0;
+                var minDiff = Infinity;
+                slides.forEach(function (slide, idx) {
+                    var slideCenter = slide.offsetLeft - carousel.offsetLeft + slide.clientWidth / 2;
+                    var diff = Math.abs(center - slideCenter);
+                    if (diff < minDiff) {
+                        minDiff = diff;
+                        closestIdx = idx;
+                    }
+                });
+                dots.forEach(function (d, i) {
+                    d.classList.toggle('active', i === closestIdx);
+                });
+            }
+
+            carousel.addEventListener('scroll', updateDots);
+            window.addEventListener('resize', updateDots);
+
+            // Initialization
+            setTimeout(updateDots, 100);
+
             prevBtn.addEventListener('click', function () {
                 if (carousel.scrollLeft <= 10) {
                     carousel.scrollTo({ left: carousel.scrollWidth, behavior: 'smooth' });
@@ -993,27 +1063,11 @@
             dots.forEach(function (dot) {
                 dot.addEventListener('click', function () {
                     var idx = parseInt(dot.getAttribute('data-index'));
-                    slides[idx].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                    var targetSlide = slides[idx];
+                    var scrollPos = targetSlide.offsetLeft - carousel.offsetLeft - (carousel.clientWidth / 2) + (targetSlide.clientWidth / 2);
+                    carousel.scrollTo({ left: scrollPos, behavior: 'smooth' });
                 });
             });
-
-            // Update active dot on scroll
-            if ('IntersectionObserver' in window) {
-                var observer = new IntersectionObserver(function (entries) {
-                    entries.forEach(function (entry) {
-                        if (entry.isIntersecting) {
-                            var idx = Array.from(slides).indexOf(entry.target);
-                            dots.forEach(function (d, i) {
-                                d.classList.toggle('active', i === idx);
-                            });
-                        }
-                    });
-                }, { root: carousel, threshold: 0.6 });
-
-                slides.forEach(function (slide) {
-                    observer.observe(slide);
-                });
-            }
         })();
     </script>
 </body>
