@@ -250,6 +250,30 @@
             opacity: 0.9;
         }
 
+        .highlight-pulse {
+            font-weight: 700;
+            color: #fbbf24;
+            display: inline-block;
+            animation: gentlePulse 2s infinite;
+        }
+
+        @keyframes gentlePulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.05);
+                opacity: 0.85;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
         /* How It Works */
         .how-it-works {
             padding: 6rem 2rem;
@@ -860,7 +884,8 @@
                 <span>📥</span>
                 <span>Download For Chrome</span>
             </a>
-            <div class="trial-badge">🎁 100% Free Community Beta • No credit card required</div>
+            <div class="trial-badge">🎁 <span class="highlight-pulse">100% Free Chrome Extension</span> • No credit card
+                required</div>
         </div>
     </section>
 
@@ -1076,10 +1101,86 @@
                 sales team.</p>
 
             <div class="csv-preview-container">
-                <!-- Replace with real CSV snapshot image later -->
-                <img src="assets/images/proof/csv-preview.jpg" alt="AutoSift CSV Export Format" class="csv-preview-img">
-                <p style="margin-top: 1rem; color: var(--text-gray); font-style: italic;">Sample CSV Snapshot: Includes
-                    Product, Quantity, City, and Response Status.</p>
+                <div class="csv-table-wrapper"
+                    style="overflow-x: auto; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 1rem;">
+                    <table
+                        style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.95rem; white-space: nowrap;">
+                        <thead>
+                            <tr style="background-color: var(--bg-light); border-bottom: 2px solid var(--border);">
+                                <th style="padding: 12px 16px; color: var(--text-dark); font-weight: 600;">Date</th>
+                                <th style="padding: 12px 16px; color: var(--text-dark); font-weight: 600;">Product</th>
+                                <th style="padding: 12px 16px; color: var(--text-dark); font-weight: 600;">Quantity</th>
+                                <th style="padding: 12px 16px; color: var(--text-dark); font-weight: 600;">City (State)
+                                </th>
+                                <th style="padding: 12px 16px; color: var(--text-dark); font-weight: 600;">Status</th>
+                                <th style="padding: 12px 16px; color: var(--text-dark); font-weight: 600;">Action Taken
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="border-bottom: 1px solid var(--border);">
+                                <td style="padding: 12px 16px; color: var(--text-gray);">10-Mar-26</td>
+                                <td style="padding: 12px 16px; color: var(--text-dark); font-weight: 500;">Solar Street
+                                    Light 40W</td>
+                                <td style="padding: 12px 16px; color: var(--text-gray);">50 Pieces</td>
+                                <td style="padding: 12px 16px; color: var(--text-gray);">Pune (MH)</td>
+                                <td style="padding: 12px 16px;"><span
+                                        style="background: rgba(16, 185, 129, 0.1); color: var(--success); padding: 4px 8px; border-radius: 4px; font-size: 0.85rem; font-weight: 600;">Qualifies</span>
+                                </td>
+                                <td style="padding: 12px 16px; color: var(--success); font-weight: 600;">✓ Purchased
+                                </td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid var(--border); background-color: #fafafa;">
+                                <td style="padding: 12px 16px; color: var(--text-gray);">10-Mar-26</td>
+                                <td style="padding: 12px 16px; color: var(--text-dark); font-weight: 500;">Solar Panel
+                                    330W</td>
+                                <td style="padding: 12px 16px; color: var(--text-gray);">100 Pieces</td>
+                                <td style="padding: 12px 16px; color: var(--text-gray);">Delhi (DL)</td>
+                                <td style="padding: 12px 16px;"><span
+                                        style="background: rgba(16, 185, 129, 0.1); color: var(--success); padding: 4px 8px; border-radius: 4px; font-size: 0.85rem; font-weight: 600;">Qualifies</span>
+                                </td>
+                                <td style="padding: 12px 16px; color: var(--success); font-weight: 600;">✓ Purchased
+                                </td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid var(--border);">
+                                <td style="padding: 12px 16px; color: var(--text-gray);">10-Mar-26</td>
+                                <td style="padding: 12px 16px; color: var(--text-dark); font-weight: 500;">Solar Water
+                                    Heater</td>
+                                <td style="padding: 12px 16px; color: var(--text-gray);">1 Piece</td>
+                                <td style="padding: 12px 16px; color: var(--text-gray);">Mumbai (MH)</td>
+                                <td style="padding: 12px 16px;"><span
+                                        style="background: rgba(239, 68, 68, 0.1); color: #ef4444; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem; font-weight: 600;">Low
+                                        Qty</span></td>
+                                <td style="padding: 12px 16px; color: var(--text-gray);">Skipped</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid var(--border); background-color: #fafafa;">
+                                <td style="padding: 12px 16px; color: var(--text-gray);">10-Mar-26</td>
+                                <td style="padding: 12px 16px; color: var(--text-dark); font-weight: 500;">LED Street
+                                    Light</td>
+                                <td style="padding: 12px 16px; color: var(--text-gray);">200 Pieces</td>
+                                <td style="padding: 12px 16px; color: var(--text-gray);">Bangalore (KA)</td>
+                                <td style="padding: 12px 16px;"><span
+                                        style="background: rgba(245, 158, 11, 0.1); color: #f59e0b; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem; font-weight: 600;">Duplicate</span>
+                                </td>
+                                <td style="padding: 12px 16px; color: var(--text-gray);">Skipped</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px 16px; color: var(--text-gray);">10-Mar-26</td>
+                                <td style="padding: 12px 16px; color: var(--text-dark); font-weight: 500;">All in One
+                                    Solar Light</td>
+                                <td style="padding: 12px 16px; color: var(--text-gray);">20 Pieces</td>
+                                <td style="padding: 12px 16px; color: var(--text-gray);">Surat (GJ)</td>
+                                <td style="padding: 12px 16px;"><span
+                                        style="background: rgba(16, 185, 129, 0.1); color: var(--success); padding: 4px 8px; border-radius: 4px; font-size: 0.85rem; font-weight: 600;">Qualifies</span>
+                                </td>
+                                <td style="padding: 12px 16px; color: var(--success); font-weight: 600;">✓ Purchased
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p style="margin-top: 1rem; color: var(--text-gray); font-style: italic;">Sample CSV Data: View detailed
+                    logs of Product, Quantity, City, and exactly why leads were purchased or skipped.</p>
             </div>
         </div>
     </section>
@@ -1094,7 +1195,8 @@
                 <span>🚀</span>
                 <span>Install AutoSift Free</span>
             </a>
-            <div class="trial-badge">100% Free to Use • No credit card • Privacy Guaranteed</div>
+            <div class="trial-badge"><span class="highlight-pulse">100% Free Chrome Extension</span> • No credit card •
+                Privacy Guaranteed</div>
         </div>
     </section>
 
