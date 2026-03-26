@@ -1,18 +1,18 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-        content="AutoSift automates IndiaMart lead filtering for B2B sellers. Save hours daily with smart keyword matching, quantity & price filters. Free 15-day trial.">
+        content="AutoSift automates IndiaMart lead filtering for B2B sellers. Save 4+ hours daily with smart keyword matching and filters. Completely 100% Free Community Beta.">
     <meta name="keywords"
         content="IndiaMart automation, B2B leads, lead generation India, IndiaMart seller tool, automated lead filtering">
 
     <!-- Open Graph / Social Media -->
     <meta property="og:title" content="AutoSift - Automate IndiaMart Leads in Minutes">
     <meta property="og:description"
-        content="Smart Chrome extension for IndiaMart sellers. Filter, shortlist, and buy quality B2B leads automatically. Save 2-3 hours daily.">
+        content="Smart Chrome extension for IndiaMart sellers. Filter, shortlist, and buy quality B2B leads automatically. Save 4+ hours daily.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://autosift.aiautomationwithamit.in/">
 
@@ -55,10 +55,10 @@
         /* Header */
         header {
             background: white;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
             position: sticky;
             top: 0;
-            z-index: 100;
+            z-index: 1000;
         }
 
         nav {
@@ -92,6 +92,76 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.25rem;
+            align-items: center;
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            padding: 0.5rem 0;
+            margin: 0 1rem;
+            flex-grow: 1;
+            justify-content: center;
+        }
+
+        .nav-links::-webkit-scrollbar {
+            display: none;
+        }
+
+        .nav-links a {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .bg-brand {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+            color: white !important;
+        }
+
+        .bg-brand .section-title {
+            color: white !important;
+        }
+
+        .bg-brand .section-subtitle {
+            color: rgba(255, 255, 255, 0.95) !important;
+        }
+
+        .bg-brand h3,
+        .bg-brand p {
+            color: white !important;
+        }
+
+        .bg-brand .benefit-item p {
+            color: white !important;
+        }
+
+        .bg-brand .check-icon {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid white;
+        }
+
+        @media (max-width: 767px) {
+            .nav-links {
+                justify-content: flex-start;
+                margin-left: 0.5rem;
+            }
+
+            .nav-cta {
+                padding: 0.5rem 1rem !important;
+                font-size: 0.85rem !important;
+            }
         }
 
         .nav-cta {
@@ -180,6 +250,30 @@
             opacity: 0.9;
         }
 
+        .highlight-pulse {
+            font-weight: 700;
+            color: #fbbf24;
+            display: inline-block;
+            animation: gentlePulse 2s infinite;
+        }
+
+        @keyframes gentlePulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.05);
+                opacity: 0.85;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
         /* How It Works */
         .how-it-works {
             padding: 6rem 2rem;
@@ -253,7 +347,7 @@
         /* Features */
         .features {
             padding: 6rem 2rem;
-            background: var(--bg-light);
+            background: white;
         }
 
         .features-grid {
@@ -295,7 +389,7 @@
         /* Benefits */
         .benefits {
             padding: 6rem 2rem;
-            background: white;
+            background: var(--bg-light);
         }
 
         .benefits-list {
@@ -480,6 +574,205 @@
             }
         }
 
+        /* Proof / Case Study */
+        .proof-section {
+            padding: 6rem 2rem;
+            background: white;
+        }
+
+        .proof-stats {
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .proof-stat {
+            font-size: 1.05rem;
+            color: var(--text-gray);
+            font-weight: 500;
+        }
+
+        .proof-carousel-wrapper {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .proof-carousel {
+            display: flex;
+            gap: 1.5rem;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            padding: 1rem 0;
+        }
+
+        .proof-carousel::-webkit-scrollbar {
+            display: none;
+        }
+
+        .proof-slide {
+            flex: 0 0 280px;
+            scroll-snap-align: start;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            background: white;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+        }
+
+        .proof-slide.active-slide {
+            border-color: var(--primary);
+            transform: scale(1.05);
+            box-shadow: 0 20px 50px rgba(79, 70, 229, 0.15);
+            z-index: 5;
+        }
+
+        @media (max-width: 768px) {
+            .proof-slide {
+                flex: 0 0 calc(100% - 2rem);
+                margin: 0 1rem;
+                scroll-snap-align: center;
+            }
+
+            .proof-carousel {
+                gap: 0;
+            }
+        }
+
+        .proof-slide:hover {
+            transform: translateY(-6px);
+        }
+
+        .proof-slide img {
+            width: 100%;
+            height: 600px;
+            object-fit: cover;
+            object-position: top;
+            display: block;
+        }
+
+        .proof-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: white;
+            border: 2px solid var(--border);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            color: var(--text-dark);
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .proof-nav:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .proof-nav.prev {
+            left: -60px;
+        }
+
+        .proof-nav.next {
+            right: -60px;
+        }
+
+        @media (max-width: 1100px) {
+            .proof-nav.prev {
+                left: -20px;
+            }
+
+            .proof-nav.next {
+                right: -20px;
+            }
+        }
+
+        .proof-dots {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .proof-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--border);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .proof-dot.active {
+            background: var(--primary);
+            transform: scale(1.3);
+        }
+
+        .proof-caption {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-gray);
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .proof-slide {
+                flex: 0 0 240px;
+            }
+
+            .proof-nav {
+                display: none;
+            }
+
+            .proof-stats {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        .video-demo {
+            padding: 6rem 2rem;
+        }
+
+        .video-container {
+            max-width: 900px;
+            margin: 3rem auto 0;
+            position: relative;
+            padding-bottom: 56.25%;
+            /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            background: #000;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
         /* Animations */
         @keyframes fadeInUp {
             from {
@@ -496,6 +789,69 @@
         .hero-content {
             animation: fadeInUp 0.8s ease-out;
         }
+
+        /* Trust & Safety Section */
+        .trust-section {
+            padding: 4rem 2rem;
+            background: white;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .trust-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .trust-item {
+            text-align: center;
+            padding: 1.5rem;
+        }
+
+        .trust-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .trust-item h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .trust-item p {
+            font-size: 0.95rem;
+            color: var(--text-gray);
+            line-height: 1.6;
+        }
+
+        /* CSV Showcase */
+        .csv-showcase {
+            padding: 6rem 2rem;
+            background: var(--bg-light);
+            text-align: center;
+        }
+
+        .csv-preview-container {
+            max-width: 1000px;
+            margin: 3rem auto 0;
+            background: white;
+            padding: 1rem;
+            border-radius: 12px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .csv-preview-img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            display: block;
+        }
     </style>
 </head>
 
@@ -507,7 +863,14 @@
                 <img src="assets/images/logo.png" alt="AutoSift Logo" class="logo-icon">
                 <div class="logo">AutoSift</div>
             </a>
-            <a href="https://link.aiautomationwithamit.in/AutoSift-B2B-Lead-Automation" class="nav-cta" target="_blank">Get Started Free</a>
+            <div class="nav-links">
+                <a href="#how-it-works">Process</a>
+                <a href="#demo">Demo</a>
+                <a href="#features">Features</a>
+                <a href="#proof">Proof</a>
+                <a href="#transparency">Transparency</a>
+            </div>
+            <a href="#download" class="nav-cta" style="flex-shrink: 0;">Get Started</a>
         </nav>
     </header>
 
@@ -515,18 +878,43 @@
     <section class="hero">
         <div class="hero-content">
             <h1>Automate IndiaMart Leads in Minutes</h1>
-            <p>Save 2-3 hours daily with smart lead filtering. Auto-shortlist, hide, or buy quality B2B leads based on
+            <p>Save 4+ hours daily with smart lead filtering. Auto-shortlist, hide, or buy quality B2B leads based on
                 your exact criteria.</p>
-            <a href="https://link.aiautomationwithamit.in/AutoSift-B2B-Lead-Automation" class="hero-cta" target="_blank">
+            <a href="#download" class="hero-cta">
                 <span>📥</span>
                 <span>Download For Chrome</span>
             </a>
-            <div class="trial-badge">🎁 Free 15-day Pro trial • No credit card required</div>
+            <div class="trial-badge">🎁 <span class="highlight-pulse">100% Free Chrome Extension</span> • No credit card
+                required</div>
+        </div>
+    </section>
+
+    <!-- Trust & Safety Section -->
+    <section class="trust-section">
+        <div class="trust-grid">
+            <div class="trust-item">
+                <span class="trust-icon">🔒</span>
+                <h3>"Your Leads Stay Yours"</h3>
+                <p>We don't have servers that steal your data. Everything happens locally on your own laptop. Your
+                    business remains your business.</p>
+            </div>
+            <div class="trust-item">
+                <span class="trust-icon">👤</span>
+                <h3>"Why Google Login?"</h3>
+                <p>Only to prove you are a real human business owner, not a spammer. We only see your email address for
+                    account safety, nothing else.</p>
+            </div>
+            <div class="trust-item">
+                <span class="trust-icon">🆓</span>
+                <h3>"Is it really free?"</h3>
+                <p>Yes! You get daily free usage to completely automate your lead buying without paying a single rupee.
+                    No hidden charges.</p>
+            </div>
         </div>
     </section>
 
     <!-- How It Works -->
-    <section class="how-it-works">
+    <section class="how-it-works" id="how-it-works">
         <div class="container">
             <h2 class="section-title">How It Works</h2>
             <p class="section-subtitle">Get started in 3 simple steps</p>
@@ -555,8 +943,21 @@
         </div>
     </section>
 
+    <!-- Video Demo -->
+    <section class="video-demo bg-brand" id="demo">
+        <div class="container" style="text-align: center;">
+            <h2 class="section-title">See AutoSift in Action</h2>
+            <p class="section-subtitle">Watch our step-by-step tutorial to see how you can save 4+ hours daily.</p>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/OlFYmnkAd04" title="AutoSift Demo" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+        </div>
+    </section>
+
     <!-- Features -->
-    <section class="features">
+    <section class="features" id="features">
         <div class="container">
             <h2 class="section-title">Powerful Features for B2B Sellers</h2>
 
@@ -607,14 +1008,14 @@
     </section>
 
     <!-- Benefits -->
-    <section class="benefits">
+    <section class="benefits bg-brand" id="benefits">
         <div class="container">
             <h2 class="section-title">Why IndiaMart Sellers Love AutoSift</h2>
 
             <div class="benefits-list">
                 <div class="benefit-item">
                     <div class="check-icon">✓</div>
-                    <p>Save 2-3 hours daily on manual lead filtering</p>
+                    <p>Save 4+ hours daily on manual lead filtering</p>
                 </div>
 
                 <div class="benefit-item">
@@ -634,7 +1035,7 @@
 
                 <div class="benefit-item">
                     <div class="check-icon">✓</div>
-                    <p>Free 15-day Pro trial with all features unlocked</p>
+                    <p>Free 100% Beta access with all features unlocked</p>
                 </div>
 
                 <div class="benefit-item">
@@ -645,17 +1046,157 @@
         </div>
     </section>
 
+    <!-- Proof / Case Study -->
+    <section class="proof-section" id="proof">
+        <div class="container">
+            <h2 class="section-title">Real Results from Real Sellers</h2>
+            <p class="section-subtitle">See how AutoSift processes 10+ leads daily for a Solar Street Light seller on
+                IndiaMart</p>
+
+            <div class="proof-stats">
+                <span class="proof-stat">📊 30+ days of daily use</span>
+                <span class="proof-stat">✔✔ Auto-replies sent</span>
+                <span class="proof-stat">🏷️ Leads auto-purchased</span>
+            </div>
+
+            <div class="proof-carousel-wrapper">
+                <button class="proof-nav prev" id="proofPrev" aria-label="Previous screenshot">❮</button>
+                <div class="proof-carousel" id="proofCarousel">
+                    <div class="proof-slide">
+                        <img src="assets/images/proof/proof-1.jpg"
+                            alt="AutoSift processing 15+ IndiaMart leads with timestamps" loading="lazy">
+                    </div>
+                    <div class="proof-slide">
+                        <img src="assets/images/proof/proof-2.jpg"
+                            alt="Auto-replies sent and leads purchased via AutoSift" loading="lazy">
+                    </div>
+                    <div class="proof-slide">
+                        <img src="assets/images/proof/proof-3.jpg" alt="Pan-India leads from Srinagar to Dharamsala"
+                            loading="lazy">
+                    </div>
+                    <div class="proof-slide">
+                        <img src="assets/images/proof/proof-4.jpg" alt="1500-piece bulk order processed by AutoSift"
+                            loading="lazy">
+                    </div>
+                </div>
+                <button class="proof-nav next" id="proofNext" aria-label="Next screenshot">❯</button>
+            </div>
+
+            <div class="proof-dots" id="proofDots">
+                <button class="proof-dot active" data-index="0" aria-label="Go to slide 1"></button>
+                <button class="proof-dot" data-index="1" aria-label="Go to slide 2"></button>
+                <button class="proof-dot" data-index="2" aria-label="Go to slide 3"></button>
+                <button class="proof-dot" data-index="3" aria-label="Go to slide 4"></button>
+            </div>
+
+            <p class="proof-caption">Screenshots from a real IndiaMart seller account.</p>
+        </div>
+    </section>
+
+    <!-- CSV Showcase / Transparency -->
+    <section class="csv-showcase" id="transparency">
+        <div class="container">
+            <h2 class="section-title">What Your Data Looks Like</h2>
+            <p class="section-subtitle">Real results, exported in one click. See the clean CSV output you get for your
+                sales team.</p>
+
+            <div class="csv-preview-container">
+                <div class="csv-table-wrapper"
+                    style="overflow-x: auto; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 1rem;">
+                    <table
+                        style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.95rem; white-space: nowrap;">
+                        <thead>
+                            <tr style="background-color: var(--bg-light); border-bottom: 2px solid var(--border);">
+                                <th style="padding: 12px 16px; color: var(--text-dark); font-weight: 600;">Date</th>
+                                <th style="padding: 12px 16px; color: var(--text-dark); font-weight: 600;">Product</th>
+                                <th style="padding: 12px 16px; color: var(--text-dark); font-weight: 600;">Quantity</th>
+                                <th style="padding: 12px 16px; color: var(--text-dark); font-weight: 600;">City (State)
+                                </th>
+                                <th style="padding: 12px 16px; color: var(--text-dark); font-weight: 600;">Status</th>
+                                <th style="padding: 12px 16px; color: var(--text-dark); font-weight: 600;">Action Taken
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="border-bottom: 1px solid var(--border);">
+                                <td style="padding: 12px 16px; color: var(--text-gray);">10-Mar-26</td>
+                                <td style="padding: 12px 16px; color: var(--text-dark); font-weight: 500;">Solar Street
+                                    Light 40W</td>
+                                <td style="padding: 12px 16px; color: var(--text-gray);">50 Pieces</td>
+                                <td style="padding: 12px 16px; color: var(--text-gray);">Pune (MH)</td>
+                                <td style="padding: 12px 16px;"><span
+                                        style="background: rgba(16, 185, 129, 0.1); color: var(--success); padding: 4px 8px; border-radius: 4px; font-size: 0.85rem; font-weight: 600;">Qualifies</span>
+                                </td>
+                                <td style="padding: 12px 16px; color: var(--success); font-weight: 600;">✓ Purchased
+                                </td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid var(--border); background-color: #fafafa;">
+                                <td style="padding: 12px 16px; color: var(--text-gray);">10-Mar-26</td>
+                                <td style="padding: 12px 16px; color: var(--text-dark); font-weight: 500;">Solar Panel
+                                    330W</td>
+                                <td style="padding: 12px 16px; color: var(--text-gray);">100 Pieces</td>
+                                <td style="padding: 12px 16px; color: var(--text-gray);">Delhi (DL)</td>
+                                <td style="padding: 12px 16px;"><span
+                                        style="background: rgba(16, 185, 129, 0.1); color: var(--success); padding: 4px 8px; border-radius: 4px; font-size: 0.85rem; font-weight: 600;">Qualifies</span>
+                                </td>
+                                <td style="padding: 12px 16px; color: var(--success); font-weight: 600;">✓ Purchased
+                                </td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid var(--border);">
+                                <td style="padding: 12px 16px; color: var(--text-gray);">10-Mar-26</td>
+                                <td style="padding: 12px 16px; color: var(--text-dark); font-weight: 500;">Solar Water
+                                    Heater</td>
+                                <td style="padding: 12px 16px; color: var(--text-gray);">1 Piece</td>
+                                <td style="padding: 12px 16px; color: var(--text-gray);">Mumbai (MH)</td>
+                                <td style="padding: 12px 16px;"><span
+                                        style="background: rgba(239, 68, 68, 0.1); color: #ef4444; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem; font-weight: 600;">Low
+                                        Qty</span></td>
+                                <td style="padding: 12px 16px; color: var(--text-gray);">Skipped</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid var(--border); background-color: #fafafa;">
+                                <td style="padding: 12px 16px; color: var(--text-gray);">10-Mar-26</td>
+                                <td style="padding: 12px 16px; color: var(--text-dark); font-weight: 500;">LED Street
+                                    Light</td>
+                                <td style="padding: 12px 16px; color: var(--text-gray);">200 Pieces</td>
+                                <td style="padding: 12px 16px; color: var(--text-gray);">Bangalore (KA)</td>
+                                <td style="padding: 12px 16px;"><span
+                                        style="background: rgba(245, 158, 11, 0.1); color: #f59e0b; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem; font-weight: 600;">Duplicate</span>
+                                </td>
+                                <td style="padding: 12px 16px; color: var(--text-gray);">Skipped</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px 16px; color: var(--text-gray);">10-Mar-26</td>
+                                <td style="padding: 12px 16px; color: var(--text-dark); font-weight: 500;">All in One
+                                    Solar Light</td>
+                                <td style="padding: 12px 16px; color: var(--text-gray);">20 Pieces</td>
+                                <td style="padding: 12px 16px; color: var(--text-gray);">Surat (GJ)</td>
+                                <td style="padding: 12px 16px;"><span
+                                        style="background: rgba(16, 185, 129, 0.1); color: var(--success); padding: 4px 8px; border-radius: 4px; font-size: 0.85rem; font-weight: 600;">Qualifies</span>
+                                </td>
+                                <td style="padding: 12px 16px; color: var(--success); font-weight: 600;">✓ Purchased
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p style="margin-top: 1rem; color: var(--text-gray); font-style: italic;">Sample CSV Data: View detailed
+                    logs of Product, Quantity, City, and exactly why leads were purchased or skipped.</p>
+            </div>
+        </div>
+    </section>
+
     <!-- CTA -->
     <section class="cta-section" id="download">
         <div class="container">
             <h2>Ready to Save Hours Every Day?</h2>
             <p>Join hundreds of IndiaMart sellers automating their lead workflow</p>
-            <a href="https://link.aiautomationwithamit.in/AutoSift-B2B-Lead-Automation"
+            <a href="https://chromewebstore.google.com/detail/autosift/gabifcmcgekdfilmpipmicepajaglknm"
                 class="cta-button-large" target="_blank" rel="noopener">
                 <span>🚀</span>
                 <span>Install AutoSift Free</span>
             </a>
-            <div class="trial-badge">15-day free trial • No credit card • Cancel anytime</div>
+            <div class="trial-badge"><span class="highlight-pulse">100% Free Chrome Extension</span> • No credit card •
+                Privacy Guaranteed</div>
         </div>
     </section>
 
@@ -727,6 +1268,108 @@
             x.className = "toast show";
             setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
         }
+
+        // Proof Carousel Logic
+        (function () {
+            var carousel = document.getElementById('proofCarousel');
+            var prevBtn = document.getElementById('proofPrev');
+            var nextBtn = document.getElementById('proofNext');
+            var dots = document.querySelectorAll('.proof-dot');
+            var slides = document.querySelectorAll('.proof-slide');
+
+            if (!carousel || !slides.length) return;
+
+            var currentIdx = 0;
+            var isAnimating = false;
+            var animationTimeout;
+
+            function goToSlide(idx) {
+                if (idx < 0) idx = slides.length - 1;
+                if (idx >= slides.length) idx = 0;
+
+                currentIdx = idx;
+
+                // Lock the scroll listener during programmatic moves
+                isAnimating = true;
+                clearTimeout(animationTimeout);
+                animationTimeout = setTimeout(function () { isAnimating = false; }, 600);
+
+                var targetSlide = slides[currentIdx];
+                var isMobile = window.innerWidth <= 768;
+                var scrollPos = 0;
+
+                if (isMobile) {
+                    var containerCenter = carousel.clientWidth / 2;
+                    var slideCenter = targetSlide.clientWidth / 2;
+                    scrollPos = targetSlide.offsetLeft - containerCenter + slideCenter;
+                } else {
+                    scrollPos = targetSlide.offsetLeft - 24; // Align near left edge (accounting for some gap)
+                }
+
+                carousel.scrollTo({
+                    left: scrollPos,
+                    behavior: 'smooth'
+                });
+
+                updateDots(currentIdx);
+            }
+
+            function updateDots(idx) {
+                slides.forEach(function (s, i) {
+                    s.classList.toggle('active-slide', i === idx);
+                });
+                dots.forEach(function (d, i) {
+                    d.classList.toggle('active', i === idx);
+                });
+            }
+
+            // Clicking buttons moves by 1 slide explicitly
+            prevBtn.addEventListener('click', function () {
+                goToSlide(currentIdx - 1);
+            });
+
+            nextBtn.addEventListener('click', function () {
+                goToSlide(currentIdx + 1);
+            });
+
+            // Clicking dots
+            dots.forEach(function (dot) {
+                dot.addEventListener('click', function () {
+                    var idx = parseInt(dot.getAttribute('data-index'));
+                    goToSlide(idx);
+                });
+            });
+
+            // Sync dots on manual scrolling (swiping)
+            var isScrolling;
+            carousel.addEventListener('scroll', function () {
+                if (isAnimating) return; // Let goToSlide handle its own state so it doesn't flip back
+
+                window.clearTimeout(isScrolling);
+                isScrolling = setTimeout(function () {
+                    var isMobile = window.innerWidth <= 768;
+                    var viewPos = isMobile ? (carousel.scrollLeft + carousel.clientWidth / 2) : carousel.scrollLeft;
+
+                    var closestIdx = 0;
+                    var minDiff = Infinity;
+
+                    slides.forEach(function (slide, idx) {
+                        var slidePos = isMobile ? (slide.offsetLeft + slide.clientWidth / 2) : slide.offsetLeft;
+                        var diff = Math.abs(viewPos - slidePos);
+                        if (diff < minDiff) {
+                            minDiff = diff;
+                            closestIdx = idx;
+                        }
+                    });
+
+                    currentIdx = closestIdx;
+                    updateDots(currentIdx);
+                }, 150);
+            });
+
+            // Init
+            updateDots(0);
+        })();
     </script>
 </body>
 
