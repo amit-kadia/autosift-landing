@@ -194,7 +194,7 @@
     </header>
     <main>
         <h1>Privacy Policy for AutoSift</h1>
-        <p class="last-updated"><strong>Last Updated:</strong> April 1, 2026</p>
+        <p class="last-updated"><strong>Last Updated:</strong> April 3, 2026</p>
 
         <p>AutoSift ("we", "our", or "us") is committed to protecting your privacy. This Privacy Policy explains how your information is collected, used, stored, shared, and disclosed by the AutoSift Chrome Extension (Extension ID: <code>gabifcmcgekdfilmpipmicepajaglknm</code>).</p>
         <p>By installing and using AutoSift, and explicitly agreeing to our in-product Data Privacy & Consent prompt, you agree to the data practices described in this policy.</p>
@@ -229,16 +229,33 @@
             <li>CSV exports are generated and downloaded <strong>locally</strong> on your device.</li>
         </ul>
 
-        <h3>D. Data We Do NOT Collect</h3>
+        <h3>D. Anti-Abuse &amp; Security Data</h3>
+        <p>To prevent fraud, multi-accounting, and abuse of free-tier/trial limits, we collect the following data <strong>once at signup</strong>:</p>
+        <ul>
+            <li><strong>IP Address:</strong> Your public IP address is collected at signup via the third-party service <a href="https://www.ipify.org/">api.ipify.org</a> and stored as <code>signup_ip</code> in your user profile. This is used solely for anti-abuse detection (e.g., identifying duplicate accounts from the same network). We do NOT continuously track your IP address.</li>
+            <li><strong>Device Fingerprint Hash:</strong> A SHA-256 hash is generated from non-identifying browser characteristics (user agent, screen resolution, language, timezone, hardware concurrency) and stored as <code>signup_device_hash</code>. This is a one-way hash &mdash; the original device attributes cannot be reconstructed from it. This is used solely to detect multiple accounts from the same device.</li>
+        </ul>
+        <p><strong>Note:</strong> Both of these data points are collected <strong>only once during initial signup</strong> and are never shared with third parties or used for advertising. They exist purely for security and anti-abuse purposes.</p>
+
+        <h3>E. Referral Program Data</h3>
+        <p>If you participate in our referral program:</p>
+        <ul>
+            <li>Your unique referral code is stored in your profile.</li>
+            <li>When someone signs up using your referral code, we record the referral relationship (referrer &rarr; referred user) to award bonus days to both parties.</li>
+            <li>No personal data beyond the referral code linkage is shared between referrer and referred user.</li>
+        </ul>
+
+        <h3>F. Data We Do NOT Collect</h3>
         <ul>
             <li>We do NOT collect browsing history</li>
             <li>We do NOT collect form data from any website</li>
             <li>We do NOT collect cookies or tracking identifiers</li>
             <li>We do NOT collect financial or payment information</li>
-            <li>We do NOT collect health, biometric, or location data</li>
+            <li>We do NOT collect health or biometric data</li>
+            <li>We do NOT continuously track your geographic location (IP is only captured once at signup for anti-abuse)</li>
         </ul>
 
-        <h3>E. Limited Use Disclosure</h3>
+        <h3>G. Limited Use Disclosure</h3>
         <p>Our use of information received from Google APIs will adhere to the Chrome Web Store User Data Policy, including the Limited Use requirements.</p>
 
         <hr>
@@ -249,6 +266,8 @@
             <li><strong>Authentication:</strong> Verifying your identity via Google OAuth sign-in.</li>
             <li><strong>Subscription Management:</strong> Managing your trial status, plan type, and bonus days.</li>
             <li><strong>Usage Enforcement:</strong> Tracking daily usage minutes to enforce free-tier and trial plan limits (e.g., 2-hour daily cap).</li>
+            <li><strong>Anti-Abuse &amp; Security:</strong> Detecting and preventing fraudulent multi-accounting or abuse of free-tier limits using signup IP and device fingerprint hash data.</li>
+            <li><strong>Referral Program:</strong> Managing referral code relationships and awarding bonus days to eligible users.</li>
             <li><strong>Service Improvement:</strong> Analyzing aggregated, anonymized usage patterns and error logs to fix bugs and improve the extension.</li>
             <li><strong>Communication:</strong> Sending critical service notifications (e.g., trial expiration) via the extension UI.</li>
         </ul>
@@ -306,8 +325,13 @@
                 </tr>
                 <tr>
                     <td><strong>Supabase</strong></td>
-                    <td>Email, Name, Usage Stats</td>
-                    <td>Backend database & authentication provider</td>
+                    <td>Email, Name, Usage Stats, Signup IP, Device Hash</td>
+                    <td>Backend database &amp; authentication provider</td>
+                </tr>
+                <tr>
+                    <td><strong>ipify.org</strong></td>
+                    <td>None (IP is returned, not sent)</td>
+                    <td>Retrieves your public IP address once at signup for anti-abuse detection</td>
                 </tr>
             </tbody>
         </table>
