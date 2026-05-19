@@ -1,46 +1,182 @@
-# Privacy Policy for AutoSift
+# Privacy Policy for AutoSift - B2B Lead Automation
 
-**Last Updated:** January 22, 2026
+**Last Updated:** May 16, 2026
 
-AutoSift ("we", "our", or "us") is committed to protecting your privacy. This Privacy Policy explains how your information is collected, used, and disclosed by the AutoSift Chrome Extension.
+AutoSift ("we", "our", or "us") is committed to protecting your privacy. This Privacy Policy explains how your information is collected, used, stored, shared, and disclosed by the AutoSift Chrome Extension (Extension ID: `gabifcmcgekdfilmpipmicepajaglknm`).
+
+By installing and using AutoSift, and explicitly agreeing to our in-product Data Privacy & Consent prompt, you agree to the data practices described in this policy.
+
+---
 
 ## 1. Information We Collect
 
 ### A. Personal Information (Via Authentication)
-We use **Supabase** (a secure, third-party backend) to manage user accounts. When you sign in using Google, we collect basic profile information provided by Google:
--   Email address
--   Name/Display Name
--   Profile Picture
-
-This information is used strictly for:
--   Verifying your identity.
--   Managing your subscription/trial status.
--   Syncing your basic usage metrics (e.g., "hours used today") across your devices.
+We use **Supabase** (a secure, third-party backend) to manage user accounts. When you sign in using Google OAuth, we collect basic profile information provided by Google:
+- Email address
+- Name / Display Name
+- Profile Picture URL
 
 ### B. Usage Data
-We collect minimal, non-sensitive usage statistics to enforce plan limits (e.g., Free Trial limits) and improve the service:
--   Number of leads processed.
--   Duration of automation sessions.
--   Application errors (for debugging purposes).
+We collect minimal, non-sensitive usage statistics to enforce plan limits and improve the service. **An in-product prominent disclosure is shown to gather your affirmative consent before this data is collected.**
+- Number of leads processed per session
+- Duration of automation sessions (in minutes)
+- Subscription/trial status and plan type
+- Custom operating window and schedule preferences.
+- Application error logs (for debugging purposes)
 
 ### C. Lead Data (Processed Locally)
 **We do NOT collect or store the business leads you process.**
--   All lead filtering, extraction within the extension happens **locally on your device**.
--   Lead data (Buyer Name, Phone, Email, etc.) is temporarily processed in your browser's memory to perform the automation actions (Hide/Shortlist/Contact).
--   This data is **never sent to our servers**.
+- All lead filtering and extraction happens **locally on your device** within the Chrome browser.
+- Lead data (Buyer Name, Phone, Email, Product details, etc.) is temporarily held in your browser's memory to perform automation actions (Hide / Shortlist / Contact).
+- This data is **never transmitted to our servers**.
+- CSV exports are generated and downloaded **locally** on your device.
 
-## 2. How We Use and Share Information
--   **No Sale of Data:** We do not sell your personal data to third parties.
--   **Service Providers:** We share necessary authentication data with Supabase (our backend provider) strictly to operate the login and database service.
--   **Legal Requirements:** We may disclose information if required to do so by law or in the good faith belief that such action is necessary to comply with a legal obligation.
+### D. Anti-Abuse & Security Data
+To prevent fraud, multi-accounting, and abuse of free-tier/trial limits, we collect the following data **once at signup**:
+- **IP Address:** Your public IP address is collected at signup via the third-party service [api.ipify.org](https://www.ipify.org/) and stored as `signup_ip` in your user profile. This is used solely for anti-abuse detection (e.g., identifying duplicate accounts from the same network). We do NOT continuously track your IP address.
+- **Device Fingerprint Hash:** A SHA-256 hash is generated from non-identifying browser characteristics (user agent, screen resolution, language, timezone, hardware concurrency) and stored as `signup_device_hash`. This is a one-way hash — the original device attributes cannot be reconstructed from it. This is used solely to detect multiple accounts from the same device.
 
-## 3. Data Security
-We implement industry-standard security measures to protect your information. Authentication tokens are stored securely in your browser's local storage. However, no security system is impenetrable, and we cannot guarantee the security of our systems 100%.
+> **Note:** Both of these data points are collected **only once during initial signup** and are never shared with third parties or used for advertising. They exist purely for security and anti-abuse purposes.
 
-## 4. Your Rights
-You may request the deletion of your account and associated data at any time by contacting us at the support email provided in the extension.
+### E. Referral Program Data
+If you participate in our referral program:
+- Your unique referral code is stored in your profile.
+- When someone signs up using your referral code, we record the referral relationship (referrer → referred user) to award bonus days to both parties.
+- No personal data beyond the referral code linkage is shared between referrer and referred user.
 
-## 5. Contact Us
-If you have any questions about this Privacy Policy, please contact us at:
-**Email:** autosiftindia+support@gmail.com
-**Website:** https://autosift.aiautomationwithamit.in
+### F. Data We Do NOT Collect
+- We do NOT collect browsing history
+- We do NOT collect form data from any website
+- We do NOT collect cookies or tracking identifiers
+- We do NOT collect financial or payment information
+- We do NOT collect health or biometric data
+- We do NOT continuously track your geographic location (IP is only captured once at signup for anti-abuse)
+
+### G. Limited Use Disclosure
+Our use of information received from Google APIs will adhere to the Chrome Web Store User Data Policy, including the Limited Use requirements.
+
+---
+
+## 2. How We Use Your Information
+
+We use the collected information strictly for the following purposes:
+- **Authentication:** Verifying your identity via Google OAuth sign-in.
+- **Subscription Management:** Managing your trial status, plan type, and bonus days.
+- **Usage Enforcement:** Tracking daily usage minutes to enforce free-tier and trial plan limits (e.g., 2-hour daily cap).
+- **Anti-Abuse & Security:** Detecting and preventing fraudulent multi-accounting or abuse of free-tier limits using signup IP and device fingerprint hash data.
+- **Referral Program:** Managing referral code relationships and awarding bonus days to eligible users.
+- **Service Improvement:** Analyzing aggregated, anonymized usage patterns and error logs to fix bugs and improve the extension.
+- **Communication:** Sending critical service notifications (e.g., trial expiration) via the extension UI.
+
+We do NOT use your data for advertising, profiling, or any purpose unrelated to operating the AutoSift service.
+
+---
+
+## 3. Data Storage and Security
+
+### Where Your Data Is Stored
+- **Cloud Storage:** Your account information (email, name, usage stats) is stored in a **Supabase** database hosted on secure cloud infrastructure with encryption at rest and in transit (TLS/SSL).
+- **Browser Local Storage:** Authentication tokens, configuration preferences (keywords, filters), and session state are stored in Chrome's `chrome.storage.local` API on your device. This data never leaves your browser unless explicitly synced for usage tracking.
+
+### How We Secure Your Data
+- All data transmitted between the extension and our servers uses **HTTPS/TLS encryption**.
+- Authentication is handled via **Google OAuth 2.0** — we never see or store your Google password.
+- Supabase enforces **Row Level Security (RLS)** policies, ensuring users can only access their own data.
+- No sensitive data (passwords, payment info) is ever stored by AutoSift.
+
+---
+
+## 4. Data Retention
+
+- **Account Data:** Your profile information and usage statistics are retained for as long as your account is active.
+- **Usage Logs:** Daily usage logs (session duration, leads processed) are retained for **90 days** for analytics and plan enforcement, then automatically purged.
+- **Error Logs:** Application error logs are retained for **30 days** for debugging purposes, then automatically deleted.
+- **Account Deletion:** Upon receiving a deletion request, we will permanently delete all your personal data from our servers within **30 days**. Browser local storage can be cleared immediately by uninstalling the extension.
+
+---
+
+## 5. Data Sharing and Third Parties
+
+### We Do NOT Sell Your Data
+We do not sell, rent, or trade your personal information to any third party.
+
+### Third-Party Services We Use
+
+| Service | Data Shared | Purpose |
+|---------|-------------|---------|
+| **Google OAuth** | Email, Name, Profile Picture | User authentication (sign-in) |
+| **Supabase** | Email, Name, Usage Stats, Signup IP, Device Hash | Backend database & authentication provider |
+| **ipify.org** | None (IP is returned, not sent) | Retrieves your public IP address once at signup for anti-abuse detection |
+
+### Other Disclosures
+We may disclose your information only if:
+- Required by law, legal process, or government request.
+- Necessary to protect the rights, safety, or property of AutoSift, our users, or the public.
+- Needed to enforce our Terms of Service.
+
+We do NOT share data with any advertising networks, analytics platforms, or data brokers.
+
+---
+
+## 6. Chrome Extension Permissions
+
+AutoSift requests the following browser permissions, each for a specific purpose:
+
+| Permission | Why It's Needed |
+|------------|-----------------|
+| `activeTab` | To interact with the currently open IndiaMart seller dashboard tab |
+| `scripting` | To inject automation scripts into the IndiaMart lead management page |
+| `storage` | To save your configuration (keywords, filters) and session state locally |
+| `identity` | To authenticate you via Google OAuth sign-in |
+| `offscreen` | To play audio notifications (e.g., lead purchased, session warning) without requiring a visible tab |
+| `alarms` | To schedule periodic tasks (usage sync, session heartbeat, reminder notifications) |
+| `tabs` | To manage tab focus (auto-return from WhatsApp Web to IndiaMart after sending a draft) |
+| `notifications` | To display desktop notifications for important events (e.g., automation stopped, daily limit reached) |
+
+### Host Permissions
+| Host | Why It's Needed |
+|------|-----------------|
+| `https://seller.indiamart.com/*` | Core functionality — this is the website AutoSift automates |
+| `https://pipcqctaaplgaltzfrjv.supabase.co/*` | Backend API — for authentication, usage tracking, and configuration sync |
+
+We request **only the minimum permissions** required for AutoSift to function.
+
+---
+
+## 7. Your Rights
+
+You have the following rights regarding your personal data:
+
+- **Right to Access:** You can request a copy of the personal data we hold about you.
+- **Right to Correction:** You can request correction of any inaccurate data.
+- **Right to Deletion:** You can request permanent deletion of your account and all associated data at any time.
+- **Right to Data Portability:** You can request your data in a machine-readable format.
+- **Right to Withdraw Consent:** You can revoke Google OAuth access from your Google Account settings at any time, which will prevent further data collection.
+
+To exercise any of these rights, contact us at the email address below. We will respond to all requests within **30 days**.
+
+### For EU/EEA Users (GDPR)
+If you are located in the European Union, you have additional rights under the General Data Protection Regulation (GDPR), including the right to lodge a complaint with your local data protection authority.
+
+### For California Users (CCPA)
+If you are a California resident, you have the right to know what personal information is collected, request deletion, and opt-out of the sale of your information. **We do not sell personal information.**
+
+---
+
+## 8. Changes to This Privacy Policy
+
+We may update this Privacy Policy from time to time to reflect changes in our practices, technology, or legal requirements.
+
+- **Notification:** If we make material changes, we will notify users through the extension's "What's New" modal upon the next version update.
+- **Effective Date:** Changes become effective on the date the updated policy is published.
+- **Review:** We encourage you to review this policy periodically. The "Last Updated" date at the top of this document indicates the most recent revision.
+
+---
+
+## 9. Contact Us
+
+If you have any questions, concerns, or requests regarding this Privacy Policy or your personal data, please contact us at:
+
+- **Email:** autosiftindia+support@gmail.com
+- **Website:** https://autosift.aiautomationwithamit.in
+- **Support Community:** https://autosift.aiautomationwithamit.in (WhatsApp community link available in the extension)
