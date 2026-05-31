@@ -1,6 +1,6 @@
 # Privacy Policy for AutoSift - B2B Lead Automation
 
-**Last Updated:** May 16, 2026
+**Last Updated:** May 20, 2026
 
 AutoSift ("we", "our", or "us") is committed to protecting your privacy. This Privacy Policy explains how your information is collected, used, stored, shared, and disclosed by the AutoSift Chrome Extension (Extension ID: `gabifcmcgekdfilmpipmicepajaglknm`).
 
