@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Help us improve AutoSift. Tell us why you uninstalled and get 7 free trial days if you return.">
+    <meta name="robots" content="noindex, nofollow">
+    <title>AutoSift - Help Us Improve</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%234f46e5;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%237c3aed;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='20' fill='url(%23grad)'/%3E%3Ctext x='50' y='70' font-family='Arial,sans-serif' font-size='55' font-weight='700' fill='white' text-anchor='middle'%3EAS%3C/text%3E%3C/svg%3E">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --success: #10b981;
+            --text-dark: #1e293b;
+            --text-gray: #64748b;
+            --bg-light: #f8fafc;
+            --border: #e2e8f0;
+            --danger: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        header {
+            background: white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 1.25rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .nav-cta {
+            background: var(--bg-light);
+            color: var(--primary);
+            border: 1px solid var(--border);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .nav-cta:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Main Container */
+        main {
+            flex: 1;
+            width: 100%;
+            max-width: 680px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+            animation: fadeIn 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Card Layout */
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+            margin-bottom: 2rem;
+        }
+
+        .card-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .card-header h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 0.75rem;
+        }
+
+        .card-header p {
+            color: var(--text-gray);
+            font-size: 1.05rem;
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 1.75rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group label span.required {
+            color: var(--danger);
+            margin-left: 2px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            font-size: 0.95rem;
+            font-family: inherit;
+            color: var(--text-dark);
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19.5 8.25l-7.5 7.5-7.5-7.5' /%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1.25rem;
+            padding-right: 2.5rem;
+            cursor: pointer;
+        }
+
+        /* Phone Input Wrapper */
+        .phone-wrapper {
+            display: flex;
+            align-items: stretch;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: white;
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+
+        .phone-wrapper:focus-within {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .phone-prefix {
+            display: flex;
+            align-items: center;
+            background: var(--bg-light);
+            padding: 0 1rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text-gray);
+            border-right: 1px solid var(--border);
+            user-select: none;
+        }
+
+        .phone-input {
+            flex: 1;
+            border: none;
+            padding: 0.75rem 1rem;
+            font-size: 0.95rem;
+            font-family: inherit;
+            color: var(--text-dark);
+            outline: none;
+            width: 100%;
+        }
+
+        /* Auto-filled status info */
+        .input-hint {
+            display: block;
+            margin-top: 0.35rem;
+            font-size: 0.8rem;
+            color: var(--text-gray);
+        }
+
+        .input-hint.success-hint {
+            color: var(--success);
+            font-weight: 500;
+        }
+
+        .error-message {
+            color: var(--danger);
+            font-size: 0.8rem;
+            margin-top: 0.35rem;
+            display: none;
+        }
+
+        /* FOMO Block styling */
+        .fomo-box {
+            background-color: #f5f3ff;
+            border-left: 4px solid var(--primary);
+            padding: 1.25rem;
+            border-radius: 4px 8px 8px 4px;
+            margin-top: 0.75rem;
+            font-size: 0.9rem;
+            color: #4c1d95;
+            line-height: 1.5;
+        }
+
+        .fomo-box p {
+            margin-bottom: 0.5rem;
+        }
+
+        .fomo-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        .fomo-emoji {
+            font-size: 1.1rem;
+            margin-right: 4px;
+        }
+
+        /* Submit Button */
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 0.9rem;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: white;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.3);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Recovery / Community Section */
+        .recovery-section {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .recovery-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+        }
+
+        .recovery-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin: 1.5rem 0;
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background: white;
+            border: 1px solid var(--border);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .btn-whatsapp {
+            background-color: #25d366;
+            border-color: #25d366;
+            color: white;
+        }
+
+        .btn-whatsapp:hover {
+            background-color: #20ba5a;
+            border-color: #20ba5a;
+            color: white;
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.2);
+        }
+
+        .social-proof {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+            margin-top: 1.5rem;
+        }
+
+        /* Success State */
+        .success-state {
+            display: none;
+            text-align: center;
+            padding: 3rem 1.5rem;
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            animation: bounce 1s infinite alternate;
+        }
+
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-10px); }
+        }
+
+        .success-state h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+        }
+
+        .success-state p {
+            color: var(--text-gray);
+            font-size: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Footer */
+        footer {
+            background: #0f172a;
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-top: auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-credit p {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .footer-credit a {
+            color: white;
+            text-decoration: underline;
+        }
+
+        /* Spinner */
+        .spinner {
+            display: inline-block;
+            width: 1.25rem;
+            height: 1.25rem;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 0.5rem;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive styling */
+        @media (max-width: 480px) {
+            .card {
+                padding: 1.5rem;
+            }
+            .card-header h1 {
+                font-size: 1.6rem;
+            }
+            .footer-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <a href="https://autosift.aiautomationwithamit.in" class="logo">AutoSift</a>
+            <a href="https://chromewebstore.google.com/detail/autosift/gabifcmcgekdfilmpipmicepajaglknm" class="nav-cta" target="_blank" rel="noopener">Reinstall Extension</a>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="card" id="form-card">
+            <div class="card-header">
+                <h1>Help Us Improve AutoSift 😢</h1>
+                <p>Your feedback goes directly to Amit (founder). We read every response.</p>
+            </div>
+
+            <!-- Form -->
+            <form id="feedback-form" novalidate>
+                <!-- Q1: Dropdown Reason -->
+                <div class="form-group">
+                    <label for="reason">Why did you remove AutoSift?<span class="required">*</span></label>
+                    <select id="reason" class="form-control" required>
+                        <option value="" disabled selected>-- Select a reason --</option>
+                        <option value="Didn't work properly on IndiaMART">Didn't work properly on IndiaMART</option>
+                        <option value="Too complex to set up">Too complex to set up</option>
+                        <option value="Technical issues / bugs">Technical issues / bugs</option>
+                        <option value="Not using IndiaMART anymore">Not using IndiaMART anymore</option>
+                        <option value="I don't have an IndiaMART seller account">I don't have an IndiaMART seller account</option>
+                        <option value="Found a better alternative">Found a better alternative</option>
+                        <option value="Privacy / permission concerns">Privacy / permission concerns</option>
+                        <option value="I was just exploring / testing">I was just exploring / testing</option>
+                        <option value="I'll reinstall later — temporary removal">I'll reinstall later — temporary removal</option>
+                        <option value="Other">Other (Please describe below)</option>
+                    </select>
+                    <div class="error-message" id="reason-error">Please select a reason.</div>
+                </div>
+
+                <!-- Q2: WhatsApp Number -->
+                <div class="form-group">
+                    <label for="whatsapp_number">WhatsApp Number (Optional)</label>
+                    <div class="phone-wrapper">
+                        <span class="phone-prefix">+91</span>
+                        <input type="tel" id="whatsapp_number" class="phone-input" placeholder="9876543210" maxlength="10">
+                    </div>
+                    <div class="error-message" id="whatsapp-error">Please enter a valid 10-digit Indian mobile number (starts with 6-9).</div>
+                    
+                    <!-- FOMO Text Block -->
+                    <div class="fomo-box">
+                        <p><strong><span class="fomo-emoji">🎁</span> Share your WhatsApp number → Get 7 FREE extra days!</strong></p>
+                        <p>⚡ Our founder Amit personally reads every response and reaches out within 24 hours via WhatsApp to solve your issue.</p>
+                        <p style="font-size: 0.8rem; opacity: 0.85;">🔒 Your number stays private. No spam, no sharing. Just a quick problem-solving call.</p>
+                    </div>
+                </div>
+
+                <!-- Q3: Email (Optional) -->
+                <div class="form-group">
+                    <label for="email">Email Address (Optional)</label>
+                    <input type="email" id="email" class="form-control" placeholder="yourname@gmail.com">
+                    <span class="input-hint" id="email-hint">Used to match feedback with your account to apply the 7-day bonus.</span>
+                </div>
+
+                <!-- Q4: What Would Help -->
+                <div class="form-group">
+                    <label for="what_would_help">What would bring you back? (Optional)</label>
+                    <textarea id="what_would_help" class="form-control" rows="3" placeholder="Tell us what features were missing or what issues you faced..."></textarea>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn-submit" id="submit-btn">Submit Feedback</button>
+            </form>
+        </div>
+
+        <!-- Success View -->
+        <div class="card success-state" id="success-view">
+            <div class="success-icon">🎉</div>
+            <h2>Thank You for Your Feedback!</h2>
+            <p id="success-message">Your response has been saved. We are constantly improving AutoSift based on inputs like yours.</p>
+            
+            <div class="recovery-section">
+                <h3 class="recovery-title">Give AutoSift Another Chance</h3>
+                <p style="color: var(--text-gray); margin-bottom: 1.5rem; font-size: 0.95rem;">If we help resolve your issue, you can reinstall AutoSift anytime. Your 7-day trial extension will be automatically active.</p>
+                
+                <div class="recovery-buttons">
+                    <a href="https://chromewebstore.google.com/detail/autosift/gabifcmcgekdfilmpipmicepajaglknm" class="btn-secondary" target="_blank" rel="noopener" style="background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); color: white; border: none; font-weight: 700;">
+                        🚀 Reinstall AutoSift from Web Store
+                    </a>
+                    <a href="https://wa.me/919429271363" class="btn-secondary btn-whatsapp" target="_blank" rel="noopener">
+                        💬 Connect with Founder Amit on WhatsApp
+                    </a>
+                    <a href="https://link.aiautomationwithamit.in/AutoSift-WhatsApp-Community" class="btn-secondary" target="_blank" rel="noopener" style="border-color: #25d366; color: #25d366;">
+                        👥 Join our B2B Seller WhatsApp Community
+                    </a>
+                </div>
+                
+                <div class="social-proof">
+                    📊 AutoSift users collectively saved 500+ hours this month!
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="https://www.youtube.com/@AIAutomationwithAmit" target="_blank" rel="noopener">YouTube Channel</a>
+            <a href="https://autosift.aiautomationwithamit.in/#how-it-works">How It Works</a>
+            <a href="https://autosift.aiautomationwithamit.in/privacy.html" target="_blank" rel="noopener">Privacy Policy</a>
+        </div>
+        <div class="footer-credit">
+            <p>&copy; 2026 AutoSift by <a href="https://www.youtube.com/@AIAutomationwithAmit" target="_blank">AI Automation with Amit</a></p>
+        </div>
+    </footer>
+
+    <!-- JavaScript logic -->
+    <script>
+        // Supabase configuration
+        const SUPABASE_URL = 'https://pipcqctaaplgaltzfrjv.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBpcGNxY3RhYXBsZ2FsdHpmcmp2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg4MjQ1NjIsImV4cCI6MjA4NDQwMDU2Mn0.2cjoHOIwbL0v6utUnuS8jex_oeZpb-MUgKbq4kg1Bs8';
+
+        // Parse query parameters
+        const params = new URLSearchParams(window.location.search);
+        const urlEmail = params.get('email');
+        const urlUid = params.get('uid');
+        const urlVersion = params.get('v');
+
+        const emailInput = document.getElementById('email');
+        const emailHint = document.getElementById('email-hint');
+
+        // Pre-fill email if provided in URL parameters
+        if (urlEmail) {
+            emailInput.value = urlEmail;
+            emailInput.readOnly = true;
+            emailHint.textContent = '✅ Found your AutoSift account email.';
+            emailHint.className = 'input-hint success-hint';
+        }
+
+        const form = document.getElementById('feedback-form');
+        const submitBtn = document.getElementById('submit-btn');
+
+        // Real-time WhatsApp Validation
+        const whatsappInput = document.getElementById('whatsapp_number');
+        const whatsappError = document.getElementById('whatsapp-error');
+        const reasonSelect = document.getElementById('reason');
+        const reasonError = document.getElementById('reason-error');
+
+        whatsappInput.addEventListener('input', function() {
+            // Remove any non-numeric characters
+            this.value = this.value.replace(/\D/g, '');
+            validateWhatsApp(false);
+        });
+
+        reasonSelect.addEventListener('change', function() {
+            validateReason(false);
+        });
+
+        function validateReason(showUI = true) {
+            if (!reasonSelect.value) {
+                if (showUI) {
+                    reasonError.style.display = 'block';
+                    reasonSelect.style.borderColor = 'var(--danger)';
+                }
+                return false;
+            } else {
+                reasonError.style.display = 'none';
+                reasonSelect.style.borderColor = 'var(--border)';
+                return true;
+            }
+        }
+
+        function validateWhatsApp(showUI = true) {
+            const val = whatsappInput.value.trim();
+            if (val === '') {
+                // WhatsApp is optional, so empty value is valid
+                whatsappError.style.display = 'none';
+                whatsappInput.closest('.phone-wrapper').style.borderColor = 'var(--border)';
+                return true;
+            }
+
+            // Indian mobile number: 10 digits, starts with 6-9
+            const pattern = /^[6-9]\d{9}$/;
+            if (!pattern.test(val)) {
+                if (showUI) {
+                    whatsappError.style.display = 'block';
+                    whatsappInput.closest('.phone-wrapper').style.borderColor = 'var(--danger)';
+                }
+                return false;
+            } else {
+                whatsappError.style.display = 'none';
+                whatsappInput.closest('.phone-wrapper').style.borderColor = 'var(--border)';
+                return true;
+            }
+        }
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            // Validate all fields
+            const isReasonValid = validateReason(true);
+            const isWhatsappValid = validateWhatsApp(true);
+
+            if (!isReasonValid || !isWhatsappValid) {
+                return;
+            }
+
+            // Set loading state
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="spinner"></span>Saving feedback...';
+
+            const reasonValue = reasonSelect.value;
+            const whatsappValue = whatsappInput.value.trim() ? '+91' + whatsappInput.value.trim() : null;
+            const emailValue = emailInput.value.trim() || null;
+            const whatWouldHelpValue = document.getElementById('what_would_help').value.trim() || null;
+
+            try {
+                // Post to Supabase REST API
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/uninstall_feedback`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'apikey': SUPABASE_ANON_KEY,
+                        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                        'Prefer': 'return=minimal'
+                    },
+                    body: JSON.stringify({
+                        user_id: urlUid || null,
+                        reason: reasonValue,
+                        whatsapp_number: whatsappValue,
+                        email: emailValue,
+                        what_would_help: whatWouldHelpValue,
+                        app_version: urlVersion || null
+                    })
+                });
+
+                if (!response.ok) {
+                    const errText = await response.text();
+                    throw new Error(`Database error: ${errText}`);
+                }
+
+                // Show success view
+                document.getElementById('form-card').style.display = 'none';
+                
+                // Customize success message based on WhatsApp input
+                const successMsgEl = document.getElementById('success-message');
+                if (whatsappValue) {
+                    successMsgEl.innerHTML = 'Your response has been saved and <strong>7 FREE extra days</strong> have been automatically added to your account! Founder Amit will reach out to you on WhatsApp (' + whatsappValue + ') within 24 hours to help resolve your issue.';
+                } else {
+                    successMsgEl.textContent = 'Your response has been saved. We are constantly improving AutoSift based on inputs like yours.';
+                }
+                
+                document.getElementById('success-view').style.display = 'block';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            } catch (err) {
+                console.error('Submission failed:', err);
+                alert('Oops! Something went wrong submitting your feedback. Please try again. Error: ' + err.message);
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit Feedback';
+            }
+        });
+    </script>
+</body>
+
+</html>
