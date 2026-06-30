@@ -468,6 +468,34 @@
                 gap: 1rem;
             }
         }
+
+        /* Styling for when 7-Day Trial is Active */
+        .bonus-active-box {
+            background: #f0fdf4; /* Soft success green */
+            border: 1px dashed #4ade80;
+            border-radius: 8px;
+            padding: 0.85rem 1.25rem;
+            margin-bottom: 1.5rem;
+            color: #166534;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(22, 101, 52, 0.05);
+        }
+
+        /* Styling for when 7-Day Trial is Pending (Loss Aversion Trigger) */
+        .bonus-pending-box {
+            background: #eff6ff; /* Soft indigo/blue highlight */
+            border: 1px dashed #60a5fa;
+            border-radius: 8px;
+            padding: 0.85rem 1.25rem;
+            margin-bottom: 1.5rem;
+            color: #1e40af;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(30, 64, 175, 0.05);
+        }
     </style>
 </head>
 
@@ -552,7 +580,7 @@
             
             <div class="recovery-section">
                 <h3 class="recovery-title">Give AutoSift Another Chance</h3>
-                <p style="color: var(--text-gray); margin-bottom: 1.5rem; font-size: 0.95rem;">If we help resolve your issue, you can reinstall AutoSift anytime. Your 7-day trial extension will be automatically active.</p>
+                <p id="recovery-box" style="color: var(--text-gray); margin-bottom: 1.5rem; font-size: 0.95rem;">If we help resolve your issue, you can reinstall AutoSift anytime. Your 7-day trial extension will be automatically active.</p>
                 
                 <div class="recovery-buttons">
                     <a href="https://chromewebstore.google.com/detail/autosift/gabifcmcgekdfilmpipmicepajaglknm" class="btn-secondary" target="_blank" rel="noopener" style="background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); color: white; border: none; font-weight: 700;">
@@ -721,12 +749,24 @@
                 // Show success view
                 document.getElementById('form-card').style.display = 'none';
                 
-                // Customize success message based on WhatsApp input
+                // Customize success message and recovery section based on WhatsApp input
                 const successMsgEl = document.getElementById('success-message');
+                const recoveryBox = document.getElementById('recovery-box');
+                
                 if (whatsappValue) {
                     successMsgEl.innerHTML = 'Your response has been saved and <strong>7 FREE extra days</strong> have been automatically added to your account! Founder Amit will reach out to you on WhatsApp (' + whatsappValue + ') within 24 hours to help resolve your issue.';
+                    
+                    // Style recovery box for active bonus
+                    recoveryBox.className = 'bonus-active-box';
+                    recoveryBox.style.color = ''; // remove inline grey color override
+                    recoveryBox.innerHTML = '🎁 <strong>Your 7-Day Free Trial Extension is Active!</strong><br><span style="font-weight: normal; font-size: 0.85rem; opacity: 0.9;">Reinstall AutoSift below. The 7 bonus days have been successfully credited to your account.</span>';
                 } else {
                     successMsgEl.textContent = 'Your response has been saved. We are constantly improving AutoSift based on inputs like yours.';
+                    
+                    // Style recovery box for pending bonus (loss aversion)
+                    recoveryBox.className = 'bonus-pending-box';
+                    recoveryBox.style.color = ''; // remove inline grey color override
+                    recoveryBox.innerHTML = '⚡ <strong>Missed your 7 days free?</strong><br><span style="font-weight: normal; font-size: 0.85rem; opacity: 0.9;">Reinstall AutoSift below and connect with Amit on WhatsApp to instantly claim your 7-Day Free Trial Extension!</span>';
                 }
                 
                 document.getElementById('success-view').style.display = 'block';
