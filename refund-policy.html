@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Refund Policy - AutoSift</title>
+    <link rel="icon" type="image/png" href="assets/images/logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --text-dark: #1e293b;
+            --text-gray: #64748b;
+            --bg-light: #f8fafc;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: var(--bg-light);
+        }
+
+        header {
+            background: white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.25rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+
+        .logo {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .back-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 4rem auto;
+            padding: 4rem;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            min-height: 600px;
+        }
+
+        /* Markdown Styles */
+        #content h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-bottom: 2px solid var(--bg-light);
+            padding-bottom: 1rem;
+        }
+
+        #content h2 {
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        #content h3 {
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--primary);
+        }
+
+        #content p {
+            margin-bottom: 1.25rem;
+            color: #475569;
+        }
+
+        #content ul {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+            list-style-type: disc;
+        }
+
+        #content li {
+            margin-bottom: 0.5rem;
+            color: #475569;
+        }
+
+        #content strong {
+            color: var(--text-dark);
+        }
+
+        #content a {
+            color: var(--primary);
+            text-decoration: none;
+            border-bottom: 1px dashed var(--primary);
+        }
+
+        footer {
+            background: var(--text-dark);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            main {
+                padding: 2rem;
+                margin: 2rem 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo-container">
+                <div class="logo">AutoSift</div>
+            </a>
+            <a href="index.html" class="back-link">← Home</a>
+        </nav>
+    </header>
+    <main>
+        <div id="content">Loading content...</div>
+    </main>
+    <footer>
+        <p>&copy; 2026 AutoSift. All rights reserved.</p>
+    </footer>
+
+    <script id="markdown-data" type="text/markdown"># Refund and Cancellation Policy
+
+**Last Updated:** July 1, 2026
+
+Thank you for choosing AutoSift.
+
+### 1. Subscriptions and Payments
+- AutoSift is a B2B productivity tool sold on a subscription basis.
+- We offer a free trial to evaluate the software before purchasing.
+
+### 2. Refund Policy
+- Subscription fees are generally non-refundable once the subscription is activated.
+- If you face technical issues that prevent you from using the tool, and our support team cannot resolve the issue within 7 business days, a refund may be initiated.
+
+### 3. Timeline for Refunds
+- Approved refunds will be processed within 5 to 7 working days.
+- The refunded amount will be credited back to your original payment method.
+
+### 4. Cancellation
+- You can cancel your subscription at any time.
+- Cancellation will stop the next billing cycle. No partial refunds are provided for the remaining subscription period.
+
+### 5. Contact Us
+- For support or refund queries, contact us at **autosiftindia+support@gmail.com**.
+</script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const mdText = document.getElementById('markdown-data').textContent;
+            document.getElementById('content').innerHTML = marked.parse(mdText);
+        });
+    </script>
+</body>
+
+</html>
