@@ -496,6 +496,14 @@
             text-align: center;
             box-shadow: 0 2px 8px rgba(30, 64, 175, 0.05);
         }
+
+        /* Shake animation for soft nudge */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+        }
     </style>
 </head>
 
@@ -634,6 +642,13 @@
             emailInput.readOnly = true;
             emailHint.textContent = '✅ Found your AutoSift account email.';
             emailHint.className = 'input-hint success-hint';
+        } else {
+            // No email param — user was not identified. Nudge them to enter email.
+            emailInput.placeholder = 'yourname@gmail.com (needed to claim 7 free days)';
+            emailHint.textContent = "⚠️ We couldn't find your account. Enter your email to claim 7 FREE bonus days!";
+            emailHint.className = 'input-hint';
+            emailHint.style.color = '#b45309'; // amber warning color
+            emailHint.style.fontWeight = '600';
         }
 
         const form = document.getElementById('feedback-form');
@@ -710,6 +725,17 @@
                 whatsappInput.focus();
                 whatsappInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 return;
+            }
+
+            // Soft nudge: If no URL email param AND user left email blank, highlight once
+            if (!urlEmail && !emailInput.value.trim()) {
+                const emailGroup = emailInput.closest('.form-group');
+                emailGroup.style.animation = 'none';
+                emailGroup.offsetHeight; // trigger reflow
+                emailGroup.style.animation = 'shake 0.5s ease';
+                emailHint.textContent = '💡 Without your email, we cannot apply the 7 free days to your account.';
+                emailHint.style.color = '#b45309';
+                // Don't block submission — just nudge. User can still submit without email.
             }
 
             // Set loading state
