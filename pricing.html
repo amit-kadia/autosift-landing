@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AutoSift PRO — Upgrade Plan</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Supabase JS Library -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <style>
+    :root {
+      --bg-dark: #090d16;
+      --bg-card: #131b2e;
+      --bg-card-hover: #1c2742;
+      --primary: #6366f1;
+      --primary-glow: rgba(99, 102, 241, 0.4);
+      --primary-gradient: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+      --success: #10b981;
+      --success-glow: rgba(16, 185, 129, 0.3);
+      --info: #3b82f6;
+      --info-glow: rgba(59, 130, 246, 0.3);
+      --danger: #ef4444;
+      --danger-glow: rgba(239, 68, 68, 0.3);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: #1e293b;
+      --border-glow: #334155;
+      --radius-lg: 16px;
+      --radius-md: 12px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    .container {
+      position: relative;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      z-index: 1;
+    }
+
+    /* Background Glow & Grid */
+    .bg-glow {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(140px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .bg-glow-1 {
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, rgba(0,0,0,0) 70%);
+      top: -100px;
+      left: -100px;
+    }
+    .bg-glow-2 {
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.12) 0%, rgba(0,0,0,0) 70%);
+      bottom: -100px;
+      right: -100px;
+    }
+    .bg-grid {
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                        linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 40px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand-logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+    }
+    .brand-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .brand-badge {
+      background: var(--primary-gradient);
+      color: white;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Hero Section */
+    .hero-container {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .hero-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 38px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 12px;
+      color: #fff;
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #a5b4fc 0%, #6366f1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-subtitle {
+      font-size: 16px;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* FOMO / Launch Offer Banner */
+    .fomo-banner {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(16, 185, 129, 0.05) 100%);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      text-align: center;
+      margin-bottom: 40px;
+      font-weight: 600;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      animation: pulseBorder 3s infinite alternate;
+    }
+
+    @keyframes pulseBorder {
+      0% { border-color: rgba(99, 102, 241, 0.3); }
+      100% { border-color: rgba(16, 185, 129, 0.5); }
+    }
+
+    /* Panels & Account Info */
+    .account-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin-bottom: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    @media (min-width: 768px) {
+      .account-panel {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+    .user-info {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .user-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .user-label {
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+    .user-value {
+      color: #fff;
+      font-weight: 500;
+      font-size: 14px;
+    }
+    .badge-status {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 12px;
+      text-transform: uppercase;
+    }
+    .badge-free {
+      background: rgba(148, 163, 184, 0.15);
+      color: var(--text-muted);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+    }
+    .badge-pro {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--success);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .account-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .btn-action {
+      background: rgba(255, 255, 255, 0.05);
+      color: #fff;
+      border: 1px solid var(--border);
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-action:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-glow);
+    }
+    .btn-google {
+      background: #fff;
+      color: #0f172a;
+      border: none;
+    }
+    .btn-google:hover {
+      background: #f1f5f9;
+    }
+
+    /* WhatsApp Collection Field */
+    .whatsapp-container {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px dashed var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      max-width: 500px;
+    }
+    .whatsapp-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+    .whatsapp-input-group {
+      display: flex;
+      gap: 10px;
+    }
+    .whatsapp-input {
+      background: var(--bg-dark);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 10px;
+      color: #fff;
+      font-size: 14px;
+      flex-grow: 1;
+      transition: var(--transition);
+    }
+    .whatsapp-input:focus {
+      border-color: var(--primary);
+      outline: none;
+      box-shadow: 0 0 0 2px var(--primary-glow);
+    }
+    .whatsapp-subtext {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 6px;
+      line-height: 1.4;
+    }
+
+    /* Pricing Section */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+    @media (min-width: 768px) {
+      .pricing-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    .pricing-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 40px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      transition: var(--transition);
+    }
+    .pricing-card:hover {
+      border-color: var(--border-glow);
+      transform: translateY(-4px);
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+    }
+    .pricing-card.popular {
+      border: 2px solid var(--primary);
+      box-shadow: 0 0 20px rgba(99, 102, 241, 0.1);
+    }
+    .popular-badge {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--primary-gradient);
+      color: white;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 16px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 10px rgba(99, 102, 241, 0.4);
+    }
+    .plan-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+    .plan-description {
+      color: var(--text-muted);
+      font-size: 14px;
+      margin-bottom: 24px;
+      min-height: 42px;
+    }
+    .plan-price-box {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      margin-bottom: 24px;
+    }
+    .plan-currency {
+      font-size: 24px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .plan-price {
+      font-family: 'Outfit', sans-serif;
+      font-size: 48px;
+      font-weight: 800;
+      color: #fff;
+    }
+    .plan-period {
+      color: var(--text-muted);
+      font-size: 16px;
+    }
+    .plan-strikethrough {
+      color: var(--text-muted);
+      text-decoration: line-through;
+      font-size: 18px;
+      margin-left: 8px;
+      font-weight: 400;
+    }
+
+    .features-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 40px;
+      flex-grow: 1;
+    }
+    .feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 14px;
+      color: var(--text-main);
+    }
+    .feature-item svg {
+      color: var(--success);
+      margin-top: 3px;
+      flex-shrink: 0;
+    }
+
+    .btn-checkout {
+      background: var(--primary-gradient);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 16px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+      width: 100%;
+      text-align: center;
+    }
+    .btn-checkout:hover:not(:disabled) {
+      opacity: 0.95;
+      box-shadow: 0 0 16px var(--primary-glow);
+    }
+    .btn-checkout:disabled {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      cursor: not-allowed;
+    }
+
+    /* Modal / Overlay Gating */
+    .overlay-screen {
+      position: fixed;
+      inset: 0;
+      background: rgba(9, 13, 22, 0.95);
+      backdrop-filter: blur(12px);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .overlay-modal {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 40px;
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+    .overlay-icon {
+      font-size: 54px;
+      margin-bottom: 20px;
+    }
+    .overlay-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #fff;
+    }
+    .overlay-desc {
+      color: var(--text-muted);
+      font-size: 14px;
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+    .overlay-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* Spinner Animation */
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      border-top-color: var(--primary);
+      animation: spin 1s ease-in-out infinite;
+      margin: 20px auto;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Success / Polling Screen Overlay (hidden by default) -->
+  <div id="successOverlay" class="overlay-screen" style="display: none;">
+    <div class="overlay-modal">
+      <div id="successIcon" class="overlay-icon">⏳</div>
+      <div id="successTitle" class="overlay-title">Processing Upgrade...</div>
+      <div id="successDesc" class="overlay-desc">We've received your payment. Upgrading your account database record, please wait.</div>
+      
+      <!-- Live verification spinner -->
+      <div id="successSpinner" class="spinner"></div>
+
+      <div class="overlay-actions" style="margin-top: 20px;">
+        <a href="https://link.aiautomationwithamit.in/AutoSift-B2B-Lead-Automation" target="_blank" class="btn-checkout" style="text-decoration: none;">Install AutoSift Extension</a>
+        <button id="btnSupportFallback" class="btn-action" style="justify-content: center; display: none;" onclick="openSupportGmail()">Contact support for activation</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="bg-glow bg-glow-2"></div>
+    <div class="bg-grid"></div>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="brand">
+        <img src="assets/images/logo.png" alt="AutoSift" class="brand-logo" onerror="this.src='https://autosift.aiautomationwithamit.in/assets/images/logo.png'">
+        <span class="brand-name">AutoSift</span>
+        <span class="brand-badge">PRO Upgrade</span>
+      </div>
+      <div>
+        <a href="index.html" style="color: var(--text-muted); text-decoration: none; font-size: 14px; font-weight: 500; transition: var(--transition);" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='var(--text-muted)'">← Back to home</a>
+      </div>
+    </header>
+
+    <!-- Urgency / Founding Supporter Banner -->
+    <div id="fomoBanner" class="fomo-banner" style="display: none;">
+      <span id="fomoBannerText">🎉 Special Launch Offer — Be One of Our Founding 100 Supporters</span>
+    </div>
+
+    <!-- User Authentication & Account Status Panel -->
+    <div class="account-panel">
+      <div class="user-info">
+        <h3 style="font-family: 'Outfit', sans-serif; font-size: 18px; margin-bottom: 8px;">👤 User Account</h3>
+        <div id="sessionLoggedOut">
+          <p class="user-desc" style="color: var(--text-muted); font-size: 14px;">Sign in with Google to checkout and activate your license.</p>
+        </div>
+        <div id="sessionLoggedIn" style="display: none;">
+          <div class="user-row">
+            <span class="user-label">Logged in as:</span>
+            <span id="userEmail" class="user-value">user@gmail.com</span>
+          </div>
+          <div class="user-row" style="margin-top: 4px;">
+            <span class="user-label">Plan Status:</span>
+            <span id="userPlanBadge"><span class="badge-status badge-free">FREE</span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="account-actions">
+        <div id="authActionsLoggedOut">
+          <button class="btn-action btn-google" onclick="signInWithGoogle()">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12.24 10.285V14.4h6.887c-.648 2.41-2.519 4.114-5.136 4.114-3.488 0-6.19-2.827-6.19-6.315s2.702-6.314 6.19-6.314c1.693 0 3.243.6 4.5 1.661l3.086-3.085C19.452 2.217 16.034 1 12.24 1c-6.075 0-11 4.925-11 11s4.925 11 11 11c6.353 0 10.567-4.473 10.567-10.757 0-.704-.077-1.373-.207-1.958H12.24z"/></svg>
+            Sign in with Google
+          </button>
+        </div>
+        <div id="authActionsLoggedIn" style="display: none;" class="account-actions">
+          <!-- Optional WhatsApp field -->
+          <div class="whatsapp-container">
+            <label for="whatsappNumber" class="whatsapp-label">WhatsApp Number (optional)</label>
+            <div class="whatsapp-input-group">
+              <input type="text" id="whatsappNumber" class="whatsapp-input" placeholder="+91 98765 43210">
+            </div>
+            <p class="whatsapp-subtext">Get priority support, new feature updates, and account alerts on WhatsApp 💬</p>
+          </div>
+          <button class="btn-action" onclick="signOut()">Sign Out</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero Title -->
+    <div class="hero-container">
+      <h1 class="hero-title">Select Your <span class="gradient-text">AutoSift PRO</span> Plan</h1>
+      <p class="hero-subtitle">Unlock unlimited lead automation on IndiaMart. Save 4+ hours daily.</p>
+    </div>
+
+    <!-- Pricing Grid -->
+    <div class="pricing-grid">
+      <!-- Monthly Card -->
+      <div class="pricing-card">
+        <div class="plan-name">PRO Monthly</div>
+        <div class="plan-description">Get instant access to unlimited lead automation billed month-to-month.</div>
+        <div class="plan-price-box">
+          <span class="plan-currency">₹</span>
+          <span class="plan-price">999</span>
+          <span class="plan-period">/ month</span>
+          <span class="plan-strikethrough">₹1,999</span>
+        </div>
+        <ul class="features-list">
+          <li class="feature-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <strong>Unlimited Lead Purchases</strong> & Filter Checks
+          </li>
+          <li class="feature-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Keyword & Chip Filtering
+          </li>
+          <li class="feature-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Automatic Expiry Watchdog
+          </li>
+          <li class="feature-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Custom Template Switching
+          </li>
+        </ul>
+        <button id="btnBuyMonthly" class="btn-checkout" onclick="checkoutPlan('pro_monthly_early')">
+          Subscribe Monthly
+        </button>
+      </div>
+
+      <!-- Yearly Card -->
+      <div class="pricing-card popular">
+        <span class="popular-badge">BEST VALUE</span>
+        <div class="plan-name">PRO Yearly</div>
+        <div class="plan-description">Best for dedicated export sellers. Save 17% and get dedicated priority support.</div>
+        <div class="plan-price-box">
+          <span class="plan-currency">₹</span>
+          <span class="plan-price">9,990</span>
+          <span class="plan-period">/ year</span>
+          <span class="plan-strikethrough">₹19,990</span>
+        </div>
+        <ul class="features-list">
+          <li class="feature-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <strong>All PRO Features</strong> Included
+          </li>
+          <li class="feature-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <strong>2 Months Free</strong> (Save 17%)
+          </li>
+          <li class="feature-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Priority Telegram Alerts
+          </li>
+          <li class="feature-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Dedicated Founder WhatsApp Support
+          </li>
+        </ul>
+        <button id="btnBuyYearly" class="btn-checkout" onclick="checkoutPlan('pro_yearly_early')">
+          Subscribe Yearly
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ⚙️ Configurations
+    const SUPABASE_URL = 'https://pipcqctaaplgaltzfrjv.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBpcGNxY3RhYXBsZ2FsdHpmcmp2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg4MjQ1NjIsImV4cCI6MjA4NDQwMDU2Mn0.2cjoHOIwbL0v6utUnuS8jex_oeZpb-MUgKbq4kg1Bs8';
+    
+    // Webhook Server URL
+    const API_BASE_URL = 'https://webhook.autosift.aiautomationwithamit.in';
+
+    const RAZORPAY_KEY_ID = "rzp_live_T8pfDdhak47oP4";
+
+    let supabaseClient = null;
+    let currentUser = null;
+
+    // Initialize Supabase Client
+    if (typeof supabase !== 'undefined') {
+      supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    }
+
+    // Initialize Page
+    document.addEventListener('DOMContentLoaded', async () => {
+      if (!supabaseClient) {
+        console.error("Supabase could not be loaded.");
+        return;
+      }
+      
+      // Load Razorpay script
+      loadRazorpayCheckoutScript();
+
+      // Check current auth status
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      updateAuthUI(session);
+
+      // Listen for auth state changes
+      supabaseClient.auth.onAuthStateChange((event, session) => {
+        updateAuthUI(session);
+      });
+
+      // Load founding supporter live counter
+      loadFoundingSupportersCounter();
+    });
+
+    // Load Razorpay Script
+    function loadRazorpayCheckoutScript() {
+      if (window.Razorpay) return;
+      const script = document.createElement('script');
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      document.head.appendChild(script);
+    }
+
+    // Update UI based on Authentication Session
+    async function updateAuthUI(session) {
+      const loggedOutDiv = document.getElementById('sessionLoggedOut');
+      const loggedInDiv = document.getElementById('sessionLoggedIn');
+      const authActionsLoggedOut = document.getElementById('authActionsLoggedOut');
+      const authActionsLoggedIn = document.getElementById('authActionsLoggedIn');
+      const btnBuyMonthly = document.getElementById('btnBuyMonthly');
+      const btnBuyYearly = document.getElementById('btnBuyYearly');
+
+      if (session && session.user) {
+        currentUser = session.user;
+        
+        // Populate Email
+        document.getElementById('userEmail').textContent = currentUser.email;
+
+        // Show/Hide divs
+        loggedOutDiv.style.display = 'none';
+        authActionsLoggedOut.style.display = 'none';
+        loggedInDiv.style.display = 'block';
+        authActionsLoggedIn.style.display = 'flex';
+
+        // Retrieve current profile status & WhatsApp number
+        const { data: profile } = await supabaseClient
+          .from('profiles')
+          .select('plan_type, whatsapp_number')
+          .eq('id', currentUser.id)
+          .maybeSingle();
+
+        if (profile) {
+          const badgeContainer = document.getElementById('userPlanBadge');
+          if (profile.plan_type === 'pro') {
+            badgeContainer.innerHTML = '<span class="badge-status badge-pro">PRO ACTIVE</span>';
+          } else {
+            badgeContainer.innerHTML = '<span class="badge-status badge-free">FREE</span>';
+          }
+
+          // Prefill WhatsApp field
+          if (profile.whatsapp_number) {
+            document.getElementById('whatsappNumber').value = profile.whatsapp_number;
+          }
+        }
+      } else {
+        currentUser = null;
+        loggedOutDiv.style.display = 'block';
+        authActionsLoggedOut.style.display = 'block';
+        loggedInDiv.style.display = 'none';
+        authActionsLoggedIn.style.display = 'none';
+      }
+    }
+
+    // Fetch and show Founding Supporters Counter (Hybrid)
+    async function loadFoundingSupportersCounter() {
+      try {
+        const { data: count, error } = await supabaseClient.rpc('get_founding_supporter_count');
+        if (error) throw error;
+
+        const fomoBanner = document.getElementById('fomoBanner');
+        const fomoBannerText = document.getElementById('fomoBannerText');
+
+        if (count >= 100) {
+          // Hide founding supporter sections, keep banner hidden
+          fomoBanner.style.display = 'none';
+        } else if (count >= 10) {
+          // Show live counter
+          const remaining = 100 - count;
+          fomoBannerText.textContent = `🎉 Launch Offer — Only ${remaining} of 100 Founding Supporter Spots Remaining!`;
+          fomoBanner.style.display = 'flex';
+        } else {
+          // Show static text
+          fomoBannerText.textContent = "🎉 Special Launch Offer — Be One of Our Founding 100 Supporters";
+          fomoBanner.style.display = 'flex';
+        }
+      } catch (e) {
+        console.error("Error reading founding supporters count:", e);
+      }
+    }
+
+    // Google Sign-In Function
+    async function signInWithGoogle() {
+      try {
+        const { error } = await supabaseClient.auth.signInWithOAuth({
+          provider: 'google',
+          options: {
+            redirectTo: window.location.href // Redirect back to this page
+          }
+        });
+        if (error) throw error;
+      } catch (err) {
+        alert('Authentication Error: ' + err.message);
+      }
+    }
+
+    // Sign Out Function
+    async function signOut() {
+      await supabaseClient.auth.signOut();
+      window.location.reload();
+    }
+
+    // Checkout plan handler
+    async function checkoutPlan(planDbId) {
+      if (!currentUser) {
+        // Trigger Google Login if they click checkout but aren't signed in yet
+        signInWithGoogle();
+        return;
+      }
+
+      const btnMonthly = document.getElementById('btnBuyMonthly');
+      const btnYearly = document.getElementById('btnBuyYearly');
+      
+      // Save optional WhatsApp number first
+      const whatsappVal = document.getElementById('whatsappNumber').value.trim();
+      if (whatsappVal) {
+        await supabaseClient
+          .from('profiles')
+          .update({ whatsapp_number: whatsappVal })
+          .eq('id', currentUser.id);
+      }
+
+      // Disable buttons during checkout init
+      btnMonthly.disabled = true;
+      btnYearly.disabled = true;
+
+      // 1. Fetch Razorpay Plan ID from billing_plans
+      const { data: planRecord, error: planError } = await supabaseClient
+        .from('billing_plans')
+        .select('razorpay_plan_id, price')
+        .eq('id', planDbId)
+        .single();
+
+      if (planError || !planRecord) {
+        alert("Failed to retrieve plan details from database.");
+        btnMonthly.disabled = false;
+        btnYearly.disabled = false;
+        return;
+      }
+
+      const razorpayPlanId = planRecord.razorpay_plan_id;
+      const price = planRecord.price;
+
+      // 2. Track checkout_initiated funnel event
+      try {
+        await supabaseClient
+          .from('upgrade_funnel_events')
+          .insert({
+            user_id: currentUser.id,
+            event_type: 'checkout_initiated',
+            metadata: { plan_id: planDbId, source: 'pricing_page' }
+          });
+      } catch (e) {
+        console.warn("Telemetry warning:", e);
+      }
+
+      // 3. Create Subscription on VPS Webhook server
+      let razorpaySubscriptionId = null;
+      try {
+        const response = await fetch(`${API_BASE_URL}/webhooks/create-subscription`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            plan_id: razorpayPlanId,
+            user_id: currentUser.id,
+            email: currentUser.email
+          })
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP Error: ${response.status}`);
+        }
+
+        const data = await response.json();
+        razorpaySubscriptionId = data.subscription_id;
+      } catch (err) {
+        alert(`❌ VPS Connection Error: ${err.message}\n\nPlease check if webhook server is running.`);
+        btnMonthly.disabled = false;
+        btnYearly.disabled = false;
+        return;
+      }
+
+      // 4. Trigger Razorpay Checkout Modal
+      const options = {
+        key: RAZORPAY_KEY_ID,
+        subscription_id: razorpaySubscriptionId,
+        name: "AutoSift PRO Subscription",
+        description: `Early Bird Pricing - ₹${price} B2B Plan`,
+        image: "assets/images/logo.png",
+        prefill: {
+          email: currentUser.email,
+          contact: whatsappVal || ""
+        },
+        notes: {
+          user_id: currentUser.id,
+          email: currentUser.email
+        },
+        handler: function (response) {
+          // Success Callback
+          showSuccessScreen();
+        },
+        modal: {
+          ondismiss: async function () {
+            // Log checkout_dismissed funnel event
+            try {
+              await supabaseClient
+                .from('upgrade_funnel_events')
+                .insert({
+                  user_id: currentUser.id,
+                  event_type: 'checkout_dismissed',
+                  metadata: { plan_id: planDbId, subscription_id: razorpaySubscriptionId, source: 'pricing_page' }
+                });
+            } catch (e) {
+              console.warn(e);
+            }
+
+            // Notify VPS about abandoned checkout
+            try {
+              await fetch(`${API_BASE_URL}/webhooks/payment-abandoned`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  email: currentUser.email,
+                  name: currentUser.user_metadata?.display_name || "Seller",
+                  amount: price,
+                  plan_tier: planDbId === 'pro_yearly_early' ? 'Yearly' : 'Monthly'
+                })
+              });
+            } catch (e) {
+              console.warn(e);
+            }
+
+            btnMonthly.disabled = false;
+            btnYearly.disabled = false;
+          }
+        }
+      };
+
+      const rzp = new Razorpay(options);
+      rzp.open();
+    }
+
+    // Success Screen Visual states & Polling
+    function showSuccessScreen() {
+      const overlay = document.getElementById('successOverlay');
+      overlay.style.display = 'flex';
+
+      let pollAttempts = 0;
+      const pollInterval = setInterval(async () => {
+        pollAttempts++;
+        try {
+          const { data: profile } = await supabaseClient
+            .from('profiles')
+            .select('plan_type')
+            .eq('id', currentUser.id)
+            .single();
+
+          if (profile && profile.plan_type === 'pro') {
+            clearInterval(pollInterval);
+            // Upgrade Complete state
+            document.getElementById('successIcon').textContent = '✅';
+            document.getElementById('successTitle').textContent = 'Account Activated! 🚀';
+            document.getElementById('successDesc').textContent = 'Your account has been upgraded to AutoSift PRO successfully. Restart your extension to apply the PRO features.';
+            document.getElementById('successSpinner').style.display = 'none';
+          }
+        } catch (e) {
+          console.warn("Polling error:", e);
+        }
+
+        // Timeout fallback after 30 seconds (10 attempts * 3s)
+        if (pollAttempts >= 10) {
+          clearInterval(pollInterval);
+          document.getElementById('successIcon').textContent = '🔔';
+          document.getElementById('successTitle').textContent = 'Activation Processing';
+          document.getElementById('successDesc').textContent = "Your payment was received, but database activation is taking longer than expected. Don't worry! Your account will be upgraded shortly.";
+          document.getElementById('successSpinner').style.display = 'none';
+          document.getElementById('btnSupportFallback').style.display = 'block';
+        }
+      }, 3000);
+    }
+
+    // Gmail support helper prefilled compose link
+    function openSupportGmail() {
+      const email = currentUser?.email || 'N/A';
+      const uid = currentUser?.id || 'N/A';
+      const subject = encodeURIComponent("AutoSift PRO Activation Help");
+      const body = encodeURIComponent(
+        `Hi Amit,\n\nI just completed the payment for AutoSift PRO, but my account status has not been upgraded to PRO.\n\nMy details:\n- Registered Email: ${email}\n- Supabase User ID: ${uid}\n\nPlease verify and activate my account manually.\n\nThanks!`
+      );
+      
+      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=autosiftindia+support@gmail.com&su=${subject}&body=${body}`;
+      window.open(gmailUrl, '_blank');
+    }
+  </script>
+</body>
+</html>
