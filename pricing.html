@@ -312,8 +312,42 @@
     }
     @media (min-width: 768px) {
       .pricing-grid {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: repeat(3, 1fr);
       }
+    }
+    
+    /* Trust Badges */
+    .trust-badges-container {
+      text-align: center;
+      margin-top: 30px;
+      margin-bottom: 30px;
+    }
+    .trust-title {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .badges-flex {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .badge-item {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
     .pricing-card {
       background: var(--bg-card);
@@ -584,8 +618,37 @@
 
     <!-- Pricing Grid -->
     <div class="pricing-grid">
-      <!-- Monthly Card -->
+      <!-- Free Forever Card -->
       <div class="pricing-card">
+        <div class="plan-name">FREE Forever</div>
+        <div class="plan-description">Establish basic automation workflows. Great for getting started.</div>
+        <div class="plan-price-box">
+          <span class="plan-currency">₹</span>
+          <span class="plan-price">0</span>
+          <span class="plan-period">/ forever</span>
+        </div>
+        <ul class="features-list">
+          <li class="feature-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <strong>2 Hours Daily Limit</strong>
+          </li>
+          <li class="feature-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Basic Keyword Filters
+          </li>
+          <li class="feature-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Standard Execution Speed
+          </li>
+        </ul>
+        <a href="index.html" class="btn-checkout" style="background: rgba(255, 255, 255, 0.05); color: #fff; border: 1px solid var(--border); text-decoration: none;">
+          Get Started Free
+        </a>
+      </div>
+
+      <!-- Monthly Card (Recommended Choice) -->
+      <div class="pricing-card popular">
+        <span class="popular-badge">RECOMMENDED</span>
         <div class="plan-name">PRO Monthly</div>
         <div class="plan-description">Get instant access to unlimited lead automation billed month-to-month.</div>
         <div class="plan-price-box">
@@ -597,7 +660,7 @@
         <ul class="features-list">
           <li class="feature-item">
             <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            <strong>Unlimited Lead Purchases</strong> & Filter Checks
+            <strong>12 Hours Daily Limit</strong> (Unlimited)
           </li>
           <li class="feature-item">
             <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
@@ -618,8 +681,7 @@
       </div>
 
       <!-- Yearly Card -->
-      <div class="pricing-card popular">
-        <span class="popular-badge">BEST VALUE</span>
+      <div class="pricing-card">
         <div class="plan-name">PRO Yearly</div>
         <div class="plan-description">Best for dedicated export sellers. Save 17% and get dedicated priority support.</div>
         <div class="plan-price-box">
@@ -646,9 +708,20 @@
             Dedicated Founder WhatsApp Support
           </li>
         </ul>
-        <button id="btnBuyYearly" class="btn-checkout" onclick="checkoutPlan('pro_yearly_early')">
+        <button id="btnBuyYearly" class="btn-checkout" onclick="checkoutPlan('pro_yearly_early')" style="background: rgba(99, 102, 241, 0.1); color: #fff; border: 1px solid var(--border);">
           Subscribe Yearly
         </button>
+      </div>
+    </div>
+
+    <!-- Trust Badges Section -->
+    <div class="trust-badges-container">
+      <div class="trust-title">🛡️ Secure Payment Gateway</div>
+      <div class="badges-flex">
+        <span class="badge-item">💳 Credit/Debit Card</span>
+        <span class="badge-item">📱 UPI (GooglePay, PhonePe, Paytm)</span>
+        <span class="badge-item">🏛️ Netbanking</span>
+        <span class="badge-item">🔒 SSL Encrypted</span>
       </div>
     </div>
   </div>
@@ -692,6 +765,14 @@
 
       // Load founding supporter live counter
       loadFoundingSupportersCounter();
+
+      // Real-time WhatsApp Input Sanitization (Digits only, max 15)
+      const waInput = document.getElementById('whatsappNumber');
+      if (waInput) {
+        waInput.addEventListener('input', function() {
+          this.value = this.value.replace(/\D/g, '').substring(0, 15);
+        });
+      }
     });
 
     // Load Razorpay Script
@@ -814,6 +895,14 @@
       // Save optional WhatsApp number first
       const whatsappVal = document.getElementById('whatsappNumber').value.trim();
       if (whatsappVal) {
+        // Enforce 10-15 digit limit for validity
+        if (whatsappVal.length < 10 || whatsappVal.length > 15) {
+          alert('⚠️ Please enter a valid 10 to 15 digit WhatsApp number (digits only, e.g. 9876543210).');
+          btnMonthly.disabled = false;
+          btnYearly.disabled = false;
+          return;
+        }
+        
         await supabaseClient
           .from('profiles')
           .update({ whatsapp_number: whatsappVal })
