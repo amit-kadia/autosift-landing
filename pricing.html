@@ -1188,6 +1188,19 @@
       </div>
     </header>
 
+    <!-- Auth Session Mismatch Warning Banner (hidden by default) -->
+    <div id="mismatchBanner" class="mismatch-banner" style="display: none; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 8px; padding: 12px 16px; margin: 15px 0 15px 0; align-items: center; justify-content: space-between; gap: 15px; flex-wrap: wrap; border-left: 4px solid #ef4444;">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <span style="font-size: 20px;">⚠️</span>
+        <div style="font-size: 13px; color: #fca5a5; line-height: 1.5; text-align: left;">
+          <strong style="color: #ef4444;">Account Mismatch Detected!</strong><br>
+          You are logged into the extension as <strong id="mismatchExtEmail" style="color: #fff;"></strong>, but this pricing page is logged into <strong id="mismatchWebEmail" style="color: #fff;"></strong>.<br>
+          <span style="opacity: 0.85; font-size: 12px;">Please click "Sign Out & Switch" to log in with the matching extension account to avoid upgrading the wrong profile.</span>
+        </div>
+      </div>
+      <button onclick="signOut()" style="background: #ef4444; color: #fff; border: none; padding: 8px 16px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.2s; white-space: nowrap;" onmouseover="this.style.background='#dc2626'" onmouseout="this.style.background='#ef4444'">Sign Out & Switch</button>
+    </div>
+
     <!-- Urgency / Founding Supporter Banner -->
     <div id="fomoBanner" class="fomo-banner" style="display: none;">
       <span id="fomoBannerText">🎉 Special Launch Offer — Be One of Our Founding 100 Supporters</span>
@@ -1587,12 +1600,57 @@
       loadRazorpayCheckoutScript();
 
       // Check current auth status
-      const { data: { session } } = await supabaseClient.auth.getSession();
+      let { data: { session } } = await supabaseClient.auth.getSession();
+
+      // Mock session for automated testing/verification
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('mock') === 'true') {
+        session = {
+          user: {
+            id: '96efda92-12c0-4bb1-8bf5-127dbdc7bf24',
+            email: 'amit.automates1@gmail.com'
+          }
+        };
+      }
       updateAuthUI(session);
 
+      // Post-login automatic actions (e.g. trial claim or Razorpay checkout initiation)
+      const action = urlParams.get('action');
+      const planType = urlParams.get('plan');
+
+      if (session && session.user && action) {
+        // Clear params from address bar to prevent infinite loop on manual page refresh
+        const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+        window.history.replaceState({}, document.title, cleanUrl);
+
+        if (action === 'claim_trial') {
+          // Delay slightly to let layout settle before showing overlay
+          setTimeout(async () => {
+            await executeTrialClaim();
+          }, 300);
+        } else if (action === 'checkout' && planType) {
+          const dbPlanCode = planType === 'monthly' ? 'pro_monthly_early' : 'pro_yearly_early';
+          setTimeout(() => {
+            checkoutPlan(dbPlanCode);
+          }, 300);
+        }
+      }
+
       // Listen for auth state changes
-      supabaseClient.auth.onAuthStateChange((event, session) => {
-        updateAuthUI(session);
+      supabaseClient.auth.onAuthStateChange((event, newSession) => {
+        let activeSession = newSession;
+        if (urlParams.get('mock') === 'true' && !newSession) {
+          // If we click Sign Out in mock mode, clear mock session
+          activeSession = null;
+        } else if (urlParams.get('mock') === 'true') {
+          activeSession = {
+            user: {
+              id: '96efda92-12c0-4bb1-8bf5-127dbdc7bf24',
+              email: 'amit.automates1@gmail.com'
+            }
+          };
+        }
+        updateAuthUI(activeSession);
       });
 
       // Load founding supporter live counter
@@ -1624,6 +1682,9 @@
       const headerAuthStatus = document.getElementById('headerAuthStatus');
       const headerUserEmail = document.getElementById('headerUserEmail');
       const whatsappSection = document.getElementById('whatsappSection');
+      const mismatchBanner = document.getElementById('mismatchBanner');
+      const mismatchExtEmail = document.getElementById('mismatchExtEmail');
+      const mismatchWebEmail = document.getElementById('mismatchWebEmail');
 
       if (session && session.user) {
         currentUser = session.user;
@@ -1634,6 +1695,18 @@
         
         // Show WhatsApp optional section
         if (whatsappSection) whatsappSection.style.display = 'block';
+
+        // Check for session email mismatch with URL parameter (Extension Session Sync)
+        const urlParams = new URLSearchParams(window.location.search);
+        const extEmail = urlParams.get('email');
+
+        if (extEmail && session.user.email && session.user.email.toLowerCase() !== decodeURIComponent(extEmail).toLowerCase()) {
+          if (mismatchBanner) mismatchBanner.style.display = 'flex';
+          if (mismatchExtEmail) mismatchExtEmail.textContent = decodeURIComponent(extEmail);
+          if (mismatchWebEmail) mismatchWebEmail.textContent = session.user.email;
+        } else {
+          if (mismatchBanner) mismatchBanner.style.display = 'none';
+        }
 
         // Retrieve current profile status & WhatsApp number & trial status
         try {
@@ -1662,6 +1735,7 @@
         if (headerAuthStatus) headerAuthStatus.style.display = 'none';
         if (whatsappSection) whatsappSection.style.display = 'none';
         updatePricingButtons(null);
+        if (mismatchBanner) mismatchBanner.style.display = 'none';
       }
     }
 
@@ -1700,9 +1774,9 @@
     }
 
     async function handleCardClick(planType) {
-      // 1. Guest Flow: Redirect to onboarding/extension install
+      // 1. Guest Flow: Redirect to signup gateway with intent
       if (!currentUser) {
-        window.location.href = 'https://link.aiautomationwithamit.in/AutoSift-B2B-Lead-Automation';
+        window.location.href = `signup.html?action=claim_trial&plan=${planType}`;
         return;
       }
 
