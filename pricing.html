@@ -1142,6 +1142,31 @@
     </div>
   </div>
 
+  <!-- Trial Claim Celebration / Success Overlay (hidden by default) -->
+  <div id="trialSuccessOverlay" class="overlay-screen" style="display: none;">
+    <div class="overlay-modal" style="border: 1px solid rgba(16, 185, 129, 0.4); box-shadow: 0 0 30px rgba(16, 185, 129, 0.15);">
+      <div class="overlay-icon">🎉</div>
+      <div class="overlay-title" style="color: #34d399;">Pro Trial Activated!</div>
+      <div class="overlay-desc">Your 15-Day AutoSift Pro trial has been successfully claimed. Open the extension to start automating your leads!</div>
+      <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 24px;">Expires on: <strong id="trialExpiresDate" style="color: #fff;">-</strong></div>
+      <div class="overlay-actions">
+        <button class="btn-checkout" style="background: var(--primary-gradient); cursor: pointer; border: none;" onclick="closeTrialSuccess()">Awesome, Let's Go!</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Trial Claim Security Block Overlay (hidden by default) -->
+  <div id="trialErrorOverlay" class="overlay-screen" style="display: none;">
+    <div class="overlay-modal" style="border: 1px solid rgba(239, 68, 68, 0.4); box-shadow: 0 0 30px rgba(239, 68, 68, 0.15);">
+      <div class="overlay-icon">🔒</div>
+      <div class="overlay-title" style="color: #f87171;">Not Trial Eligible</div>
+      <div class="overlay-desc" id="trialErrorMsg">This account or device is not eligible for another free trial. Please select a subscription to continue.</div>
+      <div class="overlay-actions">
+        <button class="btn-checkout" style="background: var(--primary-gradient); cursor: pointer; border: none;" onclick="closeTrialError()">Select a Plan</button>
+      </div>
+    </div>
+  </div>
+
   <div class="container">
     <div class="bg-glow bg-glow-1"></div>
     <div class="bg-glow bg-glow-2"></div>
@@ -1263,11 +1288,7 @@
         <a href="index.html" class="btn-checkout" style="background: rgba(255, 255, 255, 0.05); color: #fff; border: 1px solid var(--border); text-decoration: none; margin-bottom: 12px; display: block; text-align: center; line-height: 24px;">
           Get Started Free
         </a>
-        <div style="text-align: center; font-size: 13px;">
-          <a href="https://link.aiautomationwithamit.in/AutoSift-B2B-Lead-Automation" style="color: var(--primary); text-decoration: underline; font-weight: 500; display: inline-flex; align-items: center; gap: 4px;">
-            <span>🎁 Start 15-Day Free Trial</span>
-          </a>
-        </div>
+
       </div>
 
       <!-- Pro Monthly Card -->
@@ -1299,9 +1320,10 @@
             Unlocked Price & Qty Ignore Toggles
           </li>
         </ul>
-        <button id="btnBuyMonthly" class="btn-checkout" onclick="checkoutPlan('pro_monthly_early')">
+        <button id="btnBuyMonthly" class="btn-checkout" onclick="handleCardClick('monthly')">
           Subscribe Monthly
         </button>
+        <span class="trial-microcopy" id="microcopyMonthly" style="display: block; color: var(--text-muted); text-align: center; font-size: 11px; margin-top: 8px; font-weight: 500;">🔒 Secure payment via Razorpay</span>
       </div>
 
       <!-- Pro Yearly Card (Highlighted by Default) -->
@@ -1334,9 +1356,10 @@
             Dedicated WhatsApp & Call Support
           </li>
         </ul>
-        <button id="btnBuyYearly" class="btn-checkout" onclick="checkoutPlan('pro_yearly_early')">
+        <button id="btnBuyYearly" class="btn-checkout" onclick="handleCardClick('yearly')">
           Subscribe Yearly
         </button>
+        <span class="trial-microcopy" id="microcopyYearly" style="display: block; color: var(--text-muted); text-align: center; font-size: 11px; margin-top: 8px; font-weight: 500;">🔒 Secure payment via Razorpay</span>
       </div>
     </div>
 
@@ -1596,6 +1619,7 @@
     }
 
     // Update UI based on Authentication Session
+    // Update UI based on Authentication Session
     async function updateAuthUI(session) {
       const headerAuthStatus = document.getElementById('headerAuthStatus');
       const headerUserEmail = document.getElementById('headerUserEmail');
@@ -1611,11 +1635,11 @@
         // Show WhatsApp optional section
         if (whatsappSection) whatsappSection.style.display = 'block';
 
-        // Retrieve current profile status & WhatsApp number
+        // Retrieve current profile status & WhatsApp number & trial status
         try {
           const { data: profile } = await supabaseClient
             .from('profiles')
-            .select('plan_type, whatsapp_number')
+            .select('plan_type, whatsapp_number, trial_claimed_at')
             .eq('id', currentUser.id)
             .maybeSingle();
 
@@ -1625,15 +1649,163 @@
             if (waInput && profile.whatsapp_number) {
               waInput.value = profile.whatsapp_number;
             }
+            updatePricingButtons(profile);
+          } else {
+            updatePricingButtons(null);
           }
         } catch (err) {
           console.warn("Error loading user profile:", err);
+          updatePricingButtons(null);
         }
       } else {
         currentUser = null;
         if (headerAuthStatus) headerAuthStatus.style.display = 'none';
         if (whatsappSection) whatsappSection.style.display = 'none';
+        updatePricingButtons(null);
       }
+    }
+
+    function updatePricingButtons(profile) {
+      const btnMonthly = document.getElementById('btnBuyMonthly');
+      const btnYearly = document.getElementById('btnBuyYearly');
+      const microMonthly = document.getElementById('microcopyMonthly');
+      const microYearly = document.getElementById('microcopyYearly');
+
+      // Trial eligible if profile is guest (null), or plan_type is free and trial_claimed_at is null
+      const isTrialEligible = !profile || (profile.plan_type === 'free' && !profile.trial_claimed_at);
+
+      if (isTrialEligible) {
+        if (btnMonthly) btnMonthly.textContent = 'Start 15-Day Free Trial';
+        if (btnYearly) btnYearly.textContent = 'Start 15-Day Free Trial';
+        if (microMonthly) {
+          microMonthly.textContent = '🎁 Try Pro features free • No credit card required';
+          microMonthly.style.color = '#34d399';
+        }
+        if (microYearly) {
+          microYearly.textContent = '🎁 Try Pro features free • No credit card required';
+          microYearly.style.color = '#34d399';
+        }
+      } else {
+        if (btnMonthly) btnMonthly.textContent = 'Subscribe Monthly';
+        if (btnYearly) btnYearly.textContent = 'Subscribe Yearly';
+        if (microMonthly) {
+          microMonthly.textContent = '🔒 Secure payment via Razorpay';
+          microMonthly.style.color = 'var(--text-muted)';
+        }
+        if (microYearly) {
+          microYearly.textContent = '🔒 Secure payment via Razorpay';
+          microYearly.style.color = 'var(--text-muted)';
+        }
+      }
+    }
+
+    async function handleCardClick(planType) {
+      // 1. Guest Flow: Redirect to onboarding/extension install
+      if (!currentUser) {
+        window.location.href = 'https://link.aiautomationwithamit.in/AutoSift-B2B-Lead-Automation';
+        return;
+      }
+
+      // 2. Signed-in Flow: Retrieve fresh profile state to prevent race conditions
+      const btnMonthly = document.getElementById('btnBuyMonthly');
+      const btnYearly = document.getElementById('btnBuyYearly');
+      if (btnMonthly) btnMonthly.disabled = true;
+      if (btnYearly) btnYearly.disabled = true;
+
+      try {
+        const { data: profile, error } = await supabaseClient
+          .from('profiles')
+          .select('plan_type, trial_claimed_at')
+          .eq('id', currentUser.id)
+          .maybeSingle();
+
+        if (error) throw error;
+
+        const isTrialEligible = !profile || (profile.plan_type === 'free' && !profile.trial_claimed_at);
+
+        if (isTrialEligible) {
+          await executeTrialClaim();
+        } else {
+          const dbPlanCode = planType === 'monthly' ? 'pro_monthly_early' : 'pro_yearly_early';
+          checkoutPlan(dbPlanCode);
+        }
+      } catch (err) {
+        console.error("Error handling card click:", err);
+        // Fallback checkout
+        const dbPlanCode = planType === 'monthly' ? 'pro_monthly_early' : 'pro_yearly_early';
+        checkoutPlan(dbPlanCode);
+      } finally {
+        if (btnMonthly) btnMonthly.disabled = false;
+        if (btnYearly) btnYearly.disabled = false;
+      }
+    }
+
+    async function executeTrialClaim() {
+      try {
+        const { data, error } = await supabaseClient.rpc('claim_free_trial');
+        if (error) throw error;
+
+        if (data && data.success) {
+          showCelebrationModal(data.expiresAt);
+          
+          // Refresh layout buttons dynamically
+          const { data: profile } = await supabaseClient
+            .from('profiles')
+            .select('plan_type, whatsapp_number, trial_claimed_at')
+            .eq('id', currentUser.id)
+            .maybeSingle();
+            
+          updatePricingButtons(profile);
+        } else {
+          showSecurityBlockModal(data.error || "Your account/device is not eligible for another free trial.");
+        }
+      } catch (err) {
+        console.error("Trial claim execution error:", err);
+        showSecurityBlockModal("Your account/device is not eligible for another free trial. Please subscribe to Pro to access features.");
+      }
+    }
+
+    function showCelebrationModal(expiresAtRaw) {
+      const overlay = document.getElementById('trialSuccessOverlay');
+      const dateEl = document.getElementById('trialExpiresDate');
+      if (dateEl && expiresAtRaw) {
+        try {
+          const date = new Date(expiresAtRaw);
+          dateEl.textContent = date.toLocaleDateString('en-IN', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+          });
+        } catch(e) {
+          dateEl.textContent = expiresAtRaw;
+        }
+      }
+      if (overlay) overlay.style.display = 'flex';
+    }
+
+    function showSecurityBlockModal(errMsg) {
+      const overlay = document.getElementById('trialErrorOverlay');
+      const msgEl = document.getElementById('trialErrorMsg');
+      if (msgEl && errMsg) {
+        if (errMsg.includes("device") || errMsg.includes("Fingerprint") || errMsg.includes("claimed")) {
+          msgEl.textContent = "This device or account has already used its free trial. Please choose a subscription plan below to unlock PRO features.";
+        } else {
+          msgEl.textContent = errMsg;
+        }
+      }
+      if (overlay) overlay.style.display = 'flex';
+    }
+
+    function closeTrialSuccess() {
+      const overlay = document.getElementById('trialSuccessOverlay');
+      if (overlay) overlay.style.display = 'none';
+    }
+
+    function closeTrialError() {
+      const overlay = document.getElementById('trialErrorOverlay');
+      if (overlay) overlay.style.display = 'none';
+      const container = document.querySelector('.pricing-container');
+      if (container) container.scrollIntoView({ behavior: 'smooth' });
     }
 
     // Fetch and show Founding Supporters Counter (Hybrid)
