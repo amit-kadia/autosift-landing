@@ -756,12 +756,49 @@
       }
     }
 
+    .stats-footer-container {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      margin: 15px 0 35px 0;
+    }
     .stats-footer-text {
-      text-align: center;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(16, 185, 129, 0.06);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      color: #34d399;
       font-size: 11px;
-      color: var(--text-muted);
-      opacity: 0.6;
-      margin: 12px 0 30px;
+      font-weight: 600;
+      padding: 5px 12px 5px 10px;
+      border-radius: 20px;
+      letter-spacing: 0.3px;
+      margin: 0;
+      position: relative;
+    }
+    .stats-footer-text::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
+      flex-shrink: 0;
+      animation: db-pulse 2s infinite ease-in-out;
+    }
+    @keyframes db-pulse {
+      0%, 100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 4px rgba(16, 185, 129, 0.4);
+        opacity: 0.8;
+      }
+      50% {
+        transform: scale(1.2);
+        box-shadow: 0 0 10px rgba(16, 185, 129, 0.8);
+        opacity: 1;
+      }
     }
 
     /* Card highlighting styles based on Toggle state */
@@ -1166,7 +1203,9 @@
       <span>In the last 7 days: <strong id="trendLeads" style="color:#fff;">0</strong> leads scanned • <strong id="trendPurchases" style="color:#fff;">0</strong> purchases automatically executed • <strong id="trendUsers" style="color:#fff;">0</strong> active sellers</span>
     </div>
 
-    <p class="stats-footer-text" id="statsUpdateFreqText" style="display: none;">📡 Updated hourly from live database logs</p>
+    <div class="stats-footer-container">
+      <span class="stats-footer-text" id="statsUpdateFreqText" style="display: none;">Updated hourly from live database logs</span>
+    </div>
 
     <!-- Hero Title -->
     <div class="hero-container" style="margin-top: 10px;">
@@ -1702,8 +1741,8 @@
 
       const textEl = document.getElementById('statsUpdateFreqText');
       if (textEl) {
-        textEl.textContent = `📡 ${text} from live database logs`;
-        textEl.style.display = 'block';
+        textEl.textContent = `${text} from live database logs`;
+        textEl.style.display = 'inline-flex';
       }
     }
 
