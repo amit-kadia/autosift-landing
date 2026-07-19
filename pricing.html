@@ -1034,7 +1034,7 @@
       border-color: rgba(99, 102, 241, 0.5);
     }
     .accordion-section.active .accordion-icon {
-      transform: rotate(180deg);
+      transform: rotate(90deg);
     }
     .accordion-section.active .accordion-content {
       padding: 24px;
@@ -1112,17 +1112,18 @@
     .faq-answer {
       max-height: 0;
       overflow: hidden;
-      transition: max-height 0.3s ease, padding 0.3s ease;
+      transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1), padding 0.3s ease;
       color: var(--text-muted);
       font-size: 14px;
-      line-height: 1.6;
+      line-height: 1.65;
       border-top: 1px solid transparent;
+      box-sizing: border-box;
     }
     .faq-item.active .faq-question {
       color: var(--primary);
     }
     .faq-item.active .faq-answer {
-      padding: 16px 20px;
+      padding: 16px 20px 20px 20px;
       border-top-color: var(--border);
     }
 
@@ -1521,7 +1522,7 @@
     <div class="accordion-section" id="accordionComparison">
       <div class="accordion-header" onclick="toggleAccordion('accordionComparison')">
         <span class="accordion-title">📊 Compare Features Side-by-Side</span>
-        <span class="accordion-icon">▼</span>
+        <span class="accordion-icon">▶</span>
       </div>
       <div class="accordion-content">
         <div class="comparison-table-wrapper">
@@ -1589,7 +1590,7 @@
     <div class="accordion-section" id="accordionFAQ">
       <div class="accordion-header" onclick="toggleAccordion('accordionFAQ')">
         <span class="accordion-title">❓ Frequently Asked Questions</span>
-        <span class="accordion-icon">▼</span>
+        <span class="accordion-icon">▶</span>
       </div>
       <div class="accordion-content">
         <div class="faq-list">
@@ -2313,7 +2314,8 @@
 
         faqItem.classList.add('active');
         if (content) {
-          content.style.maxHeight = content.scrollHeight + 'px';
+          // Include vertical padding buffer so answer text is never clipped
+          content.style.maxHeight = (content.scrollHeight + 60) + 'px';
         }
         if (icon) icon.textContent = '-';
       }
