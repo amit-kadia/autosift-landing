@@ -704,13 +704,56 @@
       margin: 0 auto;
     }
     .last-7d-badge {
-      background: var(--primary);
-      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 71, 87, 0.1);
+      border: 1px solid rgba(255, 71, 87, 0.25);
+      color: #ff6b81;
       font-size: 10px;
       font-weight: 700;
-      padding: 2px 6px;
-      border-radius: 10px;
+      padding: 3px 8px 3px 6px;
+      border-radius: 12px;
       text-transform: uppercase;
+      letter-spacing: 0.5px;
+      position: relative;
+    }
+    .last-7d-badge::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #ff4757;
+      box-shadow: 0 0 6px rgba(255, 71, 87, 0.6);
+      flex-shrink: 0;
+      position: relative;
+      z-index: 2;
+    }
+    .last-7d-badge::after {
+      content: '';
+      position: absolute;
+      left: 6px;
+      top: 50%;
+      transform: translateY(-50%) scale(1);
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      border: 1px solid #ff4757;
+      opacity: 1;
+      animation: ripple-wave 2s infinite cubic-bezier(0.25, 0, 0, 1);
+      pointer-events: none;
+      z-index: 1;
+    }
+    @keyframes ripple-wave {
+      0% {
+        transform: translateY(-50%) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-50%) scale(3.5);
+        opacity: 0;
+      }
     }
 
     .stats-footer-text {
