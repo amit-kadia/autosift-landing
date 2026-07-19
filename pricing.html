@@ -19,6 +19,7 @@
       --bg-card: #131b2e;
       --bg-card-hover: #1c2742;
       --primary: #6366f1;
+      --primary-hover: #4f46e5;
       --primary-glow: rgba(99, 102, 241, 0.4);
       --primary-gradient: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
       --success: #10b981;
@@ -154,24 +155,35 @@
 
     /* FOMO / Launch Offer Banner */
     .fomo-banner {
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(16, 185, 129, 0.05) 100%);
-      border: 1px solid rgba(99, 102, 241, 0.3);
-      border-radius: var(--radius-md);
-      padding: 16px;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.25) 0%, rgba(16, 185, 129, 0.15) 100%);
+      border: 2px solid rgba(99, 102, 241, 0.4);
+      border-radius: var(--radius-lg);
+      padding: 18px 24px;
       text-align: center;
-      margin-bottom: 40px;
-      font-weight: 600;
+      margin: 15px auto 35px;
+      max-width: 800px;
+      font-size: 18px;
+      font-weight: 700;
       color: #fff;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
-      animation: pulseBorder 3s infinite alternate;
+      gap: 12px;
+      box-shadow: 0 0 20px rgba(99, 102, 241, 0.2);
+      animation: pulseGlow 3s infinite ease-in-out;
     }
 
-    @keyframes pulseBorder {
-      0% { border-color: rgba(99, 102, 241, 0.3); }
-      100% { border-color: rgba(16, 185, 129, 0.5); }
+    @keyframes pulseGlow {
+      0%, 100% {
+        box-shadow: 0 0 15px rgba(99, 102, 241, 0.15);
+        border-color: rgba(99, 102, 241, 0.4);
+        transform: scale(1);
+      }
+      50% {
+        box-shadow: 0 0 25px rgba(16, 185, 129, 0.35);
+        border-color: rgba(16, 185, 129, 0.6);
+        transform: scale(1.01);
+      }
     }
 
     /* Panels & Account Info */
@@ -381,6 +393,17 @@
       border-radius: 20px;
       letter-spacing: 0.5px;
       box-shadow: 0 4px 10px rgba(99, 102, 241, 0.4);
+      animation: badgePulse 2s infinite ease-in-out;
+    }
+    @keyframes badgePulse {
+      0%, 100% {
+        transform: translateX(-50%) scale(1);
+        box-shadow: 0 4px 10px rgba(99, 102, 241, 0.4);
+      }
+      50% {
+        transform: translateX(-50%) scale(1.05);
+        box-shadow: 0 6px 15px rgba(99, 102, 241, 0.6);
+      }
     }
     .plan-name {
       font-family: 'Outfit', sans-serif;
@@ -824,6 +847,20 @@
       background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
       box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
     }
+    .pricing-card.highlighted-plan#cardYearly .btn-checkout {
+      animation: btnRippleGlow 2s infinite ease-in-out;
+    }
+    @keyframes btnRippleGlow {
+      0% {
+        box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.5), 0 4px 15px rgba(99, 102, 241, 0.3);
+      }
+      70% {
+        box-shadow: 0 0 0 12px rgba(99, 102, 241, 0), 0 4px 15px rgba(99, 102, 241, 0.3);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(99, 102, 241, 0), 0 4px 15px rgba(99, 102, 241, 0.3);
+      }
+    }
 
     /* GST Notice */
     .gst-notice {
@@ -1201,10 +1238,7 @@
       <button onclick="signOut()" style="background: #ef4444; color: #fff; border: none; padding: 8px 16px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.2s; white-space: nowrap;" onmouseover="this.style.background='#dc2626'" onmouseout="this.style.background='#ef4444'">Sign Out & Switch</button>
     </div>
 
-    <!-- Urgency / Founding Supporter Banner -->
-    <div id="fomoBanner" class="fomo-banner" style="display: none;">
-      <span id="fomoBannerText">🎉 Special Launch Offer — Be One of Our Founding 100 Supporters</span>
-    </div>
+    <!-- Urgency / Founding Supporter Banner Moved below toggle -->
 
     <!-- Live Social Proof Stats Bar -->
     <div class="live-stats-bar" id="liveStatsBar">
@@ -1270,6 +1304,11 @@
       </div>
     </div>
 
+    <!-- Urgency / Founding Supporter Banner -->
+    <div id="fomoBanner" class="fomo-banner" style="display: none;">
+      <span id="fomoBannerText">🎉 Special Launch Offer — Be One of Our Founding 100 Supporters</span>
+    </div>
+
     <!-- Pricing Grid -->
     <div class="pricing-grid">
       <!-- Free Forever Card -->
@@ -1306,7 +1345,7 @@
 
       <!-- Pro Monthly Card -->
       <div class="pricing-card" id="cardMonthly">
-        <span class="popular-badge" id="badgeMonthly" style="display: none;">RECOMMENDED</span>
+        <span class="popular-badge" id="badgeMonthly" style="display: none;">50% OFF LAUNCH DEAL</span>
         <div class="plan-name">PRO Monthly</div>
         <div class="plan-description">Get instant access to unlimited lead automation billed month-to-month.</div>
         <div class="plan-price-box">
@@ -1341,7 +1380,7 @@
 
       <!-- Pro Yearly Card (Highlighted by Default) -->
       <div class="pricing-card popular highlighted-plan" id="cardYearly">
-        <span class="popular-badge" id="badgeYearly">BEST VALUE</span>
+        <span class="popular-badge" id="badgeYearly">50% OFF LAUNCH SPECIAL</span>
         <div class="plan-name">PRO Yearly</div>
         <div class="plan-description">Best for dedicated export sellers. Save 17% and get dedicated priority support.</div>
         <div class="plan-price-box">
@@ -1898,7 +1937,7 @@
           fomoBannerText.textContent = `🎉 Launch Offer — Only ${remaining} of 100 Founding Supporter Spots Remaining!`;
           fomoBanner.style.display = 'flex';
         } else {
-          fomoBannerText.textContent = "🎉 Special Launch Offer — Be One of Our Founding 100 Supporters";
+          fomoBannerText.textContent = "🎉 Special Launch Offer: Get 50% Off as One of Our Founding 100 Supporters";
           fomoBanner.style.display = 'flex';
         }
       } catch (e) {
