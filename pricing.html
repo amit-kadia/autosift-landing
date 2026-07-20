@@ -1437,7 +1437,7 @@
             🔒 Locked Price & Qty Ignore Filters
           </li>
         </ul>
-        <a href="index.html" class="btn-checkout" style="background: rgba(255, 255, 255, 0.05); color: #fff; border: 1px solid var(--border); text-decoration: none; margin-bottom: 12px; display: block; text-align: center; line-height: 24px;">
+        <a href="signup.html" id="btnFreePlan" class="btn-checkout" style="background: rgba(255, 255, 255, 0.05); color: #fff; border: 1px solid var(--border); text-decoration: none; margin-bottom: 12px; display: block; text-align: center; line-height: 24px; transition: var(--transition);">
           Get Started Free
         </a>
 
@@ -2262,10 +2262,37 @@
     }
 
     function updatePricingButtons(profile) {
+      const btnFreePlan = document.getElementById('btnFreePlan');
       const btnMonthly = document.getElementById('btnBuyMonthly');
       const btnYearly = document.getElementById('btnBuyYearly');
       const microMonthly = document.getElementById('microcopyMonthly');
       const microYearly = document.getElementById('microcopyYearly');
+
+      // Update FREE Plan Card Button based on user state
+      if (btnFreePlan) {
+        if (!currentUser) {
+          // Guest User: Direct to signup.html
+          btnFreePlan.textContent = 'Get Started Free';
+          btnFreePlan.href = 'signup.html';
+          btnFreePlan.style.pointerEvents = 'auto';
+          btnFreePlan.style.opacity = '1';
+          btnFreePlan.style.cursor = 'pointer';
+        } else if (profile && profile.plan_type === 'pro') {
+          // PRO Plan Active User
+          btnFreePlan.textContent = 'Included in PRO';
+          btnFreePlan.removeAttribute('href');
+          btnFreePlan.style.pointerEvents = 'none';
+          btnFreePlan.style.opacity = '0.5';
+          btnFreePlan.style.cursor = 'default';
+        } else {
+          // Logged-in FREE Plan User
+          btnFreePlan.textContent = '✓ Current Plan';
+          btnFreePlan.removeAttribute('href');
+          btnFreePlan.style.pointerEvents = 'none';
+          btnFreePlan.style.opacity = '0.65';
+          btnFreePlan.style.cursor = 'default';
+        }
+      }
 
       // Trial eligible if profile is guest (null), or plan_type is free and trial_claimed_at is null
       const isTrialEligible = !profile || (profile.plan_type === 'free' && !profile.trial_claimed_at);
