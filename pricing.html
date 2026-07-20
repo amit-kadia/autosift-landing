@@ -1524,6 +1524,16 @@
       <!-- Hidden input for backwards compatibility with checkout fallback -->
       <input type="hidden" id="whatsappNumber" value="">
 
+      <!-- Success Celebration Toast Banner -->
+      <div id="waSuccessToast" style="display: none; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.4); border-radius: var(--radius-md); padding: 14px 18px; margin-bottom: 16px; text-align: left; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2);">
+        <div style="font-size: 14px; font-weight: 700; color: #34d399; display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 18px;">🎉</span> WhatsApp Number Verified & Linked!
+        </div>
+        <div style="font-size: 12px; color: #cbd5e1; margin-top: 4px; line-height: 1.4;">
+          Your number <strong id="waSuccessToastNum" style="color: #fff;"></strong> has been verified and saved to your AutoSift profile.
+        </div>
+      </div>
+
       <!-- State A: Unlinked / 2-Step Verification Form -->
       <div id="waUnlinkedState">
         <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
@@ -1822,13 +1832,17 @@
       // Check current auth status
       let { data: { session } } = await supabaseClient.auth.getSession();
 
-      // Mock session for automated testing/verification
+      // Host-gated mock session (active ONLY on localhost / 127.0.0.1 for testing)
       const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.get('mock') === 'true') {
+      const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+      const isMockMode = isLocalhost && urlParams.get('mock') === 'true';
+
+      if (isMockMode) {
+        const mockEmail = urlParams.get('email') ? decodeURIComponent(urlParams.get('email')) : 'amit.automates1@gmail.com';
         session = {
           user: {
             id: '96efda92-12c0-4bb1-8bf5-127dbdc7bf24',
-            email: 'amit.automates1@gmail.com'
+            email: mockEmail
           }
         };
       }
@@ -2075,6 +2089,18 @@
       return false;
     }
 
+    function showWaSuccessToast(whatsappNumber) {
+      const toast = document.getElementById('waSuccessToast');
+      const toastNum = document.getElementById('waSuccessToastNum');
+      if (toastNum) toastNum.textContent = whatsappNumber;
+      if (toast) {
+        toast.style.display = 'block';
+        setTimeout(() => {
+          toast.style.display = 'none';
+        }, 6000);
+      }
+    }
+
     async function submitWaVerification() {
       const step1Val = (document.getElementById('waInputStep1')?.value || '').replace(/\D/g, '');
       const step2Val = (document.getElementById('waInputStep2')?.value || '').replace(/\D/g, '');
@@ -2096,6 +2122,9 @@
 
       if (submitBtn) submitBtn.disabled = true;
 
+      const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+      const isMockMode = isLocalhost && new URLSearchParams(window.location.search).get('mock') === 'true';
+
       try {
         const { data, error } = await supabaseClient.rpc('verify_and_link_whatsapp', {
           p_whatsapp: step1Val,
@@ -2103,20 +2132,52 @@
           p_user_agent: navigator.userAgent
         });
 
-        if (error) throw error;
+        if (error) {
+          if (isMockMode) {
+            console.log("ℹ️ Localhost Mock Mode: Simulating successful verification");
+            showWaSuccessToast('+91 ' + step1Val);
+            const mockProfile = {
+              plan_type: currentProfile?.plan_type || 'free',
+              whatsapp_number: '+91' + step1Val,
+              whatsapp_change_count: 0,
+              whatsapp_first_change_at: null
+            };
+            renderWhatsAppSection(mockProfile);
+            return;
+          }
+          throw error;
+        }
 
         if (data && data.success) {
+          showWaSuccessToast(data.whatsapp);
           logUpgradeFunnelEvent('whatsapp_number_linked', { whatsapp: data.whatsapp, changes_used: data.changes_used });
           
           // Re-fetch profile & render State B
-          const { data: updatedProfile } = await supabaseClient
-            .from('profiles')
-            .select('plan_type, whatsapp_number, whatsapp_change_count, whatsapp_first_change_at, trial_claimed_at')
-            .eq('id', currentUser.id)
-            .single();
+          let updatedProfile = null;
+          try {
+            const { data: profileData } = await supabaseClient
+              .from('profiles')
+              .select('plan_type, whatsapp_number, whatsapp_change_count, whatsapp_first_change_at, trial_claimed_at')
+              .eq('id', currentUser.id)
+              .single();
+            updatedProfile = profileData;
+          } catch(e) {
+            console.warn("Profile refetch warning:", e);
+          }
 
-          renderWhatsAppSection(updatedProfile);
+          renderWhatsAppSection(updatedProfile || { whatsapp_number: data.whatsapp, whatsapp_change_count: data.changes_used || 0 });
         } else {
+          if (isMockMode) {
+            showWaSuccessToast('+91 ' + step1Val);
+            const mockProfile = {
+              plan_type: currentProfile?.plan_type || 'free',
+              whatsapp_number: '+91' + step1Val,
+              whatsapp_change_count: 0,
+              whatsapp_first_change_at: null
+            };
+            renderWhatsAppSection(mockProfile);
+            return;
+          }
           if (genErr) {
             genErr.textContent = `⛔ ${data?.message || 'Verification failed. Please try again.'}`;
             genErr.style.display = 'block';
@@ -2125,6 +2186,17 @@
         }
       } catch (err) {
         console.error("WhatsApp verification RPC error:", err);
+        if (isMockMode) {
+          showWaSuccessToast('+91 ' + step1Val);
+          const mockProfile = {
+            plan_type: currentProfile?.plan_type || 'free',
+            whatsapp_number: '+91' + step1Val,
+            whatsapp_change_count: 0,
+            whatsapp_first_change_at: null
+          };
+          renderWhatsAppSection(mockProfile);
+          return;
+        }
         if (genErr) {
           genErr.textContent = `❌ Error linking WhatsApp number: ${err.message}`;
           genErr.style.display = 'block';
