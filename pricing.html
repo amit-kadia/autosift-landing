@@ -1519,13 +1519,96 @@
 
 
 
-    <!-- Optional WhatsApp Number field (Shown only when logged in) -->
-    <div class="whatsapp-section" id="whatsappSection" style="display: none;">
-      <label for="whatsappNumber" class="whatsapp-label">WhatsApp Number (optional)</label>
-      <div class="whatsapp-input-group">
-        <input type="text" id="whatsappNumber" class="whatsapp-input" placeholder="+91 98765 43210">
+    <!-- WhatsApp 2-Step Verification & Number Management Section -->
+    <div class="whatsapp-section" id="whatsappSection" style="display: none; max-width: 540px; margin: 40px auto 20px;">
+      <!-- Hidden input for backwards compatibility with checkout fallback -->
+      <input type="hidden" id="whatsappNumber" value="">
+
+      <!-- State A: Unlinked / 2-Step Verification Form -->
+      <div id="waUnlinkedState">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+          <label class="whatsapp-label" style="margin: 0; display: flex; align-items: center; gap: 8px; font-size: 15px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            Link Your WhatsApp Number
+          </label>
+          <span style="font-size: 11px; color: #34d399; background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.3); padding: 3px 10px; border-radius: 12px; font-weight: 600;">2-Step Manual Verification</span>
+        </div>
+        
+        <p class="whatsapp-subtext" style="margin-bottom: 14px; color: var(--text-muted); font-size: 13px;">Receive priority updates, account recovery, and direct support via WhatsApp 💬</p>
+
+        <!-- DPDPA Consent Checkbox -->
+        <div style="margin-bottom: 16px; display: flex; align-items: flex-start; gap: 10px; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px;">
+          <input type="checkbox" id="waConsentCheck" style="margin-top: 3px; cursor: pointer; accent-color: var(--primary); width: 16px; height: 16px;">
+          <label for="waConsentCheck" style="font-size: 12px; color: #cbd5e1; cursor: pointer; line-height: 1.45;">
+            I agree to share my WhatsApp number for account verification, order updates, and priority customer support (DPDPA 2023 Compliant).
+          </label>
+        </div>
+
+        <!-- Step 1: Input primary number -->
+        <div id="waStep1Box" style="margin-bottom: 12px;">
+          <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 6px; font-weight: 600;">Step 1: Enter 10-Digit Mobile Number</label>
+          <div class="whatsapp-input-group">
+            <span style="background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border); border-right: none; padding: 12px 14px; border-radius: var(--radius-md) 0 0 var(--radius-md); color: #fff; font-weight: 600; font-size: 14px; display: flex; align-items: center; gap: 4px;">🇮🇳 +91</span>
+            <input type="tel" id="waInputStep1" class="whatsapp-input" maxlength="10" placeholder="98765 43210" style="border-radius: 0 var(--radius-md) var(--radius-md) 0;">
+            <button type="button" id="btnWaNextStep" onclick="handleWaStep1Next()" style="background: var(--primary-gradient); color: white; border: none; padding: 0 20px; border-radius: var(--radius-md); font-weight: 600; cursor: pointer; white-space: nowrap;">Continue →</button>
+          </div>
+        </div>
+
+        <!-- Step 2: Confirm number (Copy-paste blocked) -->
+        <div id="waStep2Box" style="display: none; margin-bottom: 12px; background: rgba(99, 102, 241, 0.05); border: 1px solid rgba(99, 102, 241, 0.2); border-radius: var(--radius-md); padding: 14px;">
+          <label style="font-size: 12px; color: #a5b4fc; display: block; margin-bottom: 6px; font-weight: 600;">🔒 Step 2: Re-type Number to Confirm (Copy-Paste Disabled)</label>
+          <div class="whatsapp-input-group">
+            <span style="background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border); border-right: none; padding: 12px 14px; border-radius: var(--radius-md) 0 0 var(--radius-md); color: #fff; font-weight: 600; font-size: 14px; display: flex; align-items: center; gap: 4px;">🇮🇳 +91</span>
+            <input type="tel" id="waInputStep2" class="whatsapp-input" maxlength="10" placeholder="Re-type 10-digit number" onpaste="return handleWaPasteBlocked(event);" style="border-radius: 0 var(--radius-md) var(--radius-md) 0;">
+            <button type="button" id="btnWaSubmit" onclick="submitWaVerification()" style="background: #10b981; color: white; border: none; padding: 0 20px; border-radius: var(--radius-md); font-weight: 600; cursor: pointer; white-space: nowrap;">Verify & Link ✓</button>
+          </div>
+          <span id="waStep2Error" style="display: none; color: #ef4444; font-size: 12px; margin-top: 8px; font-weight: 500;"></span>
+        </div>
+
+        <span id="waGeneralError" style="display: none; color: #ef4444; font-size: 12px; margin-top: 8px; font-weight: 500; text-align: left;"></span>
       </div>
-      <p class="whatsapp-subtext">Used to link support access, send priority updates, and resolve payment errors on WhatsApp 💬</p>
+
+      <!-- State B: Linked State (Emerald Glassmorphism Badge + Request Change Button) -->
+      <div id="waLinkedState" style="display: none;">
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: var(--radius-md); padding: 16px;">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <div style="width: 38px; height: 38px; border-radius: 50%; background: rgba(16, 185, 129, 0.2); display: flex; align-items: center; justify-content: center; color: #10b981; font-size: 18px; font-weight: bold;">✓</div>
+            <div>
+              <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: #34d399; font-weight: 700;">WhatsApp Account Linked</div>
+              <div id="waLinkedDisplayNumber" style="font-size: 16px; font-weight: 700; color: #fff; margin-top: 2px;">+91 ••••• •••••</div>
+            </div>
+          </div>
+
+          <button type="button" onclick="openWaChangeModal()" style="background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border); color: #cbd5e1; font-size: 12px; font-weight: 600; padding: 8px 14px; border-radius: 6px; cursor: pointer; transition: var(--transition);" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'">
+            🔒 Request Number Change
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Number Change Modal (Modal Dialog) -->
+    <div id="waChangeModal" class="overlay-screen" style="display: none;">
+      <div class="overlay-modal" style="max-width: 440px; text-align: left;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+          <h3 style="font-family: 'Outfit', sans-serif; font-size: 20px; font-weight: 700; color: #fff; margin: 0;">Request Number Change</h3>
+          <button onclick="closeWaChangeModal()" style="background: none; border: none; color: var(--text-muted); font-size: 20px; cursor: pointer;">✕</button>
+        </div>
+
+        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px; line-height: 1.5;">
+          To protect account security and prevent WhatsApp abuse, number changes are reviewed by support.
+        </p>
+
+        <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border); border-radius: 8px; padding: 14px; margin-bottom: 20px;">
+          <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">Changes Used This Year:</div>
+          <div style="font-size: 14px; font-weight: 700; color: #fff;" id="waChangeModalCount">0 of 3 changes used</div>
+          <div style="font-size: 11px; color: #34d399; margin-top: 4px;" id="waChangeModalReset">Resets 12 months after first change</div>
+        </div>
+
+        <div style="display: flex; gap: 12px; justify-content: flex-end;">
+          <button onclick="closeWaChangeModal()" style="background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border); color: #fff; padding: 10px 18px; border-radius: 8px; font-weight: 600; cursor: pointer;">Cancel</button>
+          <button onclick="sendWaChangeEmail()" style="background: var(--primary-gradient); color: #fff; border: none; padding: 10px 18px; border-radius: 8px; font-weight: 600; cursor: pointer;">Open Gmail Draft →</button>
+        </div>
+      </div>
     </div>
 
     <!-- Trust Badges Section -->
@@ -1849,30 +1932,260 @@
         try {
           const { data: profile } = await supabaseClient
             .from('profiles')
-            .select('plan_type, whatsapp_number, trial_claimed_at')
+            .select('plan_type, whatsapp_number, whatsapp_change_count, whatsapp_first_change_at, trial_claimed_at')
             .eq('id', currentUser.id)
             .maybeSingle();
 
           if (profile) {
-            // Prefill WhatsApp field
-            const waInput = document.getElementById('whatsappNumber');
-            if (waInput && profile.whatsapp_number) {
-              waInput.value = profile.whatsapp_number;
-            }
+            renderWhatsAppSection(profile);
             updatePricingButtons(profile);
           } else {
+            renderWhatsAppSection(null);
             updatePricingButtons(null);
           }
         } catch (err) {
           console.warn("Error loading user profile:", err);
+          renderWhatsAppSection(null);
           updatePricingButtons(null);
         }
       } else {
         currentUser = null;
         if (headerAuthStatus) headerAuthStatus.style.display = 'none';
         if (whatsappSection) whatsappSection.style.display = 'none';
+        renderWhatsAppSection(null);
         updatePricingButtons(null);
         if (mismatchBanner) mismatchBanner.style.display = 'none';
+      }
+    }
+
+    // WhatsApp Verification Logic & Helpers
+    let currentProfile = null;
+
+    function renderWhatsAppSection(profile) {
+      currentProfile = profile;
+      const whatsappSection = document.getElementById('whatsappSection');
+      const waUnlinkedState = document.getElementById('waUnlinkedState');
+      const waLinkedState = document.getElementById('waLinkedState');
+      const waLinkedDisplayNumber = document.getElementById('waLinkedDisplayNumber');
+      const hiddenWaInput = document.getElementById('whatsappNumber');
+
+      if (!whatsappSection) return;
+
+      if (profile && profile.whatsapp_number) {
+        // State B: Linked
+        if (hiddenWaInput) hiddenWaInput.value = profile.whatsapp_number;
+        
+        const num = profile.whatsapp_number;
+        const last4 = num.slice(-4);
+        if (waLinkedDisplayNumber) {
+          waLinkedDisplayNumber.textContent = `+91 ••••• ${last4}`;
+        }
+        
+        if (waUnlinkedState) waUnlinkedState.style.display = 'none';
+        if (waLinkedState) waLinkedState.style.display = 'block';
+      } else {
+        // State A: Unlinked
+        if (hiddenWaInput) hiddenWaInput.value = '';
+        if (waUnlinkedState) waUnlinkedState.style.display = 'block';
+        if (waLinkedState) waLinkedState.style.display = 'none';
+      }
+    }
+
+    function checkWaRateLimit() {
+      try {
+        const now = Date.now();
+        const attempts = JSON.parse(sessionStorage.getItem('wa_rate_limit') || '{"count": 0, "timestamp": 0}');
+        if (now - attempts.timestamp > 3600000) { // 1 hour window
+          sessionStorage.setItem('wa_rate_limit', JSON.stringify({ count: 1, timestamp: now }));
+          return { allowed: true };
+        }
+        if (attempts.count >= 5) {
+          return { allowed: false, error: 'Too many verification attempts (5 max per hour). Please try again later.' };
+        }
+        attempts.count += 1;
+        sessionStorage.setItem('wa_rate_limit', JSON.stringify(attempts));
+        return { allowed: true };
+      } catch (e) {
+        return { allowed: true };
+      }
+    }
+
+    function handleWaStep1Next() {
+      const consentCheck = document.getElementById('waConsentCheck');
+      const genErr = document.getElementById('waGeneralError');
+      const step1Input = document.getElementById('waInputStep1');
+      const step2Box = document.getElementById('waStep2Box');
+      const step2Input = document.getElementById('waInputStep2');
+
+      if (genErr) genErr.style.display = 'none';
+
+      if (!consentCheck || !consentCheck.checked) {
+        if (genErr) {
+          genErr.textContent = '⚠️ Please check the DPDPA consent box to proceed with WhatsApp verification.';
+          genErr.style.display = 'block';
+        }
+        return;
+      }
+
+      const rateCheck = checkWaRateLimit();
+      if (!rateCheck.allowed) {
+        if (genErr) {
+          genErr.textContent = `⛔ ${rateCheck.error}`;
+          genErr.style.display = 'block';
+        }
+        return;
+      }
+
+      const cleanNum = (step1Input ? step1Input.value : '').replace(/\D/g, '');
+      if (cleanNum.length !== 10 || !/^[6-9]\d{9}$/.test(cleanNum)) {
+        if (genErr) {
+          genErr.textContent = '❌ Please enter a valid 10-digit Indian mobile number starting with 6, 7, 8, or 9.';
+          genErr.style.display = 'block';
+        }
+        return;
+      }
+
+      // Check dummy numbers
+      if (/^(\d)\1{9}$/.test(cleanNum) || ['1234567890', '9876543210', '0123456789'].includes(cleanNum)) {
+        if (genErr) {
+          genErr.textContent = '❌ Invalid mobile number. Please enter your real 10-digit WhatsApp number.';
+          genErr.style.display = 'block';
+        }
+        return;
+      }
+
+      // Log telemetry event
+      logUpgradeFunnelEvent('whatsapp_step1_completed', { number_masked: cleanNum.substring(0, 3) + '••••' + cleanNum.substring(6) });
+
+      if (step2Box) step2Box.style.display = 'block';
+      if (step2Input) {
+        step2Input.value = '';
+        step2Input.focus();
+      }
+    }
+
+    function handleWaPasteBlocked(e) {
+      e.preventDefault();
+      const errEl = document.getElementById('waStep2Error');
+      if (errEl) {
+        errEl.textContent = '⛔ Copy-paste is disabled for verification. Please manually type your 10-digit number to ensure accuracy.';
+        errEl.style.display = 'block';
+      }
+      logUpgradeFunnelEvent('whatsapp_paste_blocked', { entry_point: 'pricing_page' });
+      return false;
+    }
+
+    async function submitWaVerification() {
+      const step1Val = (document.getElementById('waInputStep1')?.value || '').replace(/\D/g, '');
+      const step2Val = (document.getElementById('waInputStep2')?.value || '').replace(/\D/g, '');
+      const errEl = document.getElementById('waStep2Error');
+      const genErr = document.getElementById('waGeneralError');
+      const submitBtn = document.getElementById('btnWaSubmit');
+
+      if (errEl) errEl.style.display = 'none';
+      if (genErr) genErr.style.display = 'none';
+
+      if (step1Val !== step2Val) {
+        if (errEl) {
+          errEl.textContent = '❌ Confirmation number does not match Step 1. Please re-check and type carefully.';
+          errEl.style.display = 'block';
+        }
+        logUpgradeFunnelEvent('whatsapp_step2_mismatch', { entry_point: 'pricing_page' });
+        return;
+      }
+
+      if (submitBtn) submitBtn.disabled = true;
+
+      try {
+        const { data, error } = await supabaseClient.rpc('verify_and_link_whatsapp', {
+          p_whatsapp: step1Val,
+          p_source: 'pricing_page',
+          p_user_agent: navigator.userAgent
+        });
+
+        if (error) throw error;
+
+        if (data && data.success) {
+          logUpgradeFunnelEvent('whatsapp_number_linked', { whatsapp: data.whatsapp, changes_used: data.changes_used });
+          
+          // Re-fetch profile & render State B
+          const { data: updatedProfile } = await supabaseClient
+            .from('profiles')
+            .select('plan_type, whatsapp_number, whatsapp_change_count, whatsapp_first_change_at, trial_claimed_at')
+            .eq('id', currentUser.id)
+            .single();
+
+          renderWhatsAppSection(updatedProfile);
+        } else {
+          if (genErr) {
+            genErr.textContent = `⛔ ${data?.message || 'Verification failed. Please try again.'}`;
+            genErr.style.display = 'block';
+          }
+          logUpgradeFunnelEvent('whatsapp_verification_failed', { message: data?.message });
+        }
+      } catch (err) {
+        console.error("WhatsApp verification RPC error:", err);
+        if (genErr) {
+          genErr.textContent = `❌ Error linking WhatsApp number: ${err.message}`;
+          genErr.style.display = 'block';
+        }
+      } finally {
+        if (submitBtn) submitBtn.disabled = false;
+      }
+    }
+
+    function openWaChangeModal() {
+      const modal = document.getElementById('waChangeModal');
+      const countEl = document.getElementById('waChangeModalCount');
+      const resetEl = document.getElementById('waChangeModalReset');
+
+      const used = currentProfile?.whatsapp_change_count || 0;
+      if (countEl) countEl.textContent = `${used} of 3 changes used this year`;
+      
+      if (resetEl && currentProfile?.whatsapp_first_change_at) {
+        const date = new Date(currentProfile.whatsapp_first_change_at);
+        date.setFullYear(date.getFullYear() + 1);
+        resetEl.textContent = `Resets on ${date.toLocaleDateString('en-IN', { month: 'short', day: 'numeric', year: 'numeric' })}`;
+      }
+
+      if (modal) modal.style.display = 'flex';
+      logUpgradeFunnelEvent('whatsapp_change_modal_shown', { changes_used: used });
+    }
+
+    function closeWaChangeModal() {
+      const modal = document.getElementById('waChangeModal');
+      if (modal) modal.style.display = 'none';
+    }
+
+    function sendWaChangeEmail() {
+      closeWaChangeModal();
+      logUpgradeFunnelEvent('whatsapp_change_gmail_opened', { user_email: currentUser?.email });
+
+      const email = currentUser?.email || 'N/A';
+      const currentWa = currentProfile?.whatsapp_number || 'N/A';
+      const used = currentProfile?.whatsapp_change_count || 0;
+
+      const subject = encodeURIComponent(`WhatsApp Number Change Request — ${email}`);
+      const body = encodeURIComponent(
+        `Hi AutoSift Support,\n\nI would like to request a change for my registered WhatsApp number.\n\nAccount Details:\n- Email: ${email}\n- Current WhatsApp: ${currentWa}\n- Changes Used This Year: ${used} of 3\n\nNew WhatsApp Number: +91 [Enter New Number Here]\nReason for Change: [Enter Reason Here]\n\nThank you!`
+      );
+
+      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=autosiftindia+support@gmail.com&su=${subject}&body=${body}`;
+      window.open(gmailUrl, '_blank');
+    }
+
+    async function logUpgradeFunnelEvent(eventType, metadata = {}) {
+      if (!currentUser) return;
+      try {
+        await supabaseClient
+          .from('upgrade_funnel_events')
+          .insert({
+            user_id: currentUser.id,
+            event_type: eventType,
+            metadata: { ...metadata, source: 'pricing_page' }
+          });
+      } catch (e) {
+        console.warn("Telemetry error:", e);
       }
     }
 
