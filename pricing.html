@@ -492,6 +492,24 @@
       border: 1px solid var(--border);
       cursor: not-allowed;
     }
+    .btn-secondary-ghost {
+      background: rgba(255, 255, 255, 0.05) !important;
+      color: #cbd5e1 !important;
+      border: 1px solid var(--border) !important;
+      box-shadow: none !important;
+      animation: none !important;
+    }
+    .btn-secondary-ghost:hover {
+      background: rgba(255, 255, 255, 0.1) !important;
+      border-color: rgba(255, 255, 255, 0.2) !important;
+      color: #fff !important;
+    }
+    .btn-primary-gradient {
+      background: var(--primary-gradient) !important;
+      color: #fff !important;
+      border: none !important;
+      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4) !important;
+    }
 
     /* Modal / Overlay Gating */
     .overlay-screen {
@@ -1452,7 +1470,7 @@
             Unlocked Price & Qty Ignore Toggles
           </li>
         </ul>
-        <button id="btnBuyMonthly" class="btn-checkout" onclick="handleCardClick('monthly')">
+        <button id="btnBuyMonthly" class="btn-checkout btn-secondary-ghost" onclick="handleCardClick('monthly')">
           Subscribe Monthly
         </button>
         <span class="trial-microcopy" id="microcopyMonthly" style="display: block; color: var(--text-muted); text-align: center; font-size: 11px; margin-top: 8px; font-weight: 500;">🔒 Secure payment via Razorpay</span>
@@ -1489,7 +1507,7 @@
             Dedicated WhatsApp & Call Support
           </li>
         </ul>
-        <button id="btnBuyYearly" class="btn-checkout" onclick="handleCardClick('yearly')">
+        <button id="btnBuyYearly" class="btn-checkout btn-primary-gradient" onclick="handleCardClick('yearly')">
           Subscribe Yearly
         </button>
         <span class="trial-microcopy" id="microcopyYearly" style="display: block; color: var(--text-muted); text-align: center; font-size: 11px; margin-top: 8px; font-weight: 500;">🔒 Secure payment via Razorpay</span>
@@ -2245,6 +2263,9 @@
       const badgeMonthly = document.getElementById('badgeMonthly');
       const badgeYearly = document.getElementById('badgeYearly');
 
+      const btnBuyMonthly = document.getElementById('btnBuyMonthly');
+      const btnBuyYearly = document.getElementById('btnBuyYearly');
+
       if (period === 'monthly') {
         toggleWrapper.classList.remove('yearly-active');
         toggleMonthlyBtn.classList.add('active');
@@ -2256,6 +2277,16 @@
 
         if (badgeMonthly) badgeMonthly.style.display = 'block';
         if (badgeYearly) badgeYearly.style.display = 'none';
+
+        // Update button styles: Monthly active, Yearly ghost
+        if (btnBuyMonthly) {
+          btnBuyMonthly.classList.add('btn-primary-gradient');
+          btnBuyMonthly.classList.remove('btn-secondary-ghost');
+        }
+        if (btnBuyYearly) {
+          btnBuyYearly.classList.add('btn-secondary-ghost');
+          btnBuyYearly.classList.remove('btn-primary-gradient');
+        }
       } else {
         toggleWrapper.classList.add('yearly-active');
         toggleMonthlyBtn.classList.remove('active');
@@ -2267,6 +2298,16 @@
 
         if (badgeYearly) badgeYearly.style.display = 'block';
         if (badgeMonthly) badgeMonthly.style.display = 'none';
+
+        // Update button styles: Yearly active, Monthly ghost
+        if (btnBuyYearly) {
+          btnBuyYearly.classList.add('btn-primary-gradient');
+          btnBuyYearly.classList.remove('btn-secondary-ghost');
+        }
+        if (btnBuyMonthly) {
+          btnBuyMonthly.classList.add('btn-secondary-ghost');
+          btnBuyMonthly.classList.remove('btn-primary-gradient');
+        }
       }
     }
 
