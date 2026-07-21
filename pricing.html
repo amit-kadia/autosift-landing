@@ -1927,8 +1927,9 @@
         if (headerUserEmail) headerUserEmail.textContent = currentUser.email;
         if (headerAuthStatus) headerAuthStatus.style.display = 'flex';
         
-        // Show WhatsApp optional section
-        if (whatsappSection) whatsappSection.style.display = 'block';
+        // WhatsApp 2-Step Verification section hidden for v1.4.0 launch.
+        // Re-enable when VPS Phase 2b activates cloud version for users.
+        // if (whatsappSection) whatsappSection.style.display = 'block';
 
         // Check for session email mismatch with URL parameter (Extension Session Sync)
         const urlParams = new URLSearchParams(window.location.search);
