@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create your AutoSift Account</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+  
+  <!-- Supabase JS Client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <style>
+    :root {
+      --bg-dark: #0a0f1d;
+      --bg-card: #111827;
+      --primary: #6366f1;
+      --primary-gradient: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: #1e293b;
+      --radius-lg: 16px;
+      --radius-md: 12px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow-x: hidden;
+      padding: 20px;
+    }
+
+    /* Background elements */
+    .bg-glow {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(140px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .bg-glow-1 {
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, rgba(0,0,0,0) 70%);
+      top: -100px;
+      left: -100px;
+    }
+    .bg-glow-2 {
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, rgba(0,0,0,0) 70%);
+      bottom: -100px;
+      right: -100px;
+    }
+    .bg-grid {
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+                        linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .auth-container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 420px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 40px 30px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+    .brand-logo {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+    }
+    .brand-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 26px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+    .subtitle {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 30px;
+    }
+
+    /* Google Button */
+    .btn-google {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      width: 100%;
+      background: #fff;
+      color: #1f2937;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      margin-bottom: 20px;
+    }
+    .btn-google:hover {
+      background: #f1f5f9;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+    }
+    .google-icon {
+      width: 18px;
+      height: 18px;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 12px;
+      margin: 20px 0;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      border-bottom: 1px solid var(--border);
+    }
+    .divider:not(:empty)::before {
+      margin-right: .5em;
+    }
+    .divider:not(:empty)::after {
+      margin-left: .5em;
+    }
+
+    .toggle-link {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 15px;
+    }
+    .toggle-link a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .toggle-link a:hover {
+      text-decoration: underline;
+    }
+
+    .footer-links {
+      margin-top: 30px;
+      font-size: 12px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    .footer-links a:hover {
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+  <div class="bg-grid"></div>
+
+  <div class="auth-container">
+    <!-- Brand -->
+    <a href="index.html" style="text-decoration: none;">
+      <div class="brand">
+        <img src="https://autosift.aiautomationwithamit.in/assets/images/logo.png" alt="AutoSift Logo" class="brand-logo">
+        <span class="brand-name">AutoSift</span>
+      </div>
+    </a>
+
+    <h1>Create your account</h1>
+    <p class="subtitle">Start automating your IndiaMart B2B leads today.</p>
+
+    <!-- Google Button -->
+    <button class="btn-google" id="btnGoogleSignup" onclick="handleGoogleSignUp()">
+      <svg class="google-icon" viewBox="0 0 24 24" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"/>
+        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"/>
+      </svg>
+      Continue with Google
+    </button>
+
+    <div class="toggle-link">
+      Already have an account? <a id="loginToggleLink" href="login.html">Log in</a>
+    </div>
+
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="privacy.html" target="_blank">Privacy</a>
+      <a href="terms.html" target="_blank">Terms</a>
+    </div>
+  </div>
+
+  <script>
+    // Supabase Configuration
+    const SUPABASE_URL = 'https://pipcqctaaplgaltzfrjv.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBpcGNxY3RhYXBsZ2FsdHpmcmp2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg4MjQ1NjIsImV4cCI6MjA4NDQwMDU2Mn0.2cjoHOIwbL0v6utUnuS8jex_oeZpb-MUgKbq4kg1Bs8';
+    
+    let supabaseClient = null;
+    if (typeof supabase !== 'undefined') {
+      supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    }
+
+    // Sync query parameters forward to Login Toggle Link
+    window.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const loginLink = document.getElementById('loginToggleLink');
+      if (loginLink && urlParams.toString()) {
+        loginLink.href = `login.html?${urlParams.toString()}`;
+      }
+    });
+
+    async function handleGoogleSignUp() {
+      if (!supabaseClient) {
+        alert("Authentication client could not be loaded.");
+        return;
+      }
+
+      // Forward current URL params back to redirect URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const action = urlParams.get('action') || 'claim_trial';
+      const plan = urlParams.get('plan') || '';
+      
+      const redirectUrl = `${window.location.origin}/pricing.html?action=${action}&plan=${plan}`;
+      
+      try {
+        const { error } = await supabaseClient.auth.signInWithOAuth({
+          provider: 'google',
+          options: {
+            redirectTo: redirectUrl
+          }
+        });
+        if (error) throw error;
+      } catch (err) {
+        alert('Authentication Error: ' + err.message);
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,3002 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AutoSift PRO — Upgrade Plan</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Supabase JS Library -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <style>
+    :root {
+      --bg-dark: #090d16;
+      --bg-card: #131b2e;
+      --bg-card-hover: #1c2742;
+      --primary: #6366f1;
+      --primary-hover: #4f46e5;
+      --primary-glow: rgba(99, 102, 241, 0.4);
+      --primary-gradient: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+      --success: #10b981;
+      --success-glow: rgba(16, 185, 129, 0.3);
+      --info: #3b82f6;
+      --info-glow: rgba(59, 130, 246, 0.3);
+      --danger: #ef4444;
+      --danger-glow: rgba(239, 68, 68, 0.3);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: #1e293b;
+      --border-glow: #334155;
+      --radius-lg: 16px;
+      --radius-md: 12px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    .container {
+      position: relative;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      z-index: 1;
+    }
+
+    /* Background Glow & Grid */
+    .bg-glow {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(140px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .bg-glow-1 {
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, rgba(0,0,0,0) 70%);
+      top: -100px;
+      left: -100px;
+    }
+    .bg-glow-2 {
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.12) 0%, rgba(0,0,0,0) 70%);
+      bottom: -100px;
+      right: -100px;
+    }
+    .bg-grid {
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                        linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 40px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand-logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+    }
+    .brand-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .brand-badge {
+      background: var(--primary-gradient);
+      color: white;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Hero Section */
+    .hero-container {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .hero-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 38px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 12px;
+      color: #fff;
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #a5b4fc 0%, #6366f1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-subtitle {
+      font-size: 16px;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* FOMO / Launch Offer Banner */
+    .fomo-banner {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.25) 0%, rgba(16, 185, 129, 0.15) 100%);
+      border: 2px solid rgba(99, 102, 241, 0.4);
+      border-radius: var(--radius-lg);
+      padding: 18px 24px;
+      text-align: center;
+      margin: 15px auto 35px;
+      max-width: 800px;
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      box-shadow: 0 0 20px rgba(99, 102, 241, 0.2);
+      animation: pulseGlow 3s infinite ease-in-out;
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% {
+        box-shadow: 0 0 15px rgba(99, 102, 241, 0.15);
+        border-color: rgba(99, 102, 241, 0.4);
+        transform: scale(1);
+      }
+      50% {
+        box-shadow: 0 0 25px rgba(16, 185, 129, 0.35);
+        border-color: rgba(16, 185, 129, 0.6);
+        transform: scale(1.01);
+      }
+    }
+
+    /* Panels & Account Info */
+    .account-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin-bottom: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    @media (min-width: 768px) {
+      .account-panel {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+    .user-info {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .user-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .user-label {
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+    .user-value {
+      color: #fff;
+      font-weight: 500;
+      font-size: 14px;
+    }
+    .badge-status {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 12px;
+      text-transform: uppercase;
+    }
+    .badge-free {
+      background: rgba(148, 163, 184, 0.15);
+      color: var(--text-muted);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+    }
+    .badge-pro {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--success);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .account-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .btn-action {
+      background: rgba(255, 255, 255, 0.05);
+      color: #fff;
+      border: 1px solid var(--border);
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-action:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-glow);
+    }
+    .btn-google {
+      background: #fff;
+      color: #0f172a;
+      border: none;
+    }
+    .btn-google:hover {
+      background: #f1f5f9;
+    }
+
+    /* WhatsApp Collection Field */
+    .whatsapp-container {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px dashed var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      max-width: 500px;
+    }
+    .whatsapp-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+    .whatsapp-input-group {
+      display: flex;
+      gap: 10px;
+    }
+    .whatsapp-input {
+      background: var(--bg-dark);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 10px;
+      color: #fff;
+      font-size: 14px;
+      flex-grow: 1;
+      transition: var(--transition);
+    }
+    .whatsapp-input:focus {
+      border-color: var(--primary);
+      outline: none;
+      box-shadow: 0 0 0 2px var(--primary-glow);
+    }
+    .whatsapp-subtext {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 6px;
+      line-height: 1.4;
+    }
+
+    /* Pricing Section */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+    @media (min-width: 768px) {
+      .pricing-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+    
+    /* Trust Badges */
+    .trust-badges-container {
+      text-align: center;
+      margin-top: 30px;
+      margin-bottom: 30px;
+    }
+    .trust-title {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .badges-flex {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .badge-item {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .pricing-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 40px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      transition: var(--transition);
+      min-width: 0;
+      box-sizing: border-box;
+    }
+    .pricing-card:hover {
+      border-color: var(--border-glow);
+      transform: translateY(-4px);
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+    }
+    .pricing-card.popular {
+      border: 2px solid var(--primary);
+      box-shadow: 0 0 20px rgba(99, 102, 241, 0.1);
+    }
+    .popular-badge {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--primary-gradient);
+      color: white;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 16px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 10px rgba(99, 102, 241, 0.4);
+      animation: badgePulse 2s infinite ease-in-out;
+      white-space: nowrap;
+    }
+    @keyframes badgePulse {
+      0%, 100% {
+        transform: translateX(-50%) scale(1);
+        box-shadow: 0 4px 10px rgba(99, 102, 241, 0.4);
+      }
+      50% {
+        transform: translateX(-50%) scale(1.05);
+        box-shadow: 0 6px 15px rgba(99, 102, 241, 0.6);
+      }
+    }
+    .plan-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+    .plan-description {
+      color: var(--text-muted);
+      font-size: 14px;
+      margin-bottom: 24px;
+      min-height: 42px;
+    }
+    .plan-price-box {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+    .plan-currency {
+      font-size: 24px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .plan-price {
+      font-family: 'Outfit', sans-serif;
+      font-size: 48px;
+      font-weight: 800;
+      color: #fff;
+    }
+    .plan-period {
+      color: var(--text-muted);
+      font-size: 16px;
+    }
+    .plan-strikethrough {
+      color: var(--text-muted);
+      text-decoration: line-through;
+      font-size: 18px;
+      margin-left: 8px;
+      font-weight: 400;
+    }
+
+    .features-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 40px;
+      flex-grow: 1;
+    }
+    .feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 14px;
+      color: var(--text-main);
+    }
+    .feature-item svg {
+      color: var(--success);
+      margin-top: 3px;
+      flex-shrink: 0;
+    }
+
+    .btn-checkout {
+      background: var(--primary-gradient);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 16px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+      width: 100%;
+      text-align: center;
+    }
+    .btn-checkout:hover:not(:disabled) {
+      opacity: 0.95;
+      box-shadow: 0 0 16px var(--primary-glow);
+    }
+    .btn-checkout:disabled {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      cursor: not-allowed;
+    }
+    .btn-secondary-ghost {
+      background: rgba(255, 255, 255, 0.05) !important;
+      color: #cbd5e1 !important;
+      border: 1px solid var(--border) !important;
+      box-shadow: none !important;
+      animation: none !important;
+    }
+    .btn-secondary-ghost:hover {
+      background: rgba(255, 255, 255, 0.1) !important;
+      border-color: rgba(255, 255, 255, 0.2) !important;
+      color: #fff !important;
+    }
+    .btn-primary-gradient {
+      background: var(--primary-gradient) !important;
+      color: #fff !important;
+      border: none !important;
+      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4) !important;
+    }
+
+    /* Modal / Overlay Gating */
+    .overlay-screen {
+      position: fixed;
+      inset: 0;
+      background: rgba(9, 13, 22, 0.95);
+      backdrop-filter: blur(12px);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .overlay-modal {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 40px;
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+    .overlay-icon {
+      font-size: 54px;
+      margin-bottom: 20px;
+    }
+    .overlay-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #fff;
+    }
+    .overlay-desc {
+      color: var(--text-muted);
+      font-size: 14px;
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+    .overlay-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* Spinner Animation */
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      border-top-color: var(--primary);
+      animation: spin 1s ease-in-out infinite;
+      margin: 20px auto;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* ==========================================================================
+       ADDITIONS FOR REDESIGN & LIVE STATS
+       ========================================================================== */
+
+    /* Billing Toggle Style */
+    .toggle-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      margin: 30px 0 40px;
+    }
+    .toggle-wrapper {
+      display: inline-flex;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      padding: 4px;
+      border-radius: 30px;
+      position: relative;
+    }
+    .toggle-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 14px;
+      font-weight: 600;
+      padding: 8px 24px;
+      border-radius: 20px;
+      cursor: pointer;
+      z-index: 2;
+      transition: color 0.3s ease;
+      min-width: 170px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .toggle-btn.active {
+      color: #fff;
+    }
+    .toggle-slider {
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      width: calc(50% - 4px);
+      height: calc(100% - 8px);
+      background: var(--primary);
+      border-radius: 20px;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 1;
+    }
+    .toggle-wrapper.yearly-active .toggle-slider {
+      transform: translateX(100%);
+    }
+    .discount-badge {
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      color: #10b981;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 10px;
+      margin-left: 8px;
+      display: inline-block;
+      vertical-align: middle;
+      text-transform: uppercase;
+      transition: all 0.3s ease;
+    }
+    .toggle-btn.active .discount-badge {
+      background: #fff;
+      color: var(--primary);
+      border-color: #fff;
+    }
+
+    /* Live Social Proof Stats Bar */
+    .stats-header-container {
+      text-align: center;
+      margin-top: 30px;
+      margin-bottom: -6px;
+    }
+    .stats-header-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(16, 185, 129, 0.08);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      color: #34d399;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+    .stats-header-tag .live-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 8px rgba(16, 185, 129, 0.8);
+      animation: livePulse 2s infinite ease-in-out;
+    }
+    @keyframes livePulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.35); opacity: 0.5; }
+    }
+
+    .live-stats-bar {
+      display: none; /* Hidden until loaded */
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+      padding: 24px;
+      margin: 16px auto;
+      max-width: 1000px;
+      background: rgba(19, 27, 46, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-lg);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    }
+    .stat-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 16px 10px;
+      border-radius: var(--radius-md);
+      position: relative;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      transition: var(--transition);
+    }
+    .stat-card:hover {
+      transform: translateY(-4px) scale(1.02);
+      background: rgba(99, 102, 241, 0.06);
+      border-color: rgba(99, 102, 241, 0.3);
+      box-shadow: 0 8px 20px rgba(99, 102, 241, 0.15);
+    }
+    .stat-icon {
+      font-size: 20px;
+      margin-bottom: 6px;
+      transition: transform 0.3s ease;
+    }
+    .stat-card:hover .stat-icon {
+      transform: scale(1.15);
+    }
+    .stat-number {
+      font-family: 'Outfit', sans-serif;
+      font-size: 24px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 2px;
+    }
+    .stat-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .stat-tooltip-icon {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: var(--text-muted);
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      transition: var(--transition);
+    }
+    .stat-tooltip-icon:hover {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+      box-shadow: 0 0 10px rgba(99, 102, 241, 0.6);
+      transform: scale(1.15);
+    }
+
+    /* Viewport-Safe Tooltips */
+    .stat-tooltip-icon {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-muted);
+      font-size: 9px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: help;
+      transition: all 0.2s ease;
+    }
+    .stat-tooltip-icon:hover {
+      background: rgba(99, 102, 241, 0.2);
+      border-color: var(--primary);
+      color: #fff;
+    }
+    .stat-tooltip-text {
+      visibility: hidden;
+      opacity: 0;
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      width: 240px;
+      max-width: calc(100vw - 32px);
+      background: #1e293b;
+      color: #cbd5e1;
+      font-size: 11px;
+      font-weight: 400;
+      line-height: 1.4;
+      padding: 10px 12px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      z-index: 100;
+      pointer-events: none;
+      text-align: left;
+      transition: opacity 0.2s ease, visibility 0.2s ease;
+    }
+    .stat-tooltip-icon:hover + .stat-tooltip-text {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    /* Last 7 Days Strip */
+    .last-7d-strip {
+      display: none; /* Hidden until data loads */
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      font-size: 13px;
+      color: var(--text-muted);
+      background: rgba(99, 102, 241, 0.05);
+      border: 1px solid rgba(99, 102, 241, 0.1);
+      padding: 8px 16px;
+      border-radius: 20px;
+      max-width: fit-content;
+      margin: 0 auto;
+    }
+    .last-7d-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 71, 87, 0.1);
+      border: 1px solid rgba(255, 71, 87, 0.25);
+      color: #ff6b81;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 8px 3px 6px;
+      border-radius: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      position: relative;
+    }
+    .last-7d-badge::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #ff4757;
+      box-shadow: 0 0 6px rgba(255, 71, 87, 0.6);
+      flex-shrink: 0;
+      position: relative;
+      z-index: 2;
+    }
+    .last-7d-badge::after {
+      content: '';
+      position: absolute;
+      left: 6px;
+      top: 50%;
+      transform: translateY(-50%) scale(1);
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      border: 1px solid #ff4757;
+      opacity: 1;
+      animation: ripple-wave 2s infinite cubic-bezier(0.25, 0, 0, 1);
+      pointer-events: none;
+      z-index: 1;
+    }
+    @keyframes ripple-wave {
+      0% {
+        transform: translateY(-50%) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-50%) scale(3.5);
+        opacity: 0;
+      }
+    }
+
+    .stats-footer-container {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      margin: 15px 0 35px 0;
+    }
+    .stats-footer-text {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(16, 185, 129, 0.06);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      color: #34d399;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 5px 12px 5px 10px;
+      border-radius: 20px;
+      letter-spacing: 0.3px;
+      margin: 0;
+      position: relative;
+    }
+    .stats-footer-text::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
+      flex-shrink: 0;
+      animation: db-pulse 2s infinite ease-in-out;
+    }
+    @keyframes db-pulse {
+      0%, 100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 4px rgba(16, 185, 129, 0.4);
+        opacity: 0.8;
+      }
+      50% {
+        transform: scale(1.2);
+        box-shadow: 0 0 10px rgba(16, 185, 129, 0.8);
+        opacity: 1;
+      }
+    }
+
+    /* Card highlighting styles based on Toggle state */
+    .pricing-card {
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s, box-shadow 0.3s;
+    }
+    .pricing-card.highlighted-plan {
+      border-color: var(--primary);
+      box-shadow: 0 15px 40px rgba(99, 102, 241, 0.2);
+      transform: translateY(-8px);
+    }
+    .pricing-card.highlighted-plan .btn-checkout {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+    }
+    .pricing-card.highlighted-plan#cardYearly .btn-checkout {
+      animation: btnRippleGlow 2s infinite ease-in-out;
+    }
+    @keyframes btnRippleGlow {
+      0% {
+        box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.5), 0 4px 15px rgba(99, 102, 241, 0.3);
+      }
+      70% {
+        box-shadow: 0 0 0 12px rgba(99, 102, 241, 0), 0 4px 15px rgba(99, 102, 241, 0.3);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(99, 102, 241, 0), 0 4px 15px rgba(99, 102, 241, 0.3);
+      }
+    }
+
+    /* GST Notice */
+    .gst-notice {
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 16px;
+      font-weight: 500;
+    }
+
+    /* WhatsApp input section (visible only when logged in) */
+    .whatsapp-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      margin: 40px auto 20px;
+      max-width: 500px;
+      text-align: left;
+    }
+    .whatsapp-label {
+      font-family: 'Outfit', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+      display: block;
+      margin-bottom: 8px;
+    }
+    .whatsapp-input-group {
+      display: flex;
+      gap: 10px;
+    }
+    .whatsapp-input {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      padding: 12px 16px;
+      border-radius: var(--radius-md);
+      color: #fff;
+      font-size: 14px;
+      transition: var(--transition);
+    }
+    .whatsapp-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .whatsapp-subtext {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 8px;
+      line-height: 1.4;
+    }
+
+    /* Accordion styles */
+    .accordion-section {
+      margin: 60px auto 0;
+      max-width: 900px;
+      text-align: left;
+    }
+    .accordion-header {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 18px 24px;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: var(--transition);
+      user-select: none;
+    }
+    .accordion-header:hover {
+      border-color: var(--primary);
+    }
+    .accordion-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .accordion-icon {
+      font-size: 14px;
+      color: var(--text-muted);
+      transition: transform 0.3s ease;
+    }
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), padding 0.3s ease;
+      background: rgba(255, 255, 255, 0.01);
+      border: 1px solid transparent;
+      border-top: none;
+      border-radius: 0 0 var(--radius-md) var(--radius-md);
+      margin-top: -1px;
+    }
+    .accordion-section.active .accordion-header {
+      border-radius: var(--radius-md) var(--radius-md) 0 0;
+      border-color: rgba(99, 102, 241, 0.5);
+    }
+    .accordion-section.active .accordion-icon {
+      transform: rotate(90deg);
+    }
+    .accordion-section.active .accordion-content {
+      padding: 24px;
+      border-color: var(--border);
+    }
+
+    /* Comparison Table Styling */
+    .comparison-table-wrapper {
+      overflow-x: auto;
+    }
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      color: #cbd5e1;
+    }
+    .comparison-table th, .comparison-table td {
+      padding: 14px 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    .comparison-table th {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      color: #fff;
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .comparison-table tr:hover td {
+      background: rgba(255, 255, 255, 0.01);
+    }
+    .feature-group {
+      font-weight: 700;
+      color: var(--primary);
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 0.5px;
+      background: rgba(99, 102, 241, 0.05);
+    }
+    .check-icon {
+      color: #10b981;
+      font-weight: bold;
+    }
+    .cross-icon {
+      color: #ef4444;
+      font-weight: bold;
+      opacity: 0.6;
+    }
+
+    /* FAQ List styling */
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .faq-item {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      background: var(--bg-card);
+      overflow: hidden;
+    }
+    .faq-question {
+      padding: 16px 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-weight: 600;
+      color: #fff;
+      user-select: none;
+      transition: var(--transition);
+    }
+    .faq-question:hover {
+      color: var(--primary);
+    }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1), padding 0.3s ease;
+      color: var(--text-muted);
+      font-size: 14px;
+      line-height: 1.65;
+      border-top: 1px solid transparent;
+      box-sizing: border-box;
+    }
+    .faq-item.active .faq-question {
+      color: var(--primary);
+    }
+    .faq-item.active .faq-answer {
+      padding: 16px 20px 20px 20px;
+      border-top-color: var(--border);
+    }
+
+    /* B2B Footer */
+    .b2b-footer {
+      border-top: 1px solid var(--border);
+      margin-top: 80px;
+      padding: 48px 0 24px;
+      background: rgba(0, 0, 0, 0.2);
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 32px;
+      margin-bottom: 40px;
+      text-align: left;
+    }
+    .footer-brand-info p {
+      color: var(--text-muted);
+      font-size: 14px;
+      line-height: 1.6;
+      margin-top: 12px;
+    }
+    .footer-col-title {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      color: #fff;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .footer-links-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .footer-links-list a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      transition: var(--transition);
+    }
+    .footer-links-list a:hover {
+      color: var(--primary);
+      padding-left: 2px;
+    }
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding-top: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: center;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    @media (min-width: 768px) {
+      .footer-bottom {
+        flex-direction: row;
+        justify-content: space-between;
+      }
+    }
+    .gst-footer-tag {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    /* Tooltip Mobile Centered Modal Backdrop */
+    .tooltip-backdrop {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(2px);
+      z-index: 999;
+    }
+
+    @media (max-width: 768px) {
+      .live-stats-bar {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        padding: 16px;
+      }
+      /* Make 5th card span full width on mobile */
+      .stat-card:nth-child(5) {
+        grid-column: span 2;
+      }
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Success / Polling Screen Overlay (hidden by default) -->
+  <div id="successOverlay" class="overlay-screen" style="display: none;">
+    <div class="overlay-modal">
+      <div id="successIcon" class="overlay-icon">⏳</div>
+      <div id="successTitle" class="overlay-title">Processing Upgrade...</div>
+      <div id="successDesc" class="overlay-desc">We've received your payment. Upgrading your account database record, please wait.</div>
+      
+      <!-- Live verification spinner -->
+      <div id="successSpinner" class="spinner"></div>
+
+      <div class="overlay-actions" style="margin-top: 20px;">
+        <a href="https://link.aiautomationwithamit.in/AutoSift-B2B-Lead-Automation" target="_blank" class="btn-checkout" style="text-decoration: none;">Install AutoSift Extension</a>
+        <button id="btnSupportFallback" class="btn-action" style="justify-content: center; display: none;" onclick="openSupportGmail()">Contact support for activation</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Trial Claim Celebration / Success Overlay (hidden by default) -->
+  <div id="trialSuccessOverlay" class="overlay-screen" style="display: none;">
+    <div class="overlay-modal" style="border: 1px solid rgba(16, 185, 129, 0.4); box-shadow: 0 0 30px rgba(16, 185, 129, 0.15);">
+      <div class="overlay-icon">🎉</div>
+      <div class="overlay-title" style="color: #34d399;">Pro Trial Activated!</div>
+      <div class="overlay-desc">Your 15-Day AutoSift Pro trial has been successfully claimed. Open the extension to start automating your leads!</div>
+      <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 24px;">Expires on: <strong id="trialExpiresDate" style="color: #fff;">-</strong></div>
+      <div class="overlay-actions">
+        <button class="btn-checkout" style="background: var(--primary-gradient); cursor: pointer; border: none;" onclick="closeTrialSuccess()">Awesome, Let's Go!</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Trial Claim Security Block Overlay (hidden by default) -->
+  <div id="trialErrorOverlay" class="overlay-screen" style="display: none;">
+    <div class="overlay-modal" style="border: 1px solid rgba(239, 68, 68, 0.4); box-shadow: 0 0 30px rgba(239, 68, 68, 0.15);">
+      <div class="overlay-icon">🔒</div>
+      <div class="overlay-title" style="color: #f87171;">Not Trial Eligible</div>
+      <div class="overlay-desc" id="trialErrorMsg">This account or device is not eligible for another free trial. Please select a subscription to continue.</div>
+      <div class="overlay-actions">
+        <button class="btn-checkout" style="background: var(--primary-gradient); cursor: pointer; border: none;" onclick="closeTrialError()">Select a Plan</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="bg-glow bg-glow-2"></div>
+    <div class="bg-grid"></div>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="brand">
+        <img src="assets/images/logo.png" alt="AutoSift" class="brand-logo" onerror="this.src='https://autosift.aiautomationwithamit.in/assets/images/logo.png'">
+        <span class="brand-name">AutoSift</span>
+        <span class="brand-badge">PRO Upgrade</span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 20px;">
+        <div id="headerAuthStatus" style="font-size: 13px; color: var(--text-muted); display: none; align-items: center; gap: 10px;">
+          <span id="headerUserEmail" style="color: #fff; font-weight: 500;"></span>
+          <button onclick="signOut()" style="background: none; border: none; color: var(--primary); text-decoration: underline; cursor: pointer; padding: 0; font-size: 13px;">Sign Out</button>
+        </div>
+        <a href="index.html" style="color: var(--text-muted); text-decoration: none; font-size: 14px; font-weight: 500; transition: var(--transition);" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='var(--text-muted)'">← Back to home</a>
+      </div>
+    </header>
+
+    <!-- Auth Session Mismatch Warning Banner (hidden by default) -->
+    <div id="mismatchBanner" class="mismatch-banner" style="display: none; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 8px; padding: 12px 16px; margin: 15px 0 15px 0; align-items: center; justify-content: space-between; gap: 15px; flex-wrap: wrap; border-left: 4px solid #ef4444;">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <span style="font-size: 20px;">⚠️</span>
+        <div style="font-size: 13px; color: #fca5a5; line-height: 1.5; text-align: left;">
+          <strong style="color: #ef4444;">Account Mismatch Detected!</strong><br>
+          You are logged into the extension as <strong id="mismatchExtEmail" style="color: #fff;"></strong>, but this pricing page is logged into <strong id="mismatchWebEmail" style="color: #fff;"></strong>.<br>
+          <span style="opacity: 0.85; font-size: 12px;">Please click "Sign Out & Switch" to log in with the matching extension account to avoid upgrading the wrong profile.</span>
+        </div>
+      </div>
+      <button onclick="signOut()" style="background: #ef4444; color: #fff; border: none; padding: 8px 16px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.2s; white-space: nowrap;" onmouseover="this.style.background='#dc2626'" onmouseout="this.style.background='#ef4444'">Sign Out & Switch</button>
+    </div>
+
+    <!-- Urgency / Founding Supporter Banner Moved below toggle -->
+
+    <!-- Section Title for Live Stats (Hidden until stats load) -->
+    <div class="stats-header-container" id="statsHeaderContainer" style="display: none;">
+      <div class="stats-header-tag">
+        <span class="live-dot"></span>
+        <span>REAL-TIME PLATFORM IMPACT</span>
+      </div>
+    </div>
+
+    <!-- Live Social Proof Stats Bar -->
+    <div class="live-stats-bar" id="liveStatsBar">
+      <div class="stat-card">
+        <span class="stat-icon">🧑‍💼</span>
+        <span class="stat-number" id="statUsers">0</span>
+        <span class="stat-label">Sellers Trust</span>
+        <button class="stat-tooltip-icon" onclick="toggleTooltip(event, 'tooltipUsers')">i</button>
+        <span class="stat-tooltip-text" id="tooltipUsers">The total number of IndiaMART sellers who have signed up and registered with AutoSift.</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon">📊</span>
+        <span class="stat-number" id="statLeads">0</span>
+        <span class="stat-label">Leads Scanned</span>
+        <button class="stat-tooltip-icon" onclick="toggleTooltip(event, 'tooltipLeads')">i</button>
+        <span class="stat-tooltip-text" id="tooltipLeads">The total number of IndiaMART buy leads that AutoSift has scanned and evaluated across all users.</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon">🛒</span>
+        <span class="stat-number" id="statPurchases">0</span>
+        <span class="stat-label">Purchases Made</span>
+        <button class="stat-tooltip-icon" onclick="toggleTooltip(event, 'tooltipPurchases')">i</button>
+        <span class="stat-tooltip-text" id="tooltipPurchases">The total number of buy leads that AutoSift has automatically purchased on behalf of sellers matching their exact keyword and budget criteria.</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon">🛡️</span>
+        <span class="stat-number" id="statFiltered">0</span>
+        <span class="stat-label">Low-Quality Leads Filtered</span>
+        <button class="stat-tooltip-icon" onclick="toggleTooltip(event, 'tooltipFiltered')">i</button>
+        <span class="stat-tooltip-text" id="tooltipFiltered">The total number of irrelevant or low-quality leads that AutoSift automatically detected and skipped, saving sellers from wasting their IndiaMART credits on unqualified buyers.</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon">⏱️</span>
+        <span class="stat-number" id="statHours">0</span>
+        <span class="stat-label">Hours Saved</span>
+        <button class="stat-tooltip-icon" onclick="toggleTooltip(event, 'tooltipHours')">i</button>
+        <span class="stat-tooltip-text" id="tooltipHours">The total automation runtime across all users. Each hour represents time a seller didn't have to manually browse, filter, and purchase leads on IndiaMART.</span>
+      </div>
+    </div>
+
+    <!-- Last 7 Days Strip -->
+    <div class="last-7d-strip" id="last7dStrip">
+      <span class="last-7d-badge">Live Trend</span>
+      <span>In the last 7 days: <strong id="trendLeads" style="color:#fff;">0</strong> leads scanned • <strong id="trendPurchases" style="color:#fff;">0</strong> purchases automatically executed • <strong id="trendUsers" style="color:#fff;">0</strong> active sellers</span>
+    </div>
+
+    <div class="stats-footer-container">
+      <span class="stats-footer-text" id="statsUpdateFreqText" style="display: none;">Updated hourly from live database logs</span>
+    </div>
+
+    <!-- Hero Title -->
+    <div class="hero-container" style="margin-top: 10px;">
+      <h1 class="hero-title">Select Your <span class="gradient-text">AutoSift PRO</span> Plan</h1>
+      <p class="hero-subtitle">Unlock unlimited lead automation on IndiaMart. Save 4+ hours daily.</p>
+    </div>
+
+    <!-- Billing Toggle -->
+    <div class="toggle-container">
+      <div class="toggle-wrapper yearly-active" id="billingToggleWrapper">
+        <div class="toggle-slider"></div>
+        <button class="toggle-btn" id="toggleMonthlyBtn" onclick="setBillingToggle('monthly')">Monthly</button>
+        <button class="toggle-btn active" id="toggleYearlyBtn" onclick="setBillingToggle('yearly')">Yearly <span class="discount-badge">Save 17%</span></button>
+      </div>
+    </div>
+
+    <!-- Urgency / Founding Supporter Banner -->
+    <div id="fomoBanner" class="fomo-banner" style="display: none;">
+      <span id="fomoBannerText">🎉 Special Launch Offer — Be One of Our Founding 100 Supporters</span>
+    </div>
+
+    <!-- Pricing Grid -->
+    <div class="pricing-grid">
+      <!-- Free Forever Card -->
+      <div class="pricing-card">
+        <div class="plan-name">FREE Forever</div>
+        <div class="plan-description">Establish basic automation workflows. Great for getting started.</div>
+        <div class="plan-price-box">
+          <span class="plan-currency">₹</span>
+          <span class="plan-price">0</span>
+          <span class="plan-period">/ forever</span>
+        </div>
+        <ul class="features-list">
+          <li class="feature-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <strong>2 Hours Daily Limit</strong>
+          </li>
+          <li class="feature-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Up to 10 Keywords / Category
+          </li>
+          <li class="feature-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Branded WhatsApp Drafts
+          </li>
+          <li class="feature-item" style="opacity: 0.5;">
+            🔒 Locked Price & Qty Ignore Filters
+          </li>
+        </ul>
+        <a href="signup.html" id="btnFreePlan" class="btn-checkout" style="background: rgba(255, 255, 255, 0.05); color: #fff; border: 1px solid var(--border); text-decoration: none; margin-bottom: 12px; display: block; text-align: center; line-height: 24px; transition: var(--transition);">
+          Get Started Free
+        </a>
+
+      </div>
+
+      <!-- Pro Monthly Card -->
+      <div class="pricing-card" id="cardMonthly">
+        <span class="popular-badge" id="badgeMonthly" style="display: none;">50% OFF LAUNCH DEAL</span>
+        <div class="plan-name">PRO Monthly</div>
+        <div class="plan-description">Get instant access to unlimited lead automation billed month-to-month.</div>
+        <div class="plan-price-box">
+          <span class="plan-currency">₹</span>
+          <span class="plan-price">999</span>
+          <span class="plan-period">/ month</span>
+          <span class="plan-strikethrough">₹1,999</span>
+          <div class="plan-billing-subtext" style="font-size: 12px; color: var(--text-muted); margin-top: 4px; font-weight: 500;">Billed monthly</div>
+        </div>
+        <ul class="features-list">
+          <li class="feature-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <strong>12 Hours Daily Limit</strong>
+          </li>
+          <li class="feature-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Up to 500 Keywords / Category
+          </li>
+          <li class="feature-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Clean WhatsApp Templates (No Ads)
+          </li>
+          <li class="feature-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Unlocked Price & Qty Ignore Toggles
+          </li>
+        </ul>
+        <button id="btnBuyMonthly" class="btn-checkout btn-secondary-ghost" onclick="handleCardClick('monthly')">
+          Subscribe Monthly
+        </button>
+        <span class="trial-microcopy" id="microcopyMonthly" style="display: block; color: var(--text-muted); text-align: center; font-size: 11px; margin-top: 8px; font-weight: 500;">🔒 Secure payment via Razorpay</span>
+      </div>
+
+      <!-- Pro Yearly Card (Highlighted by Default) -->
+      <div class="pricing-card popular highlighted-plan" id="cardYearly">
+        <span class="popular-badge" id="badgeYearly">🔥 50% LAUNCH + 17% ANNUAL = SAVE 67%</span>
+        <div class="plan-name">PRO Yearly</div>
+        <div class="plan-description">Best for dedicated export sellers. Save 17% and get dedicated priority support.</div>
+        <div class="plan-price-box">
+          <span class="plan-currency">₹</span>
+          <span class="plan-price">832</span>
+          <span class="plan-period">/ month</span>
+          <div class="plan-billing-subtext" style="font-size: 12px; color: #34d399; margin-top: 6px; font-weight: 600; line-height: 1.4;">
+            <span style="text-decoration: line-through; opacity: 0.6; color: var(--text-muted); font-weight: 400; margin-right: 4px;">₹19,990</span> ₹9,990 billed annually · (Save 67% Total)
+          </div>
+        </div>
+        <ul class="features-list">
+          <li class="feature-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <strong>All PRO Features</strong> Included
+          </li>
+          <li class="feature-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <strong>2 Months Free</strong> (Save 17%)
+          </li>
+          <li class="feature-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Priority Telegram Alert Channel
+          </li>
+          <li class="feature-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Dedicated WhatsApp & Call Support
+          </li>
+        </ul>
+        <button id="btnBuyYearly" class="btn-checkout btn-primary-gradient" onclick="handleCardClick('yearly')">
+          Subscribe Yearly
+        </button>
+        <span class="trial-microcopy" id="microcopyYearly" style="display: block; color: var(--text-muted); text-align: center; font-size: 11px; margin-top: 8px; font-weight: 500;">🔒 Secure payment via Razorpay</span>
+      </div>
+    </div>
+
+
+
+    <!-- WhatsApp 2-Step Verification & Number Management Section -->
+    <div class="whatsapp-section" id="whatsappSection" style="display: none; max-width: 540px; margin: 40px auto 20px;">
+      <!-- Hidden input for backwards compatibility with checkout fallback -->
+      <input type="hidden" id="whatsappNumber" value="">
+
+      <!-- Success Celebration Toast Banner -->
+      <div id="waSuccessToast" style="display: none; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.4); border-radius: var(--radius-md); padding: 14px 18px; margin-bottom: 16px; text-align: left; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2);">
+        <div style="font-size: 14px; font-weight: 700; color: #34d399; display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 18px;">🎉</span> WhatsApp Number Verified & Linked!
+        </div>
+        <div style="font-size: 12px; color: #cbd5e1; margin-top: 4px; line-height: 1.4;">
+          Your number <strong id="waSuccessToastNum" style="color: #fff;"></strong> has been verified and saved to your AutoSift profile.
+        </div>
+      </div>
+
+      <!-- State A: Unlinked / 2-Step Verification Form -->
+      <div id="waUnlinkedState">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+          <label class="whatsapp-label" style="margin: 0; display: flex; align-items: center; gap: 8px; font-size: 15px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            Link Your WhatsApp Number
+          </label>
+          <span style="font-size: 11px; color: #34d399; background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.3); padding: 3px 10px; border-radius: 12px; font-weight: 600;">2-Step Manual Verification</span>
+        </div>
+        
+        <p class="whatsapp-subtext" style="margin-bottom: 14px; color: var(--text-muted); font-size: 13px;">Receive priority updates, account recovery, and direct support via WhatsApp 💬</p>
+
+        <!-- DPDPA Consent Checkbox -->
+        <div style="margin-bottom: 16px; display: flex; align-items: flex-start; gap: 10px; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px;">
+          <input type="checkbox" id="waConsentCheck" style="margin-top: 3px; cursor: pointer; accent-color: var(--primary); width: 16px; height: 16px;">
+          <label for="waConsentCheck" style="font-size: 12px; color: #cbd5e1; cursor: pointer; line-height: 1.45;">
+            I agree to share my WhatsApp number for account verification, order updates, and priority customer support (DPDPA 2023 Compliant).
+          </label>
+        </div>
+
+        <!-- Step 1: Input primary number -->
+        <div id="waStep1Box" style="margin-bottom: 12px;">
+          <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 6px; font-weight: 600;">Step 1: Enter 10-Digit Mobile Number</label>
+          <div class="whatsapp-input-group">
+            <span style="background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border); border-right: none; padding: 12px 14px; border-radius: var(--radius-md) 0 0 var(--radius-md); color: #fff; font-weight: 600; font-size: 14px; display: flex; align-items: center; gap: 4px;">🇮🇳 +91</span>
+            <input type="tel" id="waInputStep1" class="whatsapp-input" maxlength="10" placeholder="98765 43210" style="border-radius: 0 var(--radius-md) var(--radius-md) 0;">
+            <button type="button" id="btnWaNextStep" onclick="handleWaStep1Next()" style="background: var(--primary-gradient); color: white; border: none; padding: 0 20px; border-radius: var(--radius-md); font-weight: 600; cursor: pointer; white-space: nowrap;">Continue →</button>
+          </div>
+        </div>
+
+        <!-- Step 2: Confirm number (Copy-paste blocked) -->
+        <div id="waStep2Box" style="display: none; margin-bottom: 12px; background: rgba(99, 102, 241, 0.05); border: 1px solid rgba(99, 102, 241, 0.2); border-radius: var(--radius-md); padding: 14px;">
+          <label style="font-size: 12px; color: #a5b4fc; display: block; margin-bottom: 6px; font-weight: 600;">🔒 Step 2: Re-type Number to Confirm (Copy-Paste Disabled)</label>
+          <div class="whatsapp-input-group">
+            <span style="background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border); border-right: none; padding: 12px 14px; border-radius: var(--radius-md) 0 0 var(--radius-md); color: #fff; font-weight: 600; font-size: 14px; display: flex; align-items: center; gap: 4px;">🇮🇳 +91</span>
+            <input type="tel" id="waInputStep2" class="whatsapp-input" maxlength="10" placeholder="Re-type 10-digit number" onpaste="return handleWaPasteBlocked(event);" style="border-radius: 0 var(--radius-md) var(--radius-md) 0;">
+            <button type="button" id="btnWaSubmit" onclick="submitWaVerification()" style="background: #10b981; color: white; border: none; padding: 0 20px; border-radius: var(--radius-md); font-weight: 600; cursor: pointer; white-space: nowrap;">Verify & Link ✓</button>
+          </div>
+          <span id="waStep2Error" style="display: none; color: #ef4444; font-size: 12px; margin-top: 8px; font-weight: 500;"></span>
+        </div>
+
+        <span id="waGeneralError" style="display: none; color: #ef4444; font-size: 12px; margin-top: 8px; font-weight: 500; text-align: left;"></span>
+      </div>
+
+      <!-- State B: Linked State (Emerald Glassmorphism Badge + Request Change Button) -->
+      <div id="waLinkedState" style="display: none;">
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: var(--radius-md); padding: 16px;">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <div style="width: 38px; height: 38px; border-radius: 50%; background: rgba(16, 185, 129, 0.2); display: flex; align-items: center; justify-content: center; color: #10b981; font-size: 18px; font-weight: bold;">✓</div>
+            <div>
+              <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: #34d399; font-weight: 700;">WhatsApp Account Linked</div>
+              <div id="waLinkedDisplayNumber" style="font-size: 16px; font-weight: 700; color: #fff; margin-top: 2px;">+91 ••••• •••••</div>
+            </div>
+          </div>
+
+          <button type="button" onclick="openWaChangeModal()" style="background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border); color: #cbd5e1; font-size: 12px; font-weight: 600; padding: 8px 14px; border-radius: 6px; cursor: pointer; transition: var(--transition);" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'">
+            🔒 Request Number Change
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Number Change Modal (Modal Dialog) -->
+    <div id="waChangeModal" class="overlay-screen" style="display: none;">
+      <div class="overlay-modal" style="max-width: 440px; text-align: left;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+          <h3 style="font-family: 'Outfit', sans-serif; font-size: 20px; font-weight: 700; color: #fff; margin: 0;">Request Number Change</h3>
+          <button onclick="closeWaChangeModal()" style="background: none; border: none; color: var(--text-muted); font-size: 20px; cursor: pointer;">✕</button>
+        </div>
+
+        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px; line-height: 1.5;">
+          To protect account security and prevent WhatsApp abuse, number changes are reviewed by support.
+        </p>
+
+        <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border); border-radius: 8px; padding: 14px; margin-bottom: 20px;">
+          <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">Changes Used This Year:</div>
+          <div style="font-size: 14px; font-weight: 700; color: #fff;" id="waChangeModalCount">0 of 3 changes used</div>
+          <div style="font-size: 11px; color: #34d399; margin-top: 4px;" id="waChangeModalReset">Resets 12 months after first change</div>
+        </div>
+
+        <div style="display: flex; gap: 12px; justify-content: flex-end;">
+          <button onclick="closeWaChangeModal()" style="background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border); color: #fff; padding: 10px 18px; border-radius: 8px; font-weight: 600; cursor: pointer;">Cancel</button>
+          <button onclick="sendWaChangeEmail()" style="background: var(--primary-gradient); color: #fff; border: none; padding: 10px 18px; border-radius: 8px; font-weight: 600; cursor: pointer;">Open Gmail Draft →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Trust Badges Section -->
+    <div class="trust-badges-container">
+      <div class="trust-title">🛡️ Secure Payment Gateway</div>
+      <div class="badges-flex">
+        <span class="badge-item">💳 Credit/Debit Card</span>
+        <span class="badge-item">📱 UPI (GooglePay, PhonePe, Paytm)</span>
+        <span class="badge-item">🏛️ Netbanking</span>
+        <span class="badge-item">🔒 SSL Encrypted</span>
+      </div>
+    </div>
+
+    <!-- Side-by-Side Comparison Accordion -->
+    <div class="accordion-section" id="accordionComparison">
+      <div class="accordion-header" onclick="toggleAccordion('accordionComparison')">
+        <span class="accordion-title">📊 Compare Features Side-by-Side</span>
+        <span class="accordion-icon">▶</span>
+      </div>
+      <div class="accordion-content">
+        <div class="comparison-table-wrapper">
+          <table class="comparison-table">
+            <thead>
+              <tr>
+                <th>Feature</th>
+                <th>FREE Forever</th>
+                <th>PRO Tiers</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="feature-group"><td colspan="3">Automation Core</td></tr>
+              <tr>
+                <td>Daily Runtime Limit</td>
+                <td>2 Hours Daily</td>
+                <td><strong>12 Hours Daily</strong></td>
+              </tr>
+              <tr>
+                <td>Keyword List Size</td>
+                <td>Up to 10 Keywords</td>
+                <td><strong>Up to 500 Keywords</strong></td>
+              </tr>
+              <tr>
+                <td>Automation Modes</td>
+                <td>Manual Run Only</td>
+                <td><strong>Background / Headless Running</strong></td>
+              </tr>
+              
+              <tr class="feature-group"><td colspan="3">Smart Filters</td></tr>
+              <tr>
+                <td>Ignore Quantity Filter</td>
+                <td>🔒 Locked (Off)</td>
+                <td><span class="check-icon">✓</span> Unlocked (Ignore Empty Qty)</td>
+              </tr>
+              <tr>
+                <td>Ignore Price Filter</td>
+                <td>🔒 Locked (Off)</td>
+                <td><span class="check-icon">✓</span> Unlocked (Ignore Empty Price)</td>
+              </tr>
+              <tr>
+                <td>Location Guard</td>
+                <td>Domestic Only</td>
+                <td><span class="check-icon">✓</span> Domestic + Foreign Categories</td>
+              </tr>
+
+              <tr class="feature-group"><td colspan="3">Messaging & Support</td></tr>
+              <tr>
+                <td>WhatsApp Drafts</td>
+                <td>Branded (AutoSift Signature)</td>
+                <td><strong>Clean (No Signature Ads)</strong></td>
+              </tr>
+              <tr>
+                <td>Support Channels</td>
+                <td>Standard Email</td>
+                <td><strong>Dedicated WhatsApp, Call & Telegram Alerts</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ Accordion -->
+    <div class="accordion-section" id="accordionFAQ">
+      <div class="accordion-header" onclick="toggleAccordion('accordionFAQ')">
+        <span class="accordion-title">❓ Frequently Asked Questions</span>
+        <span class="accordion-icon">▶</span>
+      </div>
+      <div class="accordion-content">
+        <div class="faq-list">
+          <div class="faq-item" id="faq1">
+            <div class="faq-question" onclick="toggleFaq('faq1')">
+              <span>How does the 15-day free trial work?</span>
+              <span>+</span>
+            </div>
+            <div class="faq-answer">
+              Every new user gets a one-time 15-day trial of the PRO features when they sign in with Google inside the Chrome Extension. No credit card is required to claim the trial. Once the trial ends, you will revert to the FREE Forever plan automatically unless you choose to subscribe.
+            </div>
+          </div>
+          <div class="faq-item" id="faq2">
+            <div class="faq-question" onclick="toggleFaq('faq2')">
+              <span>Is my payment secure?</span>
+              <span>+</span>
+            </div>
+            <div class="faq-answer">
+              Yes, all payments are securely processed via Razorpay, India's leading payment gateway. We support all major Credit/Debit Cards, UPI (GPay, PhonePe, Paytm, etc.), and Netbanking. Your credentials are fully encrypted and never stored on our servers.
+            </div>
+          </div>
+          <div class="faq-item" id="faq3">
+            <div class="faq-question" onclick="toggleFaq('faq3')">
+              <span>Can I cancel my subscription?</span>
+              <span>+</span>
+            </div>
+            <div class="faq-answer">
+              Absolutely. You can cancel your subscription at any time directly from the settings page. Once canceled, your PRO features will remain active until the end of your billing cycle, and no further charges will be made.
+            </div>
+          </div>
+          <div class="faq-item" id="faq4">
+            <div class="faq-question" onclick="toggleFaq('faq4')">
+              <span>Do I get a refund if I cancel?</span>
+              <span>+</span>
+            </div>
+            <div class="faq-answer">
+              Please refer to our Refund Policy for detailed terms. We offer full/partial refunds under specific conditions if requested within our refund request window. Contact support via email or WhatsApp if you need help.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tooltip backdrop for mobile tap closing -->
+  <div class="tooltip-backdrop" id="tooltipBackdrop" onclick="closeAllTooltips()"></div>
+
+  <!-- B2B Footer Section -->
+  <footer class="b2b-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand-info">
+          <div class="brand">
+            <img src="assets/images/logo.png" alt="AutoSift" class="brand-logo" onerror="this.src='https://autosift.aiautomationwithamit.in/assets/images/logo.png'">
+            <span class="brand-name" style="color: #fff; font-weight: 700; font-size: 18px;">AutoSift</span>
+          </div>
+          <p>IndiaMART B2B Lead Automation & Filter Extension for Professional Sellers. Automatically filter, shortlist, and buy leads to save 4+ hours daily.</p>
+        </div>
+        <div>
+          <h4 class="footer-col-title">Product</h4>
+          <ul class="footer-links-list">
+            <li><a href="index.html">Homepage</a></li>
+            <li><a href="pricing.html">Pricing Plans</a></li>
+            <li><a href="changelog.html">What's New</a></li>
+            <li><a href="https://chromewebstore.google.com/detail/autosift/gabifcmcgekdfilmpipmicepajaglknm" target="_blank" rel="noopener">Chrome Extension</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-col-title">Legal & Trust</h4>
+          <ul class="footer-links-list">
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="terms.html">Terms of Service</a></li>
+            <li><a href="refund-policy.html">Refund Policy</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-col-title">Support</h4>
+          <ul class="footer-links-list">
+            <li><a href="mailto:autosiftindia+support@gmail.com">autosiftindia+support@gmail.com</a></li>
+            <li><a href="https://www.youtube.com/@AIAutomationwithAmit" target="_blank" rel="noopener">YouTube Tutorials</a></li>
+            <li><a href="https://www.aiautomationwithamit.in" target="_blank" rel="noopener">Founder Website</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AutoSift. All rights reserved.</span>
+      </div>
+    </div>
+  </footer>
+
+
+  <script>
+    // ⚙️ Configurations
+    const SUPABASE_URL = 'https://pipcqctaaplgaltzfrjv.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBpcGNxY3RhYXBsZ2FsdHpmcmp2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg4MjQ1NjIsImV4cCI6MjA4NDQwMDU2Mn0.2cjoHOIwbL0v6utUnuS8jex_oeZpb-MUgKbq4kg1Bs8';
+    
+    // Webhook Server URL
+    const API_BASE_URL = 'https://webhook.autosift.aiautomationwithamit.in';
+
+    const RAZORPAY_KEY_ID = "rzp_live_T8pfDdhak47oP4";
+
+    let supabaseClient = null;
+    let currentUser = null;
+
+    // Stats Configuration
+    const STATS_CONFIG = {
+      useRoundedNumbers: false // Toggle: false = raw (30906), true = rounded (30,000+)
+    };
+
+    // Initialize Supabase Client
+    if (typeof supabase !== 'undefined') {
+      supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    }
+
+    // Initialize Page
+    document.addEventListener('DOMContentLoaded', async () => {
+      if (!supabaseClient) {
+        console.error("Supabase could not be loaded.");
+        return;
+      }
+      
+      // Load Razorpay script
+      loadRazorpayCheckoutScript();
+
+      // Check current auth status
+      let { data: { session } } = await supabaseClient.auth.getSession();
+
+      // Host-gated mock session (active ONLY on localhost / 127.0.0.1 for testing)
+      const urlParams = new URLSearchParams(window.location.search);
+      const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+      const isMockMode = isLocalhost && urlParams.get('mock') === 'true';
+
+      if (isMockMode) {
+        const mockEmail = urlParams.get('email') ? decodeURIComponent(urlParams.get('email')) : 'amit.automates1@gmail.com';
+        session = {
+          user: {
+            id: '96efda92-12c0-4bb1-8bf5-127dbdc7bf24',
+            email: mockEmail
+          }
+        };
+      }
+      updateAuthUI(session);
+
+      // Post-login automatic actions (e.g. trial claim or Razorpay checkout initiation)
+      const action = urlParams.get('action');
+      const planType = urlParams.get('plan');
+
+      if (session && session.user && action) {
+        // Clear params from address bar to prevent infinite loop on manual page refresh
+        const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+        window.history.replaceState({}, document.title, cleanUrl);
+
+        if (action === 'claim_trial') {
+          // Delay slightly to let layout settle before showing overlay
+          setTimeout(async () => {
+            await executeTrialClaim();
+          }, 300);
+        } else if (action === 'checkout' && planType) {
+          const dbPlanCode = planType === 'monthly' ? 'pro_monthly_early' : 'pro_yearly_early';
+          setTimeout(() => {
+            checkoutPlan(dbPlanCode);
+          }, 300);
+        }
+      }
+
+      // Listen for auth state changes
+      supabaseClient.auth.onAuthStateChange((event, newSession) => {
+        let activeSession = newSession;
+        if (urlParams.get('mock') === 'true' && !newSession) {
+          // If we click Sign Out in mock mode, clear mock session
+          activeSession = null;
+        } else if (urlParams.get('mock') === 'true') {
+          activeSession = {
+            user: {
+              id: '96efda92-12c0-4bb1-8bf5-127dbdc7bf24',
+              email: 'amit.automates1@gmail.com'
+            }
+          };
+        }
+        updateAuthUI(activeSession);
+      });
+
+      // Load founding supporter live counter
+      loadFoundingSupportersCounter();
+
+      // Load Live Stats (overall + trend)
+      loadLiveStats();
+
+      // Real-time WhatsApp Input Sanitization (Digits only, max 15)
+      const waInput = document.getElementById('whatsappNumber');
+      if (waInput) {
+        waInput.addEventListener('input', function() {
+          this.value = this.value.replace(/\D/g, '').substring(0, 15);
+        });
+      }
+    });
+
+    // Load Razorpay Script
+    function loadRazorpayCheckoutScript() {
+      if (window.Razorpay) return;
+      const script = document.createElement('script');
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      document.head.appendChild(script);
+    }
+
+    // Update UI based on Authentication Session
+    // Update UI based on Authentication Session
+    async function updateAuthUI(session) {
+      const headerAuthStatus = document.getElementById('headerAuthStatus');
+      const headerUserEmail = document.getElementById('headerUserEmail');
+      const whatsappSection = document.getElementById('whatsappSection');
+      const mismatchBanner = document.getElementById('mismatchBanner');
+      const mismatchExtEmail = document.getElementById('mismatchExtEmail');
+      const mismatchWebEmail = document.getElementById('mismatchWebEmail');
+
+      if (session && session.user) {
+        currentUser = session.user;
+        
+        // Update header auth status indicator
+        if (headerUserEmail) headerUserEmail.textContent = currentUser.email;
+        if (headerAuthStatus) headerAuthStatus.style.display = 'flex';
+        
+        // WhatsApp 2-Step Verification section hidden for v1.4.0 launch.
+        // Re-enable when VPS Phase 2b activates cloud version for users.
+        // if (whatsappSection) whatsappSection.style.display = 'block';
+
+        // Check for session email mismatch with URL parameter (Extension Session Sync)
+        const urlParams = new URLSearchParams(window.location.search);
+        const extEmail = urlParams.get('email');
+
+        if (extEmail && session.user.email && session.user.email.toLowerCase() !== decodeURIComponent(extEmail).toLowerCase()) {
+          if (mismatchBanner) mismatchBanner.style.display = 'flex';
+          if (mismatchExtEmail) mismatchExtEmail.textContent = decodeURIComponent(extEmail);
+          if (mismatchWebEmail) mismatchWebEmail.textContent = session.user.email;
+        } else {
+          if (mismatchBanner) mismatchBanner.style.display = 'none';
+        }
+
+        // Retrieve current profile status & WhatsApp number & trial status
+        try {
+          const { data: profile } = await supabaseClient
+            .from('profiles')
+            .select('plan_type, whatsapp_number, whatsapp_change_count, whatsapp_first_change_at, trial_claimed_at')
+            .eq('id', currentUser.id)
+            .maybeSingle();
+
+          if (profile) {
+            renderWhatsAppSection(profile);
+            updatePricingButtons(profile);
+          } else {
+            renderWhatsAppSection(null);
+            updatePricingButtons(null);
+          }
+        } catch (err) {
+          console.warn("Error loading user profile:", err);
+          renderWhatsAppSection(null);
+          updatePricingButtons(null);
+        }
+      } else {
+        currentUser = null;
+        if (headerAuthStatus) headerAuthStatus.style.display = 'none';
+        if (whatsappSection) whatsappSection.style.display = 'none';
+        renderWhatsAppSection(null);
+        updatePricingButtons(null);
+        if (mismatchBanner) mismatchBanner.style.display = 'none';
+      }
+    }
+
+    // WhatsApp Verification Logic & Helpers
+    let currentProfile = null;
+
+    function renderWhatsAppSection(profile) {
+      currentProfile = profile;
+      const whatsappSection = document.getElementById('whatsappSection');
+      const waUnlinkedState = document.getElementById('waUnlinkedState');
+      const waLinkedState = document.getElementById('waLinkedState');
+      const waLinkedDisplayNumber = document.getElementById('waLinkedDisplayNumber');
+      const hiddenWaInput = document.getElementById('whatsappNumber');
+
+      if (!whatsappSection) return;
+
+      if (profile && profile.whatsapp_number) {
+        // State B: Linked
+        if (hiddenWaInput) hiddenWaInput.value = profile.whatsapp_number;
+        
+        const num = profile.whatsapp_number;
+        const last4 = num.slice(-4);
+        if (waLinkedDisplayNumber) {
+          waLinkedDisplayNumber.textContent = `+91 ••••• ${last4}`;
+        }
+        
+        if (waUnlinkedState) waUnlinkedState.style.display = 'none';
+        if (waLinkedState) waLinkedState.style.display = 'block';
+      } else {
+        // State A: Unlinked
+        if (hiddenWaInput) hiddenWaInput.value = '';
+        if (waUnlinkedState) waUnlinkedState.style.display = 'block';
+        if (waLinkedState) waLinkedState.style.display = 'none';
+      }
+    }
+
+    function checkWaRateLimit() {
+      try {
+        const now = Date.now();
+        const attempts = JSON.parse(sessionStorage.getItem('wa_rate_limit') || '{"count": 0, "timestamp": 0}');
+        if (now - attempts.timestamp > 3600000) { // 1 hour window
+          sessionStorage.setItem('wa_rate_limit', JSON.stringify({ count: 1, timestamp: now }));
+          return { allowed: true };
+        }
+        if (attempts.count >= 5) {
+          return { allowed: false, error: 'Too many verification attempts (5 max per hour). Please try again later.' };
+        }
+        attempts.count += 1;
+        sessionStorage.setItem('wa_rate_limit', JSON.stringify(attempts));
+        return { allowed: true };
+      } catch (e) {
+        return { allowed: true };
+      }
+    }
+
+    function handleWaStep1Next() {
+      const consentCheck = document.getElementById('waConsentCheck');
+      const genErr = document.getElementById('waGeneralError');
+      const step1Input = document.getElementById('waInputStep1');
+      const step2Box = document.getElementById('waStep2Box');
+      const step2Input = document.getElementById('waInputStep2');
+
+      if (genErr) genErr.style.display = 'none';
+
+      if (!consentCheck || !consentCheck.checked) {
+        if (genErr) {
+          genErr.textContent = '⚠️ Please check the DPDPA consent box to proceed with WhatsApp verification.';
+          genErr.style.display = 'block';
+        }
+        return;
+      }
+
+      const rateCheck = checkWaRateLimit();
+      if (!rateCheck.allowed) {
+        if (genErr) {
+          genErr.textContent = `⛔ ${rateCheck.error}`;
+          genErr.style.display = 'block';
+        }
+        return;
+      }
+
+      const cleanNum = (step1Input ? step1Input.value : '').replace(/\D/g, '');
+      if (cleanNum.length !== 10 || !/^[6-9]\d{9}$/.test(cleanNum)) {
+        if (genErr) {
+          genErr.textContent = '❌ Please enter a valid 10-digit Indian mobile number starting with 6, 7, 8, or 9.';
+          genErr.style.display = 'block';
+        }
+        return;
+      }
+
+      // Check dummy numbers
+      if (/^(\d)\1{9}$/.test(cleanNum) || ['1234567890', '9876543210', '0123456789'].includes(cleanNum)) {
+        if (genErr) {
+          genErr.textContent = '❌ Invalid mobile number. Please enter your real 10-digit WhatsApp number.';
+          genErr.style.display = 'block';
+        }
+        return;
+      }
+
+      // Log telemetry event
+      logUpgradeFunnelEvent('whatsapp_step1_completed', { number_masked: cleanNum.substring(0, 3) + '••••' + cleanNum.substring(6) });
+
+      if (step2Box) step2Box.style.display = 'block';
+      if (step2Input) {
+        step2Input.value = '';
+        step2Input.focus();
+      }
+    }
+
+    function handleWaPasteBlocked(e) {
+      e.preventDefault();
+      const errEl = document.getElementById('waStep2Error');
+      if (errEl) {
+        errEl.textContent = '⛔ Copy-paste is disabled for verification. Please manually type your 10-digit number to ensure accuracy.';
+        errEl.style.display = 'block';
+      }
+      logUpgradeFunnelEvent('whatsapp_paste_blocked', { entry_point: 'pricing_page' });
+      return false;
+    }
+
+    function showWaSuccessToast(whatsappNumber) {
+      const toast = document.getElementById('waSuccessToast');
+      const toastNum = document.getElementById('waSuccessToastNum');
+      if (toastNum) toastNum.textContent = whatsappNumber;
+      if (toast) {
+        toast.style.display = 'block';
+        setTimeout(() => {
+          toast.style.display = 'none';
+        }, 6000);
+      }
+    }
+
+    async function submitWaVerification() {
+      const step1Val = (document.getElementById('waInputStep1')?.value || '').replace(/\D/g, '');
+      const step2Val = (document.getElementById('waInputStep2')?.value || '').replace(/\D/g, '');
+      const errEl = document.getElementById('waStep2Error');
+      const genErr = document.getElementById('waGeneralError');
+      const submitBtn = document.getElementById('btnWaSubmit');
+
+      if (errEl) errEl.style.display = 'none';
+      if (genErr) genErr.style.display = 'none';
+
+      if (step1Val !== step2Val) {
+        if (errEl) {
+          errEl.textContent = '❌ Confirmation number does not match Step 1. Please re-check and type carefully.';
+          errEl.style.display = 'block';
+        }
+        logUpgradeFunnelEvent('whatsapp_step2_mismatch', { entry_point: 'pricing_page' });
+        return;
+      }
+
+      if (submitBtn) submitBtn.disabled = true;
+
+      const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+      const isMockMode = isLocalhost && new URLSearchParams(window.location.search).get('mock') === 'true';
+
+      try {
+        const { data, error } = await supabaseClient.rpc('verify_and_link_whatsapp', {
+          p_whatsapp: step1Val,
+          p_source: 'pricing_page',
+          p_user_agent: navigator.userAgent
+        });
+
+        if (error) {
+          if (isMockMode) {
+            console.log("ℹ️ Localhost Mock Mode: Simulating successful verification");
+            showWaSuccessToast('+91 ' + step1Val);
+            const mockProfile = {
+              plan_type: currentProfile?.plan_type || 'free',
+              whatsapp_number: '+91' + step1Val,
+              whatsapp_change_count: 0,
+              whatsapp_first_change_at: null
+            };
+            renderWhatsAppSection(mockProfile);
+            return;
+          }
+          throw error;
+        }
+
+        if (data && data.success) {
+          showWaSuccessToast(data.whatsapp);
+          logUpgradeFunnelEvent('whatsapp_number_linked', { whatsapp: data.whatsapp, changes_used: data.changes_used });
+          
+          // Re-fetch profile & render State B
+          let updatedProfile = null;
+          try {
+            const { data: profileData } = await supabaseClient
+              .from('profiles')
+              .select('plan_type, whatsapp_number, whatsapp_change_count, whatsapp_first_change_at, trial_claimed_at')
+              .eq('id', currentUser.id)
+              .single();
+            updatedProfile = profileData;
+          } catch(e) {
+            console.warn("Profile refetch warning:", e);
+          }
+
+          renderWhatsAppSection(updatedProfile || { whatsapp_number: data.whatsapp, whatsapp_change_count: data.changes_used || 0 });
+        } else {
+          if (isMockMode) {
+            showWaSuccessToast('+91 ' + step1Val);
+            const mockProfile = {
+              plan_type: currentProfile?.plan_type || 'free',
+              whatsapp_number: '+91' + step1Val,
+              whatsapp_change_count: 0,
+              whatsapp_first_change_at: null
+            };
+            renderWhatsAppSection(mockProfile);
+            return;
+          }
+          if (genErr) {
+            genErr.textContent = `⛔ ${data?.message || 'Verification failed. Please try again.'}`;
+            genErr.style.display = 'block';
+          }
+          logUpgradeFunnelEvent('whatsapp_verification_failed', { message: data?.message });
+        }
+      } catch (err) {
+        console.error("WhatsApp verification RPC error:", err);
+        if (isMockMode) {
+          showWaSuccessToast('+91 ' + step1Val);
+          const mockProfile = {
+            plan_type: currentProfile?.plan_type || 'free',
+            whatsapp_number: '+91' + step1Val,
+            whatsapp_change_count: 0,
+            whatsapp_first_change_at: null
+          };
+          renderWhatsAppSection(mockProfile);
+          return;
+        }
+        if (genErr) {
+          genErr.textContent = `❌ Error linking WhatsApp number: ${err.message}`;
+          genErr.style.display = 'block';
+        }
+      } finally {
+        if (submitBtn) submitBtn.disabled = false;
+      }
+    }
+
+    function openWaChangeModal() {
+      const modal = document.getElementById('waChangeModal');
+      const countEl = document.getElementById('waChangeModalCount');
+      const resetEl = document.getElementById('waChangeModalReset');
+
+      const used = currentProfile?.whatsapp_change_count || 0;
+      if (countEl) countEl.textContent = `${used} of 3 changes used this year`;
+      
+      if (resetEl && currentProfile?.whatsapp_first_change_at) {
+        const date = new Date(currentProfile.whatsapp_first_change_at);
+        date.setFullYear(date.getFullYear() + 1);
+        resetEl.textContent = `Resets on ${date.toLocaleDateString('en-IN', { month: 'short', day: 'numeric', year: 'numeric' })}`;
+      }
+
+      if (modal) modal.style.display = 'flex';
+      logUpgradeFunnelEvent('whatsapp_change_modal_shown', { changes_used: used });
+    }
+
+    function closeWaChangeModal() {
+      const modal = document.getElementById('waChangeModal');
+      if (modal) modal.style.display = 'none';
+    }
+
+    function sendWaChangeEmail() {
+      closeWaChangeModal();
+      logUpgradeFunnelEvent('whatsapp_change_gmail_opened', { user_email: currentUser?.email });
+
+      const email = currentUser?.email || 'N/A';
+      const currentWa = currentProfile?.whatsapp_number || 'N/A';
+      const used = currentProfile?.whatsapp_change_count || 0;
+
+      const subject = encodeURIComponent(`WhatsApp Number Change Request — ${email}`);
+      const body = encodeURIComponent(
+        `Hi AutoSift Support,\n\nI would like to request a change for my registered WhatsApp number.\n\nAccount Details:\n- Email: ${email}\n- Current WhatsApp: ${currentWa}\n- Changes Used This Year: ${used} of 3\n\nNew WhatsApp Number: +91 [Enter New Number Here]\nReason for Change: [Enter Reason Here]\n\nThank you!`
+      );
+
+      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=autosiftindia+support@gmail.com&su=${subject}&body=${body}`;
+      window.open(gmailUrl, '_blank');
+    }
+
+    async function logUpgradeFunnelEvent(eventType, metadata = {}) {
+      if (!currentUser) return;
+      try {
+        await supabaseClient
+          .from('upgrade_funnel_events')
+          .insert({
+            user_id: currentUser.id,
+            event_type: eventType,
+            metadata: { ...metadata, source: 'pricing_page' }
+          });
+      } catch (e) {
+        console.warn("Telemetry error:", e);
+      }
+    }
+
+    function updatePricingButtons(profile) {
+      const btnFreePlan = document.getElementById('btnFreePlan');
+      const btnMonthly = document.getElementById('btnBuyMonthly');
+      const btnYearly = document.getElementById('btnBuyYearly');
+      const microMonthly = document.getElementById('microcopyMonthly');
+      const microYearly = document.getElementById('microcopyYearly');
+
+      // Update FREE Plan Card Button based on user state
+      if (btnFreePlan) {
+        if (!currentUser) {
+          // Guest User: Direct to signup.html
+          btnFreePlan.textContent = 'Get Started Free';
+          btnFreePlan.href = 'signup.html';
+          btnFreePlan.style.pointerEvents = 'auto';
+          btnFreePlan.style.opacity = '1';
+          btnFreePlan.style.cursor = 'pointer';
+        } else if (profile && profile.plan_type === 'pro') {
+          // PRO Plan Active User
+          btnFreePlan.textContent = 'Included in PRO';
+          btnFreePlan.removeAttribute('href');
+          btnFreePlan.style.pointerEvents = 'none';
+          btnFreePlan.style.opacity = '0.5';
+          btnFreePlan.style.cursor = 'default';
+        } else {
+          // Logged-in FREE Plan User
+          btnFreePlan.textContent = '✓ Current Plan';
+          btnFreePlan.removeAttribute('href');
+          btnFreePlan.style.pointerEvents = 'none';
+          btnFreePlan.style.opacity = '0.65';
+          btnFreePlan.style.cursor = 'default';
+        }
+      }
+
+      // Trial eligible if profile is guest (null), or plan_type is free and trial_claimed_at is null
+      const isTrialEligible = !profile || (profile.plan_type === 'free' && !profile.trial_claimed_at);
+
+      if (isTrialEligible) {
+        if (btnMonthly) btnMonthly.textContent = 'Start 15-Day Free Trial';
+        if (btnYearly) btnYearly.textContent = 'Start 15-Day Free Trial';
+        if (microMonthly) {
+          microMonthly.textContent = '🎁 Try Pro features free • No credit card required';
+          microMonthly.style.color = '#34d399';
+        }
+        if (microYearly) {
+          microYearly.textContent = '🎁 Try Pro features free • No credit card required';
+          microYearly.style.color = '#34d399';
+        }
+      } else {
+        if (btnMonthly) btnMonthly.textContent = 'Subscribe Monthly';
+        if (btnYearly) btnYearly.textContent = 'Subscribe Yearly';
+        if (microMonthly) {
+          microMonthly.textContent = '🔒 Secure payment via Razorpay';
+          microMonthly.style.color = 'var(--text-muted)';
+        }
+        if (microYearly) {
+          microYearly.textContent = '🔒 Secure payment via Razorpay';
+          microYearly.style.color = 'var(--text-muted)';
+        }
+      }
+    }
+
+    async function handleCardClick(planType) {
+      // 1. Guest Flow: Redirect to signup gateway with intent
+      if (!currentUser) {
+        window.location.href = `signup.html?action=claim_trial&plan=${planType}`;
+        return;
+      }
+
+      // 2. Signed-in Flow: Retrieve fresh profile state to prevent race conditions
+      const btnMonthly = document.getElementById('btnBuyMonthly');
+      const btnYearly = document.getElementById('btnBuyYearly');
+      if (btnMonthly) btnMonthly.disabled = true;
+      if (btnYearly) btnYearly.disabled = true;
+
+      try {
+        const { data: profile, error } = await supabaseClient
+          .from('profiles')
+          .select('plan_type, trial_claimed_at')
+          .eq('id', currentUser.id)
+          .maybeSingle();
+
+        if (error) throw error;
+
+        const isTrialEligible = !profile || (profile.plan_type === 'free' && !profile.trial_claimed_at);
+
+        if (isTrialEligible) {
+          await executeTrialClaim();
+        } else {
+          const dbPlanCode = planType === 'monthly' ? 'pro_monthly_early' : 'pro_yearly_early';
+          checkoutPlan(dbPlanCode);
+        }
+      } catch (err) {
+        console.error("Error handling card click:", err);
+        // Fallback checkout
+        const dbPlanCode = planType === 'monthly' ? 'pro_monthly_early' : 'pro_yearly_early';
+        checkoutPlan(dbPlanCode);
+      } finally {
+        if (btnMonthly) btnMonthly.disabled = false;
+        if (btnYearly) btnYearly.disabled = false;
+      }
+    }
+
+    async function executeTrialClaim() {
+      try {
+        const { data, error } = await supabaseClient.rpc('claim_free_trial');
+        if (error) throw error;
+
+        if (data && data.success) {
+          showCelebrationModal(data.expiresAt);
+          
+          // Refresh layout buttons dynamically
+          const { data: profile } = await supabaseClient
+            .from('profiles')
+            .select('plan_type, whatsapp_number, trial_claimed_at')
+            .eq('id', currentUser.id)
+            .maybeSingle();
+            
+          updatePricingButtons(profile);
+        } else {
+          showSecurityBlockModal(data.error || "Your account/device is not eligible for another free trial.");
+        }
+      } catch (err) {
+        console.error("Trial claim execution error:", err);
+        showSecurityBlockModal("Your account/device is not eligible for another free trial. Please subscribe to Pro to access features.");
+      }
+    }
+
+    function showCelebrationModal(expiresAtRaw) {
+      const overlay = document.getElementById('trialSuccessOverlay');
+      const dateEl = document.getElementById('trialExpiresDate');
+      if (dateEl && expiresAtRaw) {
+        try {
+          const date = new Date(expiresAtRaw);
+          dateEl.textContent = date.toLocaleDateString('en-IN', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+          });
+        } catch(e) {
+          dateEl.textContent = expiresAtRaw;
+        }
+      }
+      if (overlay) overlay.style.display = 'flex';
+    }
+
+    function showSecurityBlockModal(errMsg) {
+      const overlay = document.getElementById('trialErrorOverlay');
+      const msgEl = document.getElementById('trialErrorMsg');
+      if (msgEl && errMsg) {
+        if (errMsg.includes("device") || errMsg.includes("Fingerprint") || errMsg.includes("claimed")) {
+          msgEl.textContent = "This device or account has already used its free trial. Please choose a subscription plan below to unlock PRO features.";
+        } else {
+          msgEl.textContent = errMsg;
+        }
+      }
+      if (overlay) overlay.style.display = 'flex';
+    }
+
+    function closeTrialSuccess() {
+      const overlay = document.getElementById('trialSuccessOverlay');
+      if (overlay) overlay.style.display = 'none';
+    }
+
+    function closeTrialError() {
+      const overlay = document.getElementById('trialErrorOverlay');
+      if (overlay) overlay.style.display = 'none';
+      const container = document.querySelector('.pricing-container');
+      if (container) container.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Fetch and show Founding Supporters Counter (Hybrid)
+    async function loadFoundingSupportersCounter() {
+      try {
+        const { data: count, error } = await supabaseClient.rpc('get_founding_supporter_count');
+        if (error) throw error;
+
+        const fomoBanner = document.getElementById('fomoBanner');
+        const fomoBannerText = document.getElementById('fomoBannerText');
+
+        if (count >= 100) {
+          fomoBanner.style.display = 'none';
+        } else if (count >= 10) {
+          const remaining = 100 - count;
+          fomoBannerText.textContent = `🎉 Launch Offer — Only ${remaining} of 100 Founding Supporter Spots Remaining!`;
+          fomoBanner.style.display = 'flex';
+        } else {
+          fomoBannerText.textContent = "🎉 Special Launch Offer: Get 50% Off as One of Our Founding 100 Supporters";
+          fomoBanner.style.display = 'flex';
+        }
+      } catch (e) {
+        console.error("Error reading founding supporters count:", e);
+      }
+    }
+
+    // Safe Cache Helpers
+    function safeGetCache(key) {
+      try {
+        const val = localStorage.getItem(key);
+        return val ? JSON.parse(val) : null;
+      } catch (e) {
+        return null;
+      }
+    }
+
+    // Safe Cache Set Helper
+    function safeSetCache(key, value) {
+      try {
+        localStorage.setItem(key, JSON.stringify(value));
+      } catch (e) {
+        // Silently fail if private mode / full storage
+      }
+    }
+
+    // Load Live Stats (stale-while-revalidate)
+    async function loadLiveStats() {
+      const CACHE_KEY = 'autosift_pricing_stats';
+      const cached = safeGetCache(CACHE_KEY);
+      let cachedData = null;
+      let cacheTTL = 60 * 60 * 1000; // Default: 1 hour
+
+      // Parse remote config TTL if available
+      try {
+        const { data: config } = await supabaseClient
+          .from('remote_config')
+          .select('config_value')
+          .eq('config_key', 'pricing_stats_cache_ttl_minutes')
+          .single();
+        if (config && config.config_value) {
+          const minutes = parseInt(config.config_value);
+          if (!isNaN(minutes) && minutes > 0) {
+            cacheTTL = minutes * 60 * 1000;
+          }
+        }
+      } catch (e) {
+        console.warn("Failed to read remote config TTL:", e);
+      }
+
+      // Display update frequency text based on TTL
+      updateFrequencyText(cacheTTL);
+
+      if (cached) {
+        cachedData = cached.data;
+        // If cache is still fresh, render immediately and stop
+        if (Date.now() - cached.timestamp < cacheTTL) {
+          renderStats(cachedData);
+          return;
+        }
+      }
+
+      // Prepare 5s timeout abort controller
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000);
+
+      try {
+        const { data, error } = await supabaseClient.rpc('get_pricing_page_stats');
+        clearTimeout(timeoutId);
+        if (error) throw error;
+
+        // Success: render and cache fresh data
+        renderStats(data);
+        safeSetCache(CACHE_KEY, { data, timestamp: Date.now() });
+      } catch (err) {
+        clearTimeout(timeoutId);
+        console.warn("Live stats fetch failed, falling back to cache:", err);
+        // Fallback: If we have stale cache, render it
+        if (cachedData) {
+          renderStats(cachedData);
+        }
+      }
+    }
+
+    function updateFrequencyText(ttlMs) {
+      const minutes = Math.round(ttlMs / (60 * 1000));
+      let text = 'Updated hourly';
+      if (minutes <= 5) text = 'Updated every few minutes';
+      else if (minutes <= 15) text = 'Updated every 15 minutes';
+      else if (minutes <= 30) text = 'Updated every 30 minutes';
+      else if (minutes <= 60) text = 'Updated hourly';
+      else if (minutes <= 120) text = 'Updated every 2 hours';
+      else if (minutes <= 360) text = 'Updated every 6 hours';
+      else if (minutes <= 720) text = 'Updated every 12 hours';
+      else text = 'Updated daily';
+
+      const textEl = document.getElementById('statsUpdateFreqText');
+      if (textEl) {
+        textEl.textContent = `${text} from live database logs`;
+        textEl.style.display = 'inline-flex';
+      }
+    }
+
+    function renderStats(stats) {
+      if (!stats) return;
+
+      const useRound = STATS_CONFIG.useRoundedNumbers;
+
+      // Animate Overall Stats cards
+      animateValue("statUsers", 0, stats.total_users, 1500, useRound ? '+' : '');
+      animateValue("statLeads", 0, stats.leads_processed, 1500, useRound ? '+' : '');
+      animateValue("statPurchases", 0, stats.leads_purchased, 1500, useRound ? '+' : '');
+      animateValue("statFiltered", 0, stats.leads_filtered, 1500, useRound ? '+' : '');
+      animateValue("statHours", 0, stats.hours_saved, 1500, useRound ? '+' : '');
+
+      // Show stats bar & header container
+      document.getElementById('liveStatsBar').style.display = 'grid';
+      const statsHeaderContainer = document.getElementById('statsHeaderContainer');
+      if (statsHeaderContainer) statsHeaderContainer.style.display = 'block';
+
+      // Check rolling 7-day trend values
+      const trendLeads = stats.last_7d_leads || 0;
+      const trendPurchases = stats.last_7d_purchases || 0;
+      const trendUsers = stats.last_7d_active_users || 0;
+
+      // Show rolling 7-day strip only if leads processed > 100 (Minimum threshold safeguard)
+      const stripEl = document.getElementById('last7dStrip');
+      if (stripEl) {
+        if (trendLeads > 100) {
+          document.getElementById('trendLeads').textContent = trendLeads.toLocaleString('en-IN');
+          document.getElementById('trendPurchases').textContent = trendPurchases.toLocaleString('en-IN');
+          document.getElementById('trendUsers').textContent = trendUsers.toLocaleString('en-IN');
+          stripEl.style.display = 'flex';
+        } else {
+          stripEl.style.display = 'none';
+        }
+      }
+    }
+
+    // Number Count-Up Animation
+    function animateValue(id, start, end, duration, suffix = '') {
+      const obj = document.getElementById(id);
+      if (!obj) return;
+      
+      let startTimestamp = null;
+      const step = (timestamp) => {
+        if (!startTimestamp) startTimestamp = timestamp;
+        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+        const currentVal = Math.floor(progress * (end - start) + start);
+        obj.textContent = currentVal.toLocaleString('en-IN') + suffix;
+        if (progress < 1) {
+          window.requestAnimationFrame(step);
+        } else {
+          obj.textContent = end.toLocaleString('en-IN') + suffix;
+        }
+      };
+      window.requestAnimationFrame(step);
+    }
+
+    // Tooltip trigger helper with viewport boundary prevention
+    function toggleTooltip(event, tooltipId) {
+      event.stopPropagation();
+      const allTooltips = document.querySelectorAll('.stat-tooltip-text');
+      const targetTooltip = document.getElementById(tooltipId);
+      const backdrop = document.getElementById('tooltipBackdrop');
+
+      // Close all other tooltips first
+      allTooltips.forEach(t => {
+        if (t.id !== tooltipId) {
+          t.style.visibility = 'hidden';
+          t.style.opacity = '0';
+        }
+      });
+
+      if (!targetTooltip) return;
+
+      const isMobile = window.innerWidth <= 768;
+      const isVisible = targetTooltip.style.visibility === 'visible';
+
+      if (isVisible) {
+        targetTooltip.style.visibility = 'hidden';
+        targetTooltip.style.opacity = '0';
+        if (backdrop) backdrop.style.display = 'none';
+      } else {
+        targetTooltip.style.visibility = 'visible';
+        targetTooltip.style.opacity = '1';
+
+        if (isMobile) {
+          // Centered overlay on mobile
+          if (backdrop) backdrop.style.display = 'block';
+        } else {
+          // Adjust vertical position on desktop if it gets cut off on top
+          const rect = targetTooltip.getBoundingClientRect();
+          if (rect.top < 10) {
+            targetTooltip.style.bottom = 'auto';
+            targetTooltip.style.top = 'calc(100% + 8px)';
+          }
+        }
+      }
+    }
+
+    function closeAllTooltips() {
+      const allTooltips = document.querySelectorAll('.stat-tooltip-text');
+      allTooltips.forEach(t => {
+        t.style.visibility = 'hidden';
+        t.style.opacity = '0';
+      });
+      const backdrop = document.getElementById('tooltipBackdrop');
+      if (backdrop) backdrop.style.display = 'none';
+    }
+
+    // Click anywhere else closes tooltips
+    document.addEventListener('click', () => {
+      closeAllTooltips();
+    });
+
+    // Billing toggle handler (updates CSS classes only - cards remain side-by-side)
+    function setBillingToggle(period) {
+      const toggleWrapper = document.getElementById('billingToggleWrapper');
+      const toggleMonthlyBtn = document.getElementById('toggleMonthlyBtn');
+      const toggleYearlyBtn = document.getElementById('toggleYearlyBtn');
+      const cardMonthly = document.getElementById('cardMonthly');
+      const cardYearly = document.getElementById('cardYearly');
+      const badgeMonthly = document.getElementById('badgeMonthly');
+      const badgeYearly = document.getElementById('badgeYearly');
+
+      const btnBuyMonthly = document.getElementById('btnBuyMonthly');
+      const btnBuyYearly = document.getElementById('btnBuyYearly');
+
+      if (period === 'monthly') {
+        toggleWrapper.classList.remove('yearly-active');
+        toggleMonthlyBtn.classList.add('active');
+        toggleYearlyBtn.classList.remove('active');
+
+        // Shift highlight to Monthly card
+        if (cardMonthly) cardMonthly.classList.add('popular', 'highlighted-plan');
+        if (cardYearly) cardYearly.classList.remove('popular', 'highlighted-plan');
+
+        if (badgeMonthly) badgeMonthly.style.display = 'block';
+        if (badgeYearly) badgeYearly.style.display = 'none';
+
+        // Update button styles: Monthly active, Yearly ghost
+        if (btnBuyMonthly) {
+          btnBuyMonthly.classList.add('btn-primary-gradient');
+          btnBuyMonthly.classList.remove('btn-secondary-ghost');
+        }
+        if (btnBuyYearly) {
+          btnBuyYearly.classList.add('btn-secondary-ghost');
+          btnBuyYearly.classList.remove('btn-primary-gradient');
+        }
+      } else {
+        toggleWrapper.classList.add('yearly-active');
+        toggleMonthlyBtn.classList.remove('active');
+        toggleYearlyBtn.classList.add('active');
+
+        // Shift highlight to Yearly card
+        if (cardYearly) cardYearly.classList.add('popular', 'highlighted-plan');
+        if (cardMonthly) cardMonthly.classList.remove('popular', 'highlighted-plan');
+
+        if (badgeYearly) badgeYearly.style.display = 'block';
+        if (badgeMonthly) badgeMonthly.style.display = 'none';
+
+        // Update button styles: Yearly active, Monthly ghost
+        if (btnBuyYearly) {
+          btnBuyYearly.classList.add('btn-primary-gradient');
+          btnBuyYearly.classList.remove('btn-secondary-ghost');
+        }
+        if (btnBuyMonthly) {
+          btnBuyMonthly.classList.add('btn-secondary-ghost');
+          btnBuyMonthly.classList.remove('btn-primary-gradient');
+        }
+      }
+    }
+
+    // Accordion expand/collapse toggle
+    function toggleAccordion(id) {
+      const section = document.getElementById(id);
+      if (!section) return;
+
+      const isComparison = id === 'accordionComparison';
+      const content = section.querySelector('.accordion-content');
+
+      if (section.classList.contains('active')) {
+        section.classList.remove('active');
+        if (content) content.style.maxHeight = '0';
+      } else {
+        section.classList.add('active');
+        if (content) {
+          // Adjust max-height based on contents
+          content.style.maxHeight = isComparison ? '1200px' : '800px';
+        }
+      }
+    }
+
+    // FAQ specific toggle
+    function toggleFaq(id) {
+      const faqItem = document.getElementById(id);
+      if (!faqItem) return;
+
+      const content = faqItem.querySelector('.faq-answer');
+      const icon = faqItem.querySelector('.faq-question span:last-child');
+
+      if (faqItem.classList.contains('active')) {
+        faqItem.classList.remove('active');
+        if (content) content.style.maxHeight = '0';
+        if (icon) icon.textContent = '+';
+      } else {
+        // Close other FAQ items first
+        const allItems = document.querySelectorAll('.faq-item');
+        allItems.forEach(item => {
+          if (item.id !== id) {
+            item.classList.remove('active');
+            const otherContent = item.querySelector('.faq-answer');
+            if (otherContent) otherContent.style.maxHeight = '0';
+            const otherIcon = item.querySelector('.faq-question span:last-child');
+            if (otherIcon) otherIcon.textContent = '+';
+          }
+        });
+
+        faqItem.classList.add('active');
+        if (content) {
+          // Include vertical padding buffer so answer text is never clipped
+          content.style.maxHeight = (content.scrollHeight + 60) + 'px';
+        }
+        if (icon) icon.textContent = '-';
+      }
+    }
+
+    // Google Sign-In Function
+    async function signInWithGoogle() {
+      try {
+        const { error } = await supabaseClient.auth.signInWithOAuth({
+          provider: 'google',
+          options: {
+            redirectTo: window.location.href // Redirect back to this page
+          }
+        });
+        if (error) throw error;
+      } catch (err) {
+        alert('Authentication Error: ' + err.message);
+      }
+    }
+
+    // Sign Out Function
+    async function signOut() {
+      await supabaseClient.auth.signOut();
+      window.location.reload();
+    }
+
+    // Checkout plan handler
+    async function checkoutPlan(planDbId) {
+      if (!currentUser) {
+        // Trigger Google Login if they click checkout but aren't signed in yet
+        signInWithGoogle();
+        return;
+      }
+
+      const btnMonthly = document.getElementById('btnBuyMonthly');
+      const btnYearly = document.getElementById('btnBuyYearly');
+      
+      // Save optional WhatsApp number first
+      const whatsappVal = document.getElementById('whatsappNumber').value.trim();
+      if (whatsappVal) {
+        // Enforce 10-15 digit limit for validity
+        if (whatsappVal.length < 10 || whatsappVal.length > 15) {
+          alert('⚠️ Please enter a valid 10 to 15 digit WhatsApp number (digits only, e.g. 9876543210).');
+          btnMonthly.disabled = false;
+          btnYearly.disabled = false;
+          return;
+        }
+        
+        await supabaseClient
+          .from('profiles')
+          .update({ whatsapp_number: whatsappVal })
+          .eq('id', currentUser.id);
+      }
+
+      // Disable buttons during checkout init
+      btnMonthly.disabled = true;
+      btnYearly.disabled = true;
+
+      // 1. Fetch Razorpay Plan ID from billing_plans
+      const { data: planRecord, error: planError } = await supabaseClient
+        .from('billing_plans')
+        .select('razorpay_plan_id, price')
+        .eq('id', planDbId)
+        .single();
+
+      if (planError || !planRecord) {
+        alert("Failed to retrieve plan details from database.");
+        btnMonthly.disabled = false;
+        btnYearly.disabled = false;
+        return;
+      }
+
+      const razorpayPlanId = planRecord.razorpay_plan_id;
+      const price = planRecord.price;
+
+      // 2. Track checkout_initiated funnel event
+      try {
+        await supabaseClient
+          .from('upgrade_funnel_events')
+          .insert({
+            user_id: currentUser.id,
+            event_type: 'checkout_initiated',
+            metadata: { plan_id: planDbId, source: 'pricing_page' }
+          });
+      } catch (e) {
+        console.warn("Telemetry warning:", e);
+      }
+
+      // 3. Create Subscription on VPS Webhook server
+      let razorpaySubscriptionId = null;
+      try {
+        const response = await fetch(`${API_BASE_URL}/webhooks/create-subscription`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            plan_id: razorpayPlanId,
+            user_id: currentUser.id,
+            email: currentUser.email
+          })
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP Error: ${response.status}`);
+        }
+
+        const data = await response.json();
+        razorpaySubscriptionId = data.subscription_id;
+      } catch (err) {
+        alert(`❌ VPS Connection Error: ${err.message}\n\nPlease check if webhook server is running.`);
+        btnMonthly.disabled = false;
+        btnYearly.disabled = false;
+        return;
+      }
+
+      // 4. Trigger Razorpay Checkout Modal
+      const options = {
+        key: RAZORPAY_KEY_ID,
+        subscription_id: razorpaySubscriptionId,
+        name: "AutoSift PRO Subscription",
+        description: `Early Bird Pricing - ₹${price} B2B Plan`,
+        image: "assets/images/logo.png",
+        prefill: {
+          email: currentUser.email,
+          contact: whatsappVal || ""
+        },
+        notes: {
+          user_id: currentUser.id,
+          email: currentUser.email
+        },
+        handler: function (response) {
+          // Success Callback
+          showSuccessScreen();
+        },
+        modal: {
+          ondismiss: async function () {
+            // Log checkout_dismissed funnel event
+            try {
+              await supabaseClient
+                .from('upgrade_funnel_events')
+                .insert({
+                  user_id: currentUser.id,
+                  event_type: 'checkout_dismissed',
+                  metadata: { plan_id: planDbId, subscription_id: razorpaySubscriptionId, source: 'pricing_page' }
+                });
+            } catch (e) {
+              console.warn(e);
+            }
+
+            // Notify VPS about abandoned checkout
+            try {
+              await fetch(`${API_BASE_URL}/webhooks/payment-abandoned`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  email: currentUser.email,
+                  name: currentUser.user_metadata?.display_name || "Seller",
+                  amount: price,
+                  plan_tier: planDbId === 'pro_yearly_early' ? 'Yearly' : 'Monthly'
+                })
+              });
+            } catch (e) {
+              console.warn(e);
+            }
+
+            btnMonthly.disabled = false;
+            btnYearly.disabled = false;
+          }
+        }
+      };
+
+      const rzp = new Razorpay(options);
+      rzp.open();
+    }
+
+    // Success Screen Visual states & Polling
+    function showSuccessScreen() {
+      const overlay = document.getElementById('successOverlay');
+      overlay.style.display = 'flex';
+
+      let pollAttempts = 0;
+      const pollInterval = setInterval(async () => {
+        pollAttempts++;
+        try {
+          const { data: profile } = await supabaseClient
+            .from('profiles')
+            .select('plan_type')
+            .eq('id', currentUser.id)
+            .single();
+
+          if (profile && profile.plan_type === 'pro') {
+            clearInterval(pollInterval);
+            // Upgrade Complete state
+            document.getElementById('successIcon').textContent = '✅';
+            document.getElementById('successTitle').textContent = 'Account Activated! 🚀';
+            document.getElementById('successDesc').textContent = 'Your account has been upgraded to AutoSift PRO successfully. Restart your extension to apply the PRO features.';
+            document.getElementById('successSpinner').style.display = 'none';
+          }
+        } catch (e) {
+          console.warn("Polling error:", e);
+        }
+
+        // Timeout fallback after 30 seconds (10 attempts * 3s)
+        if (pollAttempts >= 10) {
+          clearInterval(pollInterval);
+          document.getElementById('successIcon').textContent = '🔔';
+          document.getElementById('successTitle').textContent = 'Activation Processing';
+          document.getElementById('successDesc').textContent = "Your payment was received, but database activation is taking longer than expected. Don't worry! Your account will be upgraded shortly.";
+          document.getElementById('successSpinner').style.display = 'none';
+          document.getElementById('btnSupportFallback').style.display = 'block';
+        }
+      }, 3000);
+    }
+
+    // Gmail support helper prefilled compose link
+    function openSupportGmail() {
+      const email = currentUser?.email || 'N/A';
+      const uid = currentUser?.id || 'N/A';
+      const subject = encodeURIComponent("AutoSift PRO Activation Help");
+      const body = encodeURIComponent(
+        `Hi Amit,\n\nI just completed the payment for AutoSift PRO, but my account status has not been upgraded to PRO.\n\nMy details:\n- Registered Email: ${email}\n- Supabase User ID: ${uid}\n\nPlease verify and activate my account manually.\n\nThanks!`
+      );
+      
+      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=autosiftindia+support@gmail.com&su=${subject}&body=${body}`;
+      window.open(gmailUrl, '_blank');
+    }
+  </script>
+</body>
+</html>

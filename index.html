@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-        content="AutoSift automates IndiaMart lead filtering for B2B sellers. Save 4+ hours daily with smart keyword matching and filters. Community Beta.">
+        content="AutoSift automates IndiaMart lead filtering for B2B sellers. Save 4+ hours daily with smart keyword matching and filters. Try free today.">
     <meta name="keywords"
         content="IndiaMart automation, B2B leads, lead generation India, IndiaMart seller tool, automated lead filtering">
 
@@ -850,7 +850,268 @@
             height: auto;
             border-radius: 8px;
             border: 1px solid var(--border);
+        }
+
+        /* Pricing Section styling */
+        .pricing-section {
+            padding: 6rem 2rem;
+            background: var(--bg-light);
+            text-align: center;
+        }
+
+        .pricing-toggle-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3.5rem;
+        }
+
+        .toggle-label {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-gray);
+            transition: color 0.3s;
+        }
+
+        .toggle-label.active {
+            color: var(--text-dark);
+        }
+
+        .discount-badge {
+            background: #fbbf24;
+            color: var(--text-dark);
+            font-size: 0.8rem;
+            padding: 2px 8px;
+            border-radius: 99px;
+            font-weight: 700;
+            margin-left: 4px;
+            vertical-align: middle;
+        }
+
+        /* Switch toggle button */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 56px;
+            height: 30px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #cbd5e1;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        input:checked + .slider {
+            background-color: var(--primary);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+            max-width: 900px;
+            margin: 0 auto;
+            align-items: stretch;
+        }
+
+        .pricing-card {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+        }
+
+        .pricing-card.featured {
+            border: 2px solid var(--primary);
+            box-shadow: 0 20px 40px rgba(79, 70, 229, 0.1);
+        }
+
+        .featured-badge {
+            position: absolute;
+            top: -14px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: white;
+            font-size: 0.85rem;
+            font-weight: 700;
+            padding: 4px 16px;
+            border-radius: 99px;
+            letter-spacing: 0.05em;
+        }
+
+        .card-header h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+
+        .card-desc {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .price-container {
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: baseline;
+        }
+
+        .price-symbol {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .price-amount {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            line-height: 1;
+        }
+
+        .price-period {
+            font-size: 1.1rem;
+            color: var(--text-gray);
+            font-weight: 500;
+            margin-left: 4px;
+        }
+
+        .savings-text {
+            color: var(--success);
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            min-height: 24px;
+            text-align: center;
+        }
+
+        .card-features {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 2.5rem;
+            flex-grow: 1;
+        }
+
+        .card-features li {
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+            color: var(--text-dark);
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .card-features li span {
+            color: var(--success);
+            font-weight: 700;
+        }
+
+        .pricing-cta {
+            width: 100%;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
             display: block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(79, 70, 229, 0.25);
+        }
+
+        .btn-secondary {
+            background: var(--bg-light);
+            color: var(--text-dark);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: #e2e8f0;
+        }
+
+        .account-link-box {
+            background: #f1f5f9;
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-dark);
+            border: 1px dashed #cbd5e1;
+            text-align: left;
+        }
+
+        .account-link-box p {
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        .account-link-box input {
+            width: 100%;
+            padding: 6px 10px;
+            border-radius: 6px;
+            border: 1px solid #cbd5e1;
+            margin-top: 6px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            box-sizing: border-box;
         }
     </style>
 </head>
@@ -869,8 +1130,12 @@
                 <a href="#features">Features</a>
                 <a href="#proof">Proof</a>
                 <a href="#transparency">Transparency</a>
+                <a href="pricing.html">Pricing</a>
             </div>
-            <a href="#download" class="nav-cta" style="flex-shrink: 0;">Get Started</a>
+            <div class="nav-auth-buttons" style="display: flex; align-items: center; gap: 20px; flex-shrink: 0;">
+                <a href="login.html" class="nav-login-link" style="color: var(--text-gray); text-decoration: none; font-size: 14px; font-weight: 500; transition: all 0.3s ease;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='var(--text-gray)'">Log in</a>
+                <a href="signup.html?action=claim_trial" class="nav-cta" style="flex-shrink: 0; display: inline-block; padding: 8px 16px; background: var(--primary); border-radius: 6px; color: #fff; text-decoration: none; font-weight: 600; font-size: 14px; transition: all 0.3s ease;" onmouseover="this.style.background='var(--primary-dark)'" onmouseout="this.style.background='var(--primary)'">Get started</a>
+            </div>
         </nav>
     </header>
 
@@ -880,12 +1145,17 @@
             <h1>Automate IndiaMart Leads in Minutes</h1>
             <p>Save 4+ hours daily with smart lead filtering. Auto-shortlist, hide, or buy quality B2B leads based on
                 your exact criteria.</p>
-            <a href="#download" class="hero-cta">
-                <span>📥</span>
-                <span>Download For Chrome</span>
-            </a>
-            <div class="trial-badge">🎁 <span class="highlight-pulse">Community Beta Version</span> • No credit card
-                required</div>
+            <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 1.5rem;">
+                <a href="signup.html?action=claim_trial" class="hero-cta" style="margin-bottom: 0; background: var(--primary); color: #ffffff; transition: all 0.3s ease;" onmouseover="this.style.background='var(--primary-dark)'" onmouseout="this.style.background='var(--primary)'">
+                    <span>🎁</span>
+                    <span>Start 15-Day Free Trial</span>
+                </a>
+                <a href="#download" class="hero-cta" style="margin-bottom: 0; background: rgba(0, 0, 0, 0.05); color: var(--text-dark); border: 1px solid var(--border); transition: all 0.3s ease;" onmouseover="this.style.background='rgba(0, 0, 0, 0.1)'" onmouseout="this.style.background='rgba(0, 0, 0, 0.05)'">
+                    <span>📥</span>
+                    <span>Install Extension</span>
+                </a>
+            </div>
+            <div class="trial-badge">🎁 <span class="highlight-pulse">15-Day Pro Trial</span> • No credit card required</div>
         </div>
     </section>
 
@@ -1035,7 +1305,7 @@
 
                 <div class="benefit-item">
                     <div class="check-icon">✓</div>
-                    <p>Free 100% Beta access with all features unlocked</p>
+                    <p>Start with a 15-day trial of all Pro features</p>
                 </div>
 
                 <div class="benefit-item">
@@ -1185,6 +1455,8 @@
         </div>
     </section>
 
+
+
     <!-- CTA -->
     <section class="cta-section" id="download">
         <div class="container">
@@ -1195,7 +1467,7 @@
                 <span>🚀</span>
                 <span>Install AutoSift Free</span>
             </a>
-            <div class="trial-badge"><span class="highlight-pulse">Community Beta Version</span> • No credit card •
+            <div class="trial-badge"><span class="highlight-pulse">15-Day Free Trial</span> • No credit card •
                 Privacy Guaranteed</div>
         </div>
     </section>
@@ -1205,6 +1477,7 @@
         <div class="footer-links">
             <a href="https://www.youtube.com/@AIAutomationwithAmit" target="_blank" rel="noopener">YouTube Channel</a>
             <a href="https://www.aiautomationwithamit.in" target="_blank" rel="noopener">Website</a>
+            <a href="pricing.html">Pricing</a>
             <a href="privacy.html">Privacy Policy</a>
             <a href="terms.html">Terms of Service</a>
             <a href="changelog.html">What's New</a>
@@ -1370,7 +1643,7 @@
             // Init
             updateDots(0);
         })();
-    </script>
+
 </body>
 
 
