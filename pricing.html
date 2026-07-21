@@ -2005,7 +2005,7 @@
         try {
           const { data: profile } = await supabaseClient
             .from('profiles')
-            .select('plan_type, whatsapp_number, whatsapp_change_count, whatsapp_first_change_at, trial_claimed_at')
+            .select('plan_type, whatsapp_number, whatsapp_change_count, whatsapp_first_change_at, trial_claimed_at, pro_expires_at')
             .eq('id', currentUser.id)
             .maybeSingle();
 
@@ -2014,7 +2014,7 @@
             try {
               const { data: subData } = await supabaseClient
                 .from('subscriptions')
-                .select('amount, subscription_tier, status')
+                .select('amount, subscription_tier, status, expires_at')
                 .eq('user_id', currentUser.id)
                 .eq('status', 'active')
                 .maybeSingle();
@@ -2407,12 +2407,34 @@
           }
         }
 
+        // Format subscription/profile expiry date if available
+        let expiryDateRaw = (subscription && subscription.expires_at) || (profile && profile.pro_expires_at) || null;
+        let expiryDateFormatted = '';
+        if (expiryDateRaw) {
+          try {
+            const expDate = new Date(expiryDateRaw);
+            if (!isNaN(expDate.getTime())) {
+              expiryDateFormatted = expDate.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+            }
+          } catch (e) {
+            console.warn("Error formatting expiry date:", e);
+          }
+        }
+
         if (microMonthly) {
-          microMonthly.textContent = '✨ Active AutoSift PRO Subscription';
+          if (!isYearlySub) {
+            microMonthly.textContent = expiryDateFormatted ? `🗓️ Active PRO (Valid till ${expiryDateFormatted})` : '✨ Active AutoSift PRO Subscription';
+          } else {
+            microMonthly.textContent = '✨ Included in Yearly Plan';
+          }
           microMonthly.style.color = '#34d399';
         }
         if (microYearly) {
-          microYearly.textContent = isYearlySub ? '✨ Active AutoSift PRO Subscription' : '⚡ Upgrade & lock annual savings';
+          if (isYearlySub) {
+            microYearly.textContent = expiryDateFormatted ? `🗓️ Active PRO (Valid till ${expiryDateFormatted})` : '✨ Active AutoSift PRO Subscription';
+          } else {
+            microYearly.textContent = '⚡ Upgrade & lock annual savings';
+          }
           microYearly.style.color = '#34d399';
         }
         return;
