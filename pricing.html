@@ -1312,7 +1312,7 @@
         <ul style="font-size: 13px; color: #cbd5e1; padding-left: 20px; margin: 0; line-height: 1.6;">
           <li>Choose a contact method below (WhatsApp is <strong>recommended for 5-10 min activation</strong>).</li>
           <li>Send the pre-filled message with your registered details.</li>
-          <li><strong>Attach a screenshot</strong> of your payment receipt (Razorpay or bank receipt).</li>
+          <li><strong>Attach a screenshot of your payment receipt</strong> (check your registered email: <a id="linkRegisteredEmail" href="https://mail.google.com/mail/u/0/#search/Razorpay" target="_blank" style="color: #38bdf8; text-decoration: underline; font-weight: 600;"><span id="displayUserEmail">your registered email</span> ↗</a> for the Razorpay receipt).</li>
           <li>We will verify the payment and activate your PRO status immediately.</li>
         </ul>
       </div>
@@ -3013,6 +3013,22 @@
     function showSuccessScreen() {
       const overlay = document.getElementById('successOverlay');
       overlay.style.display = 'flex';
+
+      // Populate User Email & Gmail Link
+      const userEmail = currentUser?.email || 'your registered email';
+      const displayEmailEl = document.getElementById('displayUserEmail');
+      if (displayEmailEl) displayEmailEl.textContent = userEmail;
+
+      const linkEmailEl = document.getElementById('linkRegisteredEmail');
+      if (linkEmailEl) {
+        if (userEmail.includes('@gmail.com')) {
+          linkEmailEl.href = `https://mail.google.com/mail/u/0/#search/Razorpay`;
+        } else {
+          linkEmailEl.removeAttribute('href');
+          linkEmailEl.style.textDecoration = 'none';
+          linkEmailEl.style.cursor = 'default';
+        }
+      }
 
       // Reset Stepper Elements
       const stepper = document.getElementById('progressStepper');
