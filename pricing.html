@@ -1920,12 +1920,7 @@
         const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
         window.history.replaceState({}, document.title, cleanUrl);
 
-        if (action === 'claim_trial') {
-          // Delay slightly to let layout settle before showing overlay
-          setTimeout(async () => {
-            await executeTrialClaim();
-          }, 300);
-        } else if (action === 'checkout' && planType) {
+        if (action === 'checkout' && planType) {
           const dbPlanCode = planType === 'monthly' ? 'pro_monthly_early' : 'pro_yearly_early';
           setTimeout(() => {
             checkoutPlan(dbPlanCode);
