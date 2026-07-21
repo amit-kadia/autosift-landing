@@ -2009,17 +2009,32 @@
             .eq('id', currentUser.id)
             .maybeSingle();
 
+          let subscription = null;
+          if (profile && profile.plan_type === 'pro') {
+            try {
+              const { data: subData } = await supabaseClient
+                .from('subscriptions')
+                .select('amount, subscription_tier, status')
+                .eq('user_id', currentUser.id)
+                .eq('status', 'active')
+                .maybeSingle();
+              subscription = subData;
+            } catch (e) {
+              console.warn("Error fetching subscription:", e);
+            }
+          }
+
           if (profile) {
             renderWhatsAppSection(profile);
-            updatePricingButtons(profile);
+            updatePricingButtons(profile, subscription);
           } else {
             renderWhatsAppSection(null);
-            updatePricingButtons(null);
+            updatePricingButtons(null, null);
           }
         } catch (err) {
           console.warn("Error loading user profile:", err);
           renderWhatsAppSection(null);
-          updatePricingButtons(null);
+          updatePricingButtons(null, null);
         }
       } else {
         currentUser = null;
@@ -2320,7 +2335,7 @@
       }
     }
 
-    function updatePricingButtons(profile) {
+    function updatePricingButtons(profile, subscription = null) {
       const btnFreePlan = document.getElementById('btnFreePlan');
       const btnMonthly = document.getElementById('btnBuyMonthly');
       const btnYearly = document.getElementById('btnBuyYearly');
@@ -2336,8 +2351,8 @@
           btnFreePlan.style.pointerEvents = 'auto';
           btnFreePlan.style.opacity = '1';
           btnFreePlan.style.cursor = 'pointer';
-        } else if (profile && profile.plan_type === 'pro') {
-          // PRO Plan Active User
+        } else if (profile && (profile.plan_type === 'pro' || profile.plan_type === 'trial')) {
+          // PRO or Trial Plan Active User
           btnFreePlan.textContent = 'Included in PRO';
           btnFreePlan.removeAttribute('href');
           btnFreePlan.style.pointerEvents = 'none';
@@ -2351,6 +2366,70 @@
           btnFreePlan.style.opacity = '0.65';
           btnFreePlan.style.cursor = 'default';
         }
+      }
+
+      // Check if user is active PRO subscriber
+      const isProUser = profile && profile.plan_type === 'pro';
+      const isYearlySub = subscription && parseFloat(subscription.amount || 0) >= 5000;
+
+      if (isProUser) {
+        if (isYearlySub) {
+          // PRO Yearly Active
+          if (btnYearly) {
+            btnYearly.textContent = '✓ Current Plan';
+            btnYearly.disabled = true;
+            btnYearly.style.pointerEvents = 'none';
+            btnYearly.style.opacity = '0.65';
+            btnYearly.style.cursor = 'default';
+          }
+          if (btnMonthly) {
+            btnMonthly.textContent = 'Included in Yearly';
+            btnMonthly.disabled = true;
+            btnMonthly.style.pointerEvents = 'none';
+            btnMonthly.style.opacity = '0.5';
+            btnMonthly.style.cursor = 'default';
+          }
+        } else {
+          // PRO Monthly Active
+          if (btnMonthly) {
+            btnMonthly.textContent = '✓ Current Plan';
+            btnMonthly.disabled = true;
+            btnMonthly.style.pointerEvents = 'none';
+            btnMonthly.style.opacity = '0.65';
+            btnMonthly.style.cursor = 'default';
+          }
+          if (btnYearly) {
+            btnYearly.textContent = 'Upgrade to Yearly (Save 17%)';
+            btnYearly.disabled = false;
+            btnYearly.style.pointerEvents = 'auto';
+            btnYearly.style.opacity = '1';
+            btnYearly.style.cursor = 'pointer';
+          }
+        }
+
+        if (microMonthly) {
+          microMonthly.textContent = '✨ Active AutoSift PRO Subscription';
+          microMonthly.style.color = '#34d399';
+        }
+        if (microYearly) {
+          microYearly.textContent = isYearlySub ? '✨ Active AutoSift PRO Subscription' : '⚡ Upgrade & lock annual savings';
+          microYearly.style.color = '#34d399';
+        }
+        return;
+      }
+
+      // Reset button interactive state for Non-PRO users
+      if (btnMonthly) {
+        btnMonthly.disabled = false;
+        btnMonthly.style.pointerEvents = 'auto';
+        btnMonthly.style.opacity = '1';
+        btnMonthly.style.cursor = 'pointer';
+      }
+      if (btnYearly) {
+        btnYearly.disabled = false;
+        btnYearly.style.pointerEvents = 'auto';
+        btnYearly.style.opacity = '1';
+        btnYearly.style.cursor = 'pointer';
       }
 
       // Trial eligible if profile is guest (null), or plan_type is free and trial_claimed_at is null
