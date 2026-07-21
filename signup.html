@@ -272,7 +272,11 @@
       const action = urlParams.get('action') || 'claim_trial';
       const plan = urlParams.get('plan') || '';
       
-      const redirectUrl = `${window.location.origin}/pricing.html?action=${action}&plan=${plan}`;
+      // Always use production URL for OAuth redirect — never localhost
+      const origin = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+        ? 'https://autosift.aiautomationwithamit.in'
+        : window.location.origin;
+      const redirectUrl = `${origin}/pricing.html?action=${action}&plan=${plan}`;
       
       try {
         const { error } = await supabaseClient.auth.signInWithOAuth({
