@@ -1374,6 +1374,7 @@
       <div style="display: flex; align-items: center; gap: 20px;">
         <div id="headerAuthStatus" style="font-size: 13px; color: var(--text-muted); display: none; align-items: center; gap: 10px;">
           <span id="headerUserEmail" style="color: var(--text-muted); font-weight: 400; font-size: 13px;"></span>
+          <span id="headerPlanBadge" style="display: none; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.35); color: #34d399; font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 12px; white-space: nowrap; align-items: center; gap: 4px;"></span>
           <button onclick="signOut()" style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.12); color: #cbd5e1; border-radius: 6px; padding: 4px 10px; font-size: 12px; font-weight: 500; cursor: pointer; transition: var(--transition);" onmouseover="this.style.background='rgba(255, 255, 255, 0.12)'; this.style.color='#fff';" onmouseout="this.style.background='rgba(255, 255, 255, 0.06)'; this.style.color='#cbd5e1';">Sign Out</button>
         </div>
         <a href="index.html" style="color: var(--text-muted); text-decoration: none; font-size: 14px; font-weight: 500; transition: var(--transition);" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='var(--text-muted)'">← Back to home</a>
@@ -2341,6 +2342,11 @@
       const btnYearly = document.getElementById('btnBuyYearly');
       const microMonthly = document.getElementById('microcopyMonthly');
       const microYearly = document.getElementById('microcopyYearly');
+      const headerPlanBadge = document.getElementById('headerPlanBadge');
+
+      if (headerPlanBadge) {
+        headerPlanBadge.style.display = 'none';
+      }
 
       // Update FREE Plan Card Button based on user state
       if (btnFreePlan) {
@@ -2419,6 +2425,11 @@
           } catch (e) {
             console.warn("Error formatting expiry date:", e);
           }
+        }
+
+        if (headerPlanBadge) {
+          headerPlanBadge.style.display = 'inline-flex';
+          headerPlanBadge.textContent = expiryDateFormatted ? `PRO · Expire: ${expiryDateFormatted}` : 'PRO Plan';
         }
 
         if (microMonthly) {
