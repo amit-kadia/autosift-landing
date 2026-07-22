@@ -2005,7 +2005,7 @@
         try {
           const { data: profile } = await supabaseClient
             .from('profiles')
-            .select('plan_type, whatsapp_number, whatsapp_change_count, whatsapp_first_change_at, trial_claimed_at, pro_expires_at')
+            .select('plan_type, whatsapp_number, whatsapp_change_count, whatsapp_first_change_at, trial_claimed_at, plan_expires_at')
             .eq('id', currentUser.id)
             .maybeSingle();
 
@@ -2408,7 +2408,7 @@
         }
 
         // Format subscription/profile expiry date if available
-        let expiryDateRaw = (subscription && subscription.expires_at) || (profile && profile.pro_expires_at) || null;
+        let expiryDateRaw = (subscription && subscription.expires_at) || (profile && profile.plan_expires_at) || null;
         let expiryDateFormatted = '';
         if (expiryDateRaw) {
           try {
