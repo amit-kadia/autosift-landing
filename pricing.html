@@ -1256,80 +1256,17 @@
 
   <!-- Success / Polling Screen Overlay (hidden by default) -->
   <div id="successOverlay" class="overlay-screen" style="display: none;">
-    <div class="overlay-modal" style="max-width: 520px; border: 1px solid var(--border-glow); box-shadow: 0 0 40px rgba(99, 102, 241, 0.2);">
+    <div class="overlay-modal">
+      <div id="successIcon" class="overlay-icon">⏳</div>
+      <div id="successTitle" class="overlay-title">Processing Upgrade...</div>
+      <div id="successDesc" class="overlay-desc">We've received your payment. Upgrading your account database record, please wait.</div>
       
-      <!-- Icon & Title -->
-      <div id="successIcon" class="overlay-icon" style="font-size: 48px; margin-bottom: 12px;">💳</div>
-      <div id="successTitle" class="overlay-title" style="font-size: 22px;">Verifying Payment & Upgrading...</div>
-      <div id="successSub" style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">Please do not refresh or close this window</div>
+      <!-- Live verification spinner -->
+      <div id="successSpinner" class="spinner"></div>
 
-      <!-- 4-Stage Visual Progress Stepper -->
-      <div id="progressStepper" style="display: flex; flex-direction: column; gap: 12px; text-align: left; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 20px;">
-        
-        <!-- Stage 1 -->
-        <div id="step1" style="display: flex; align-items: center; gap: 12px; font-size: 13px; color: #fff;">
-          <span id="badge1" style="width: 24px; height: 24px; border-radius: 50%; background: #10b981; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold;">✓</span>
-          <span>Payment Received via Razorpay</span>
-        </div>
-
-        <!-- Stage 2 -->
-        <div id="step2" style="display: flex; align-items: center; gap: 12px; font-size: 13px; color: #fff;">
-          <span id="badge2" style="width: 24px; height: 24px; border-radius: 50%; background: rgba(99, 102, 241, 0.2); border: 2px solid #6366f1; color: #6366f1; display: flex; align-items: center; justify-content: center; font-size: 12px;">⏳</span>
-          <span id="text2" style="font-weight: 600;">Verifying Bank Transaction...</span>
-        </div>
-
-        <!-- Stage 3 -->
-        <div id="step3" style="display: flex; align-items: center; gap: 12px; font-size: 13px; color: var(--text-muted); opacity: 0.5;">
-          <span id="badge3" style="width: 24px; height: 24px; border-radius: 50%; background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: #888; display: flex; align-items: center; justify-content: center; font-size: 12px;">3</span>
-          <span id="text3">Upgrading Account to PRO Tier</span>
-        </div>
-
-        <!-- Stage 4 -->
-        <div id="step4" style="display: flex; align-items: center; gap: 12px; font-size: 13px; color: var(--text-muted); opacity: 0.5;">
-          <span id="badge4" style="width: 24px; height: 24px; border-radius: 50%; background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: #888; display: flex; align-items: center; justify-content: center; font-size: 12px;">4</span>
-          <span id="text4">Activating 12-Hour Operating Window</span>
-        </div>
-
-        <!-- Smooth Progress Bar -->
-        <div style="width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; margin-top: 6px;">
-          <div id="progressBarFill" style="width: 25%; height: 100%; background: var(--primary-gradient); transition: width 0.5s ease; border-radius: 3px;"></div>
-        </div>
-      </div>
-
-      <!-- Early WhatsApp Support Link (Appears after 30s) -->
-      <div id="earlySupportNotice" style="display: none; font-size: 13px; color: var(--text-muted); margin-bottom: 20px; background: rgba(37, 211, 102, 0.08); border: 1px solid rgba(37, 211, 102, 0.3); border-radius: 8px; padding: 10px;">
-        ⚡ Taking longer than usual? <a href="javascript:void(0)" onclick="openSupportWhatsApp()" style="color: #25D366; text-decoration: underline; font-weight: 700;">Ping Amit directly on WhatsApp</a> for instant activation!
-      </div>
-
-      <!-- Activation Steps (Only shown on full 90s timeout) -->
-      <div id="activationSteps" style="display: none; text-align: left; margin-bottom: 24px; background: rgba(255, 255, 255, 0.02); border: 1px dashed var(--border); border-radius: 8px; padding: 20px;">
-        <h4 style="color: #fff; font-size: 15px; margin-top: 0; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
-          ⚠️ Action Required for Manual Activation
-        </h4>
-        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px; margin-top: 0; line-height: 1.4;">
-          Your payment was received, but the automatic database update is taking longer than expected. Please follow these steps for instant activation:
-        </p>
-        <ul style="font-size: 13px; color: #cbd5e1; padding-left: 20px; margin: 0; line-height: 1.6;">
-          <li>Choose a contact method below (WhatsApp is <strong>recommended for 5-10 min activation</strong>).</li>
-          <li>Send the pre-filled message with your registered details.</li>
-          <li><strong>Attach a screenshot of your payment receipt</strong> (check your registered email: <a id="linkRegisteredEmail" href="https://mail.google.com/mail/u/0/#search/Razorpay" target="_blank" style="color: #38bdf8; text-decoration: underline; font-weight: 600;"><span id="displayUserEmail">your registered email</span> ↗</a> for the Razorpay receipt).</li>
-          <li>We will verify the payment and activate your PRO status immediately.</li>
-        </ul>
-      </div>
-
-      <div class="overlay-actions" style="margin-top: 10px;">
+      <div class="overlay-actions" style="margin-top: 20px;">
         <a href="https://link.aiautomationwithamit.in/AutoSift-B2B-Lead-Automation" target="_blank" class="btn-checkout" style="text-decoration: none;">Install AutoSift Extension</a>
-        
-        <!-- Fallback Action Buttons (Shown on timeout) -->
-        <div id="fallbackActionGroup" style="display: none; flex-direction: column; gap: 10px; width: 100%;">
-          <button id="btnWaSupport" class="btn-checkout" style="background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 14px; padding: 12px;" onclick="openSupportWhatsApp()">
-            <svg style="width: 20px; height: 20px; fill: #fff;" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.42 9.863-9.864.001-2.637-1.03-5.115-2.905-6.99C16.555 1.875 14.09 .843 11.473.843c-5.437 0-9.863 4.421-9.866 9.865 0 1.777.466 3.514 1.348 5.043L1.874 22.06l6.577-1.724l-.06-.038zM17.13 14.5c-.3-.15-1.77-.875-2.045-.975s-.475-.15-.675.15-.775.975-.95 1.175-.35.225-.65.075c-.3-.15-1.265-.467-2.41-1.487-.89-.794-1.49-1.77-1.665-2.07-.175-.3-.02-.463.13-.613.135-.135.3-.35.45-.525.15-.175.2-.3.3-.5s.05-.375-.025-.525c-.075-.15-.675-1.625-.925-2.225-.244-.589-.492-.51-.675-.52l-.575-.01c-.2 0-.525.075-.8.375s-1.05 1.025-1.05 2.5 1.075 2.9 1.225 3.1c.15.2 2.11 3.22 5.11 4.52.714.31 1.27.495 1.7.632.717.228 1.37.195 1.887.118.577-.085 1.77-.725 2.02-1.425.25-.7.25-1.3 0-1.425zm0 0"/></svg>
-            ⚡ Instant Activation (via WhatsApp)
-          </button>
-          <button id="btnEmailSupport" class="btn-action" style="justify-content: center; width: 100%; border-radius: 8px; padding: 12px; font-size: 14px;" onclick="openSupportGmail()">
-            ✉️ Email Support (Takes 2-4 Hours)
-          </button>
-        </div>
+        <button id="btnSupportFallback" class="btn-action" style="justify-content: center; display: none;" onclick="openSupportGmail()">Contact support for activation</button>
       </div>
     </div>
   </div>
@@ -1373,9 +1310,8 @@
       </div>
       <div style="display: flex; align-items: center; gap: 20px;">
         <div id="headerAuthStatus" style="font-size: 13px; color: var(--text-muted); display: none; align-items: center; gap: 10px;">
-          <span id="headerUserEmail" style="color: var(--text-muted); font-weight: 400; font-size: 13px;"></span>
-          <span id="headerPlanBadge" style="display: none; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.35); color: #34d399; font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 12px; white-space: nowrap; align-items: center; gap: 4px;"></span>
-          <button onclick="signOut()" style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.12); color: #cbd5e1; border-radius: 6px; padding: 4px 10px; font-size: 12px; font-weight: 500; cursor: pointer; transition: var(--transition);" onmouseover="this.style.background='rgba(255, 255, 255, 0.12)'; this.style.color='#fff';" onmouseout="this.style.background='rgba(255, 255, 255, 0.06)'; this.style.color='#cbd5e1';">Sign Out</button>
+          <span id="headerUserEmail" style="color: #fff; font-weight: 500;"></span>
+          <button onclick="signOut()" style="background: none; border: none; color: var(--primary); text-decoration: underline; cursor: pointer; padding: 0; font-size: 13px;">Sign Out</button>
         </div>
         <a href="index.html" style="color: var(--text-muted); text-decoration: none; font-size: 14px; font-weight: 500; transition: var(--transition);" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='var(--text-muted)'">← Back to home</a>
       </div>
@@ -1921,7 +1857,12 @@
         const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
         window.history.replaceState({}, document.title, cleanUrl);
 
-        if (action === 'checkout' && planType) {
+        if (action === 'claim_trial') {
+          // Delay slightly to let layout settle before showing overlay
+          setTimeout(async () => {
+            await executeTrialClaim();
+          }, 300);
+        } else if (action === 'checkout' && planType) {
           const dbPlanCode = planType === 'monthly' ? 'pro_monthly_early' : 'pro_yearly_early';
           setTimeout(() => {
             checkoutPlan(dbPlanCode);
@@ -2006,36 +1947,21 @@
         try {
           const { data: profile } = await supabaseClient
             .from('profiles')
-            .select('plan_type, whatsapp_number, whatsapp_change_count, whatsapp_first_change_at, trial_claimed_at, plan_expires_at')
+            .select('plan_type, whatsapp_number, whatsapp_change_count, whatsapp_first_change_at, trial_claimed_at')
             .eq('id', currentUser.id)
             .maybeSingle();
 
-          let subscription = null;
-          if (profile && profile.plan_type === 'pro') {
-            try {
-              const { data: subData } = await supabaseClient
-                .from('subscriptions')
-                .select('amount, subscription_tier, status, expires_at')
-                .eq('user_id', currentUser.id)
-                .eq('status', 'active')
-                .maybeSingle();
-              subscription = subData;
-            } catch (e) {
-              console.warn("Error fetching subscription:", e);
-            }
-          }
-
           if (profile) {
             renderWhatsAppSection(profile);
-            updatePricingButtons(profile, subscription);
+            updatePricingButtons(profile);
           } else {
             renderWhatsAppSection(null);
-            updatePricingButtons(null, null);
+            updatePricingButtons(null);
           }
         } catch (err) {
           console.warn("Error loading user profile:", err);
           renderWhatsAppSection(null);
-          updatePricingButtons(null, null);
+          updatePricingButtons(null);
         }
       } else {
         currentUser = null;
@@ -2336,17 +2262,12 @@
       }
     }
 
-    function updatePricingButtons(profile, subscription = null) {
+    function updatePricingButtons(profile) {
       const btnFreePlan = document.getElementById('btnFreePlan');
       const btnMonthly = document.getElementById('btnBuyMonthly');
       const btnYearly = document.getElementById('btnBuyYearly');
       const microMonthly = document.getElementById('microcopyMonthly');
       const microYearly = document.getElementById('microcopyYearly');
-      const headerPlanBadge = document.getElementById('headerPlanBadge');
-
-      if (headerPlanBadge) {
-        headerPlanBadge.style.display = 'none';
-      }
 
       // Update FREE Plan Card Button based on user state
       if (btnFreePlan) {
@@ -2357,8 +2278,8 @@
           btnFreePlan.style.pointerEvents = 'auto';
           btnFreePlan.style.opacity = '1';
           btnFreePlan.style.cursor = 'pointer';
-        } else if (profile && (profile.plan_type === 'pro' || profile.plan_type === 'trial')) {
-          // PRO or Trial Plan Active User
+        } else if (profile && profile.plan_type === 'pro') {
+          // PRO Plan Active User
           btnFreePlan.textContent = 'Included in PRO';
           btnFreePlan.removeAttribute('href');
           btnFreePlan.style.pointerEvents = 'none';
@@ -2372,97 +2293,6 @@
           btnFreePlan.style.opacity = '0.65';
           btnFreePlan.style.cursor = 'default';
         }
-      }
-
-      // Check if user is active PRO subscriber
-      const isProUser = profile && profile.plan_type === 'pro';
-      const isYearlySub = subscription && parseFloat(subscription.amount || 0) >= 5000;
-
-      if (isProUser) {
-        if (isYearlySub) {
-          // PRO Yearly Active
-          if (btnYearly) {
-            btnYearly.textContent = '✓ Current Plan';
-            btnYearly.disabled = true;
-            btnYearly.style.pointerEvents = 'none';
-            btnYearly.style.opacity = '0.65';
-            btnYearly.style.cursor = 'default';
-          }
-          if (btnMonthly) {
-            btnMonthly.textContent = 'Included in Yearly';
-            btnMonthly.disabled = true;
-            btnMonthly.style.pointerEvents = 'none';
-            btnMonthly.style.opacity = '0.5';
-            btnMonthly.style.cursor = 'default';
-          }
-        } else {
-          // PRO Monthly Active
-          if (btnMonthly) {
-            btnMonthly.textContent = '✓ Current Plan';
-            btnMonthly.disabled = true;
-            btnMonthly.style.pointerEvents = 'none';
-            btnMonthly.style.opacity = '0.65';
-            btnMonthly.style.cursor = 'default';
-          }
-          if (btnYearly) {
-            btnYearly.textContent = 'Upgrade to Yearly (Save 17%)';
-            btnYearly.disabled = false;
-            btnYearly.style.pointerEvents = 'auto';
-            btnYearly.style.opacity = '1';
-            btnYearly.style.cursor = 'pointer';
-          }
-        }
-
-        // Format subscription/profile expiry date if available
-        let expiryDateRaw = (subscription && subscription.expires_at) || (profile && profile.plan_expires_at) || null;
-        let expiryDateFormatted = '';
-        if (expiryDateRaw) {
-          try {
-            const expDate = new Date(expiryDateRaw);
-            if (!isNaN(expDate.getTime())) {
-              expiryDateFormatted = expDate.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
-            }
-          } catch (e) {
-            console.warn("Error formatting expiry date:", e);
-          }
-        }
-
-        if (headerPlanBadge) {
-          headerPlanBadge.style.display = 'inline-flex';
-          headerPlanBadge.textContent = expiryDateFormatted ? `PRO · Expire: ${expiryDateFormatted}` : 'PRO Plan';
-        }
-
-        if (microMonthly) {
-          if (!isYearlySub) {
-            microMonthly.textContent = expiryDateFormatted ? `🗓️ Active PRO (Valid till ${expiryDateFormatted})` : '✨ Active AutoSift PRO Subscription';
-          } else {
-            microMonthly.textContent = '✨ Included in Yearly Plan';
-          }
-          microMonthly.style.color = '#34d399';
-        }
-        if (microYearly) {
-          if (isYearlySub) {
-            microYearly.textContent = expiryDateFormatted ? `🗓️ Active PRO (Valid till ${expiryDateFormatted})` : '✨ Active AutoSift PRO Subscription';
-          } else {
-            microYearly.textContent = '⚡ Upgrade & lock annual savings';
-          }
-          microYearly.style.color = '#34d399';
-        }
-        return;
-      }
-
-      // Reset button interactive state for Non-PRO users
-      if (btnMonthly) {
-        btnMonthly.disabled = false;
-        btnMonthly.style.pointerEvents = 'auto';
-        btnMonthly.style.opacity = '1';
-        btnMonthly.style.cursor = 'pointer';
-      }
-      if (btnYearly) {
-        btnYearly.disabled = false;
-        btnYearly.style.pointerEvents = 'auto';
-        btnYearly.style.opacity = '1';
-        btnYearly.style.cursor = 'pointer';
       }
 
       // Trial eligible if profile is guest (null), or plan_type is free and trial_claimed_at is null
@@ -3116,69 +2946,10 @@
       rzp.open();
     }
 
-    // Success Screen Visual states & Polling (4-Stage Progress Stepper)
+    // Success Screen Visual states & Polling
     function showSuccessScreen() {
       const overlay = document.getElementById('successOverlay');
       overlay.style.display = 'flex';
-
-      // Populate User Email & Gmail Link
-      const userEmail = currentUser?.email || 'your registered email';
-      const displayEmailEl = document.getElementById('displayUserEmail');
-      if (displayEmailEl) displayEmailEl.textContent = userEmail;
-
-      const linkEmailEl = document.getElementById('linkRegisteredEmail');
-      if (linkEmailEl) {
-        if (userEmail.includes('@gmail.com')) {
-          linkEmailEl.href = `https://mail.google.com/mail/u/0/#search/Razorpay`;
-        } else {
-          linkEmailEl.removeAttribute('href');
-          linkEmailEl.style.textDecoration = 'none';
-          linkEmailEl.style.cursor = 'default';
-        }
-      }
-
-      // Reset Stepper Elements
-      const stepper = document.getElementById('progressStepper');
-      if (stepper) stepper.style.display = 'flex';
-      
-      const pFill = document.getElementById('progressBarFill');
-      if (pFill) pFill.style.width = '25%';
-      
-      const badge2 = document.getElementById('badge2');
-      if (badge2) {
-        badge2.textContent = '⏳';
-        badge2.style.background = 'rgba(99, 102, 241, 0.2)';
-        badge2.style.color = '#6366f1';
-      }
-      const text2 = document.getElementById('text2');
-      if (text2) text2.style.fontWeight = '600';
-
-      const badge3 = document.getElementById('badge3');
-      if (badge3) {
-        badge3.textContent = '3';
-        badge3.style.background = 'rgba(255,255,255,0.05)';
-        badge3.style.color = '#888';
-      }
-      const step3 = document.getElementById('step3');
-      if (step3) step3.style.opacity = '0.5';
-
-      const badge4 = document.getElementById('badge4');
-      if (badge4) {
-        badge4.textContent = '4';
-        badge4.style.background = 'rgba(255,255,255,0.05)';
-        badge4.style.color = '#888';
-      }
-      const step4 = document.getElementById('step4');
-      if (step4) step4.style.opacity = '0.5';
-
-      const earlyNotice = document.getElementById('earlySupportNotice');
-      if (earlyNotice) earlyNotice.style.display = 'none';
-
-      const actSteps = document.getElementById('activationSteps');
-      if (actSteps) actSteps.style.display = 'none';
-
-      const fallbackGrp = document.getElementById('fallbackActionGroup');
-      if (fallbackGrp) fallbackGrp.style.display = 'none';
 
       let pollAttempts = 0;
       const pollInterval = setInterval(async () => {
@@ -3195,78 +2966,23 @@
             // Upgrade Complete state
             document.getElementById('successIcon').textContent = '✅';
             document.getElementById('successTitle').textContent = 'Account Activated! 🚀';
-            const subEl = document.getElementById('successSub');
-            if (subEl) subEl.textContent = 'Your account has been upgraded to AutoSift PRO successfully. Restart your extension to apply the PRO features.';
-            if (stepper) stepper.style.display = 'none';
-            if (earlyNotice) earlyNotice.style.display = 'none';
+            document.getElementById('successDesc').textContent = 'Your account has been upgraded to AutoSift PRO successfully. Restart your extension to apply the PRO features.';
+            document.getElementById('successSpinner').style.display = 'none';
           }
         } catch (e) {
           console.warn("Polling error:", e);
         }
 
-        // Stepper Stage 2 -> Stage 3 transition at 15 seconds (5 attempts * 3s)
-        if (pollAttempts === 5) {
-          if (badge2) {
-            badge2.textContent = '✓';
-            badge2.style.background = '#10b981';
-            badge2.style.color = '#fff';
-          }
-          if (step3) step3.style.opacity = '1';
-          if (badge3) {
-            badge3.textContent = '⏳';
-            badge3.style.background = 'rgba(99, 102, 241, 0.2)';
-            badge3.style.color = '#6366f1';
-          }
-          const text3 = document.getElementById('text3');
-          if (text3) text3.style.fontWeight = '600';
-          if (pFill) pFill.style.width = '50%';
-        }
-        
-        // Stepper Stage 3 -> Stage 4 transition + Early WhatsApp Notice at 30 seconds (10 attempts * 3s)
-        if (pollAttempts === 10) {
-          if (badge3) {
-            badge3.textContent = '✓';
-            badge3.style.background = '#10b981';
-            badge3.style.color = '#fff';
-          }
-          if (step4) step4.style.opacity = '1';
-          if (badge4) {
-            badge4.textContent = '⏳';
-            badge4.style.background = 'rgba(99, 102, 241, 0.2)';
-            badge4.style.color = '#6366f1';
-          }
-          const text4 = document.getElementById('text4');
-          if (text4) text4.style.fontWeight = '600';
-          if (pFill) pFill.style.width = '75%';
-          if (earlyNotice) earlyNotice.style.display = 'block';
-        }
-
-        // Full Timeout fallback after 90 seconds (30 attempts * 3s)
-        if (pollAttempts >= 30) {
+        // Timeout fallback after 30 seconds (10 attempts * 3s)
+        if (pollAttempts >= 10) {
           clearInterval(pollInterval);
           document.getElementById('successIcon').textContent = '🔔';
           document.getElementById('successTitle').textContent = 'Activation Processing';
-          const subEl = document.getElementById('successSub');
-          if (subEl) subEl.style.display = 'none';
-          if (stepper) stepper.style.display = 'none';
-          if (earlyNotice) earlyNotice.style.display = 'none';
-          
-          if (actSteps) actSteps.style.display = 'block';
-          if (fallbackGrp) fallbackGrp.style.display = 'flex';
+          document.getElementById('successDesc').textContent = "Your payment was received, but database activation is taking longer than expected. Don't worry! Your account will be upgraded shortly.";
+          document.getElementById('successSpinner').style.display = 'none';
+          document.getElementById('btnSupportFallback').style.display = 'block';
         }
       }, 3000);
-    }
-
-    // WhatsApp direct support helper link
-    function openSupportWhatsApp() {
-      const email = currentUser?.email || 'N/A';
-      const uid = currentUser?.id || 'N/A';
-      const adminPhone = '919429271363';
-      
-      const message = `🔴 PRIORITY: AutoSift PRO Activation Request\n\nHi Amit,\nI just paid for AutoSift PRO, but my account has not upgraded automatically yet. Please activate it manually.\n\nMy Account Details:\n- Registered Email: ${email}\n- User ID: ${uid}\n\n(Attached below is my payment receipt screenshot)`;
-      
-      const waUrl = `https://wa.me/${adminPhone}?text=${encodeURIComponent(message)}`;
-      window.open(waUrl, '_blank');
     }
 
     // Gmail support helper prefilled compose link
