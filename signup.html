@@ -201,6 +201,55 @@
     .footer-links a:hover {
       color: #fff;
     }
+
+    /* SME Onboarding Pulse Animations */
+    @keyframes cardPulseGlow {
+      0% {
+        border-color: rgba(99, 102, 241, 0.4);
+        box-shadow: 0 0 12px rgba(99, 102, 241, 0.2);
+      }
+      50% {
+        border-color: rgba(16, 185, 129, 0.7);
+        box-shadow: 0 0 22px rgba(16, 185, 129, 0.35);
+      }
+      100% {
+        border-color: rgba(99, 102, 241, 0.4);
+        box-shadow: 0 0 12px rgba(99, 102, 241, 0.2);
+      }
+    }
+
+    @keyframes step3Breathing {
+      0% {
+        transform: scale(1);
+        border-color: rgba(251, 191, 36, 0.4);
+        background: rgba(251, 191, 36, 0.1);
+      }
+      50% {
+        transform: scale(1.02);
+        border-color: rgba(16, 185, 129, 0.8);
+        background: rgba(16, 185, 129, 0.18);
+        box-shadow: 0 0 12px rgba(16, 185, 129, 0.3);
+      }
+      100% {
+        transform: scale(1);
+        border-color: rgba(251, 191, 36, 0.4);
+        background: rgba(251, 191, 36, 0.1);
+      }
+    }
+
+    @keyframes pulseAlert {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.85; transform: scale(1.02); }
+    }
+
+    .sme-card-pulse {
+      animation: cardPulseGlow 3.5s infinite ease-in-out;
+    }
+
+    .step3-heartbeat {
+      animation: step3Breathing 2.5s infinite ease-in-out;
+      transition: all 0.3s ease;
+    }
   </style>
 </head>
 <body>
@@ -220,6 +269,12 @@
     <h1>Create your account</h1>
     <p class="subtitle">Start automating your IndiaMart B2B leads today.</p>
 
+    <!-- Pre-Signup Attention Hook -->
+    <div style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.35); color: #fca5a5; font-size: 11px; font-weight: 700; border-radius: 20px; margin-bottom: 16px; animation: pulseAlert 2s infinite;">
+      <span style="display: inline-block; width: 7px; height: 7px; background: #ef4444; border-radius: 50%;"></span>
+      <span>⚠️ MUST READ BEFORE CREATING ACCOUNT</span>
+    </div>
+
     <!-- Google Button -->
     <button class="btn-google" id="btnGoogleSignup" onclick="handleGoogleSignUp()">
       <svg class="google-icon" viewBox="0 0 24 24" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
@@ -236,7 +291,7 @@
     </div>
 
     <!-- High-Visibility SME Onboarding Card -->
-    <div style="margin-top: 22px; padding: 16px; background: linear-gradient(135deg, rgba(99, 102, 241, 0.12) 0%, rgba(79, 70, 229, 0.06) 100%); border: 1px solid rgba(99, 102, 241, 0.4); border-radius: 12px; text-align: left; box-shadow: 0 0 15px rgba(99, 102, 241, 0.15);">
+    <div class="sme-card-pulse" style="margin-top: 22px; padding: 16px; background: linear-gradient(135deg, rgba(99, 102, 241, 0.12) 0%, rgba(79, 70, 229, 0.06) 100%); border: 1px solid rgba(99, 102, 241, 0.4); border-radius: 12px; text-align: left;">
       <div style="display: inline-block; padding: 3px 8px; background: #fbbf24; color: #78350f; font-size: 10px; font-weight: 800; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">
         🎁 15-DAY PRO TRIAL ACTIVATION GUIDE
       </div>
@@ -252,7 +307,7 @@
         <span><strong>Log In:</strong> Sign in with this SAME Email ID inside Chrome extension.</span>
       </div>
 
-      <div style="display: flex; gap: 8px; align-items: flex-start; padding: 8px; background: rgba(251, 191, 36, 0.1); border: 1px dashed rgba(251, 191, 36, 0.4); border-radius: 6px; font-size: 12px; color: #fef08a;">
+      <div class="step3-heartbeat" style="display: flex; gap: 8px; align-items: flex-start; padding: 10px; background: rgba(251, 191, 36, 0.1); border: 1px dashed rgba(251, 191, 36, 0.4); border-radius: 6px; font-size: 12px; color: #fef08a;">
         <span style="background: #fbbf24; color: #78350f; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; flex-shrink: 0;">3</span>
         <span><strong>Enable Toggle:</strong> Switch ON the <strong>Quantity Ignore 🔘</strong> toggle button inside AutoSift to open the 15-Day Pro Trial claim popup!</span>
       </div>
