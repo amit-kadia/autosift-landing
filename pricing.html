@@ -1250,6 +1250,179 @@
         gap: 30px;
       }
     }
+
+    /* 15-Day Trial Glowing Card Styling (v2.0) */
+    .trial-glow-card {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.12) 0%, rgba(16, 185, 129, 0.08) 100%);
+      border: 2px solid rgba(99, 102, 241, 0.4);
+      border-radius: 20px;
+      padding: 32px 24px;
+      margin: 40px auto;
+      max-width: 1050px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 25px rgba(99, 102, 241, 0.15);
+      animation: trialPulseGlow 4s infinite ease-in-out;
+    }
+
+    @keyframes trialPulseGlow {
+      0%, 100% {
+        box-shadow: 0 0 20px rgba(99, 102, 241, 0.2);
+        border-color: rgba(99, 102, 241, 0.4);
+      }
+      50% {
+        box-shadow: 0 0 35px rgba(16, 185, 129, 0.35);
+        border-color: rgba(16, 185, 129, 0.6);
+      }
+    }
+
+    .trial-header {
+      margin-bottom: 28px;
+    }
+
+    .trial-badge {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: #ffffff;
+      font-size: 12px;
+      font-weight: 800;
+      padding: 4px 14px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      display: inline-block;
+      margin-bottom: 12px;
+    }
+
+    .trial-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 26px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    .trial-subtitle {
+      font-size: 15px;
+      color: #94a3b8;
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.5;
+    }
+
+    .trial-steps-grid {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+
+    .trial-step-card {
+      background: rgba(19, 27, 46, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 22px 16px 18px;
+      flex: 1;
+      min-width: 220px;
+      max-width: 290px;
+      position: relative;
+      text-align: center;
+      transition: transform 0.3s ease, border-color 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .trial-step-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(99, 102, 241, 0.5);
+    }
+
+    .step-number {
+      position: absolute;
+      top: -12px;
+      left: 16px;
+      background: #6366f1;
+      color: #ffffff;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      font-size: 13px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(99, 102, 241, 0.5);
+    }
+
+    .step-icon {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+
+    .step-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 6px;
+    }
+
+    .step-desc {
+      font-size: 12px;
+      color: #cbd5e1;
+      line-height: 1.45;
+      margin-bottom: 12px;
+    }
+
+    .step-btn-link {
+      display: inline-block;
+      background: rgba(99, 102, 241, 0.15);
+      border: 1px solid rgba(99, 102, 241, 0.4);
+      color: #a5b4fc;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .step-btn-link:hover {
+      background: #6366f1;
+      color: #ffffff;
+      border-color: #6366f1;
+    }
+
+    .step-arrow {
+      font-size: 22px;
+      color: #6366f1;
+      font-weight: bold;
+    }
+
+    .trial-value-box {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 10px;
+      padding: 12px 18px;
+      margin: 24px auto 16px;
+      max-width: 750px;
+    }
+
+    .trial-value-text {
+      font-size: 13px;
+      color: #e2e8f0;
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    .trial-footer-trust {
+      font-size: 13px;
+      color: #34d399;
+      font-weight: 600;
+    }
   </style>
 </head>
 <body>
@@ -1517,6 +1690,63 @@
       </div>
     </div>
 
+    <!-- Prominent 15-Day Pro Trial Visual Banner (V2 Updated) -->
+    <div class="trial-glow-card" id="trialSection">
+      <div class="trial-header">
+        <span class="trial-badge">✨ 15-DAY FREE PRO TRIAL</span>
+        <h2 class="trial-title">How to Activate Your 15-Day Pro Trial</h2>
+        <p class="trial-subtitle">
+          Activate instant PRO features in 30 seconds. Automatic downgrade to <strong style="color: #34d399;">FREE Forever Plan</strong> after 15 days.
+        </p>
+      </div>
+
+      <div class="trial-steps-grid">
+        <!-- Step 1: Install Extension -->
+        <div class="trial-step-card">
+          <div class="step-number">1</div>
+          <div class="step-icon">🧩</div>
+          <h3 class="step-title">Install Extension</h3>
+          <p class="step-desc">Add AutoSift to Chrome from the official Web Store in 1-click.</p>
+          <a href="https://link.aiautomationwithamit.in/AutoSift-B2B-Lead-Automation" target="_blank" rel="noopener" class="step-btn-link">
+            📥 Add to Chrome ↗
+          </a>
+        </div>
+
+        <!-- Arrow Divider -->
+        <div class="step-arrow">➔</div>
+
+        <!-- Step 2: Google Sign In -->
+        <div class="trial-step-card">
+          <div class="step-number">2</div>
+          <div class="step-icon">🔑</div>
+          <h3 class="step-title">Sign In Google</h3>
+          <p class="step-desc">Open the extension and click <strong>"Sign in with Google"</strong> to log in.</p>
+        </div>
+
+        <!-- Arrow Divider -->
+        <div class="step-arrow">➔</div>
+
+        <!-- Step 3: Turn ON Toggle -->
+        <div class="trial-step-card">
+          <div class="step-number">3</div>
+          <div class="step-icon">🔘</div>
+          <h3 class="step-title">Enable PRO Toggle</h3>
+          <p class="step-desc">Turn ON the <strong>Quantity Ignore 🔘</strong> toggle to open the 15-Day Trial popup!</p>
+        </div>
+      </div>
+
+      <!-- Value Promise & Trust Footer (Clean & Non-Cluttered) -->
+      <div class="trial-value-box">
+        <p class="trial-value-text">
+          💡 <strong>No Pressure Guarantee:</strong> Test AutoSift on your live IndiaMART leads. Upgrade to PRO only if it saves your daily time and delivers your expected lead quality!
+        </p>
+      </div>
+
+      <div class="trial-footer-trust">
+        <span>🛡️ <strong>100% Risk-Free:</strong> No credit card needed. Auto-reverts to FREE Forever Plan.</span>
+      </div>
+    </div>
+
 
 
     <!-- WhatsApp 2-Step Verification & Number Management Section -->
@@ -1714,7 +1944,7 @@
               <span>+</span>
             </div>
             <div class="faq-answer">
-              Every new user gets a one-time 15-day trial of the PRO features when they sign in with Google inside the Chrome Extension. No credit card is required to claim the trial. Once the trial ends, you will revert to the FREE Forever plan automatically unless you choose to subscribe.
+              Every new user gets a one-time 15-day trial of the PRO features when they sign in with Google inside the Chrome Extension. Simply turn ON the <strong>Quantity Ignore 🔘</strong> toggle inside the extension to claim your trial popup. No credit card is required. Once the trial ends, you will automatically revert to the <strong>FREE Forever Plan</strong> unless you choose to subscribe.
             </div>
           </div>
           <div class="faq-item" id="faq2">
