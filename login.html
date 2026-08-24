@@ -278,23 +278,24 @@
       <span>⚠️ MUST READ BEFORE LOGGING IN</span>
     </div>
 
-    <!-- Google Button -->
-    <button class="btn-google" id="btnGoogleLogin" onclick="handleGoogleLogin()">
-      <svg class="google-icon" viewBox="0 0 24 24" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"/>
-        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"/>
+    <!-- Add to Chrome Button -->
+    <a href="https://chromewebstore.google.com/detail/autosift-b2b-lead-automat/gabifcmcgekdfilmpipmicepajaglknm" target="_blank" rel="noopener noreferrer" class="btn-chrome-install" id="btnAddToChrome" style="display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%; background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); color: #ffffff; text-decoration: none; border: none; border-radius: 8px; padding: 14px 16px; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4); margin-bottom: 12px;">
+      <svg class="chrome-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="12" cy="12" r="10" stroke="#ffffff" stroke-width="2"/>
+        <circle cx="12" cy="12" r="4" fill="#ffffff"/>
+        <path d="M21.17 8H12" stroke="#ffffff" stroke-width="2"/>
+        <path d="M3.95 6.06L8.54 14" stroke="#ffffff" stroke-width="2"/>
+        <path d="M10.88 21.94L15.46 14" stroke="#ffffff" stroke-width="2"/>
       </svg>
-      Log in with Google
-    </button>
+      Add to Chrome for FREE
+    </a>
 
-    <div class="toggle-link">
-      Don't have an account? <a id="signupToggleLink" href="signup.html">Sign up</a>
-    </div>
+    <p style="font-size: 12px; color: #94a3b8; margin-bottom: 20px;">
+      💡 Already installed? Click the AutoSift icon in your Chrome toolbar to open.
+    </p>
 
     <!-- High-Visibility SME Onboarding Card -->
-    <div class="sme-card-pulse" style="margin-top: 22px; padding: 16px; background: linear-gradient(135deg, rgba(99, 102, 241, 0.12) 0%, rgba(79, 70, 229, 0.06) 100%); border: 1px solid rgba(99, 102, 241, 0.4); border-radius: 12px; text-align: left;">
+    <div class="sme-card-pulse" style="padding: 16px; background: linear-gradient(135deg, rgba(99, 102, 241, 0.12) 0%, rgba(79, 70, 229, 0.06) 100%); border: 1px solid rgba(99, 102, 241, 0.4); border-radius: 12px; text-align: left;">
       <div style="display: inline-block; padding: 3px 8px; background: #fbbf24; color: #78350f; font-size: 10px; font-weight: 800; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">
         🎁 15-DAY PRO TRIAL ACTIVATION GUIDE
       </div>
@@ -322,55 +323,5 @@
       <a href="terms.html" target="_blank">Terms</a>
     </div>
   </div>
-
-  <script>
-    // Supabase Configuration
-    const SUPABASE_URL = 'https://pipcqctaaplgaltzfrjv.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBpcGNxY3RhYXBsZ2FsdHpmcmp2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg4MjQ1NjIsImV4cCI6MjA4NDQwMDU2Mn0.2cjoHOIwbL0v6utUnuS8jex_oeZpb-MUgKbq4kg1Bs8';
-    
-    let supabaseClient = null;
-    if (typeof supabase !== 'undefined') {
-      supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    }
-
-    // Sync query parameters forward to Signup Toggle Link
-    window.addEventListener('DOMContentLoaded', () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const signupLink = document.getElementById('signupToggleLink');
-      if (signupLink && urlParams.toString()) {
-        signupLink.href = `signup.html?${urlParams.toString()}`;
-      }
-    });
-
-    async function handleGoogleLogin() {
-      if (!supabaseClient) {
-        alert("Authentication client could not be loaded.");
-        return;
-      }
-
-      // Forward current URL params back to redirect URL
-      const urlParams = new URLSearchParams(window.location.search);
-      const action = urlParams.get('action') || 'claim_trial';
-      const plan = urlParams.get('plan') || '';
-      
-      // Always use production URL for OAuth redirect — never localhost
-      const origin = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
-        ? 'https://autosift.aiautomationwithamit.in'
-        : window.location.origin;
-      const redirectUrl = `${origin}/pricing.html?action=${action}&plan=${plan}`;
-      
-      try {
-        const { error } = await supabaseClient.auth.signInWithOAuth({
-          provider: 'google',
-          options: {
-            redirectTo: redirectUrl
-          }
-        });
-        if (error) throw error;
-      } catch (err) {
-        alert('Authentication Error: ' + err.message);
-      }
-    }
-  </script>
 </body>
 </html>
