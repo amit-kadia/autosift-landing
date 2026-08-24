@@ -2603,9 +2603,9 @@
     async function handleCardClick(planType) {
       const dbPlanCode = planType === 'monthly' ? 'pro_monthly_early' : 'pro_yearly_early';
 
-      // 1. Guest Flow: Trigger Google Login to attach payment to profile
+      // 1. Guest Flow: Trigger Google Login with checkout intent
       if (!currentUser) {
-        signInWithGoogle();
+        signInWithGoogle(planType);
         return;
       }
 
@@ -2968,13 +2968,22 @@
       }
     }
 
-    // Google Sign-In Function
-    async function signInWithGoogle() {
+    // Google Sign-In Function (Preserves Selected Plan Intent)
+    async function signInWithGoogle(planType = '') {
       try {
+        const origin = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+          ? window.location.origin
+          : 'https://autosift.aiautomationwithamit.in';
+        
+        const path = window.location.pathname.split('/').pop() || 'pricing.html';
+        const redirectUrl = planType
+          ? `${origin}/${path}?action=checkout&plan=${planType}`
+          : `${origin}/${path}`;
+
         const { error } = await supabaseClient.auth.signInWithOAuth({
           provider: 'google',
           options: {
-            redirectTo: window.location.href // Redirect back to this page
+            redirectTo: redirectUrl
           }
         });
         if (error) throw error;
