@@ -78,6 +78,11 @@
             align-items: center;
             gap: 0.75rem;
             text-decoration: none;
+            transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .logo-container:hover {
+            transform: scale(1.03);
         }
 
         .logo-icon {
@@ -85,6 +90,11 @@
             height: 32px;
             object-fit: contain;
             border-radius: 6px;
+            transition: filter 0.25s ease;
+        }
+
+        .logo-container:hover .logo-icon {
+            filter: drop-shadow(0 2px 8px rgba(99, 102, 241, 0.4));
         }
 
         .logo {
@@ -137,19 +147,6 @@
 
         .nav-links a:active {
             transform: translateY(0);
-        }
-
-        .nav-links a.nav-pricing-link {
-            color: var(--primary);
-            background: rgba(99, 102, 241, 0.05);
-            border: 1px solid rgba(99, 102, 241, 0.2);
-        }
-
-        .nav-links a.nav-pricing-link:hover {
-            background: rgba(99, 102, 241, 0.12);
-            border-color: rgba(99, 102, 241, 0.4);
-            color: var(--primary-dark);
-            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.15);
         }
 
         .bg-brand {
@@ -1190,7 +1187,7 @@
                 <a href="#features">Features</a>
                 <a href="#proof">Proof</a>
                 <a href="#transparency">Transparency</a>
-                <a href="pricing.html" class="nav-pricing-link">Pricing</a>
+                <a href="pricing.html">Pricing</a>
             </div>
             <div class="nav-auth-buttons" style="display: flex; align-items: center; gap: 20px; flex-shrink: 0;">
                 <a href="https://chromewebstore.google.com/detail/autosift-b2b-lead-automat/gabifcmcgekdfilmpipmicepajaglknm" target="_blank" rel="noopener" class="nav-cta" style="flex-shrink: 0; display: inline-flex; align-items: center; gap: 8px; padding: 8px 18px; background: var(--primary); border-radius: 6px; color: #fff; text-decoration: none; font-weight: 600; font-size: 14px; transition: all 0.3s ease; box-shadow: 0 2px 10px rgba(37, 99, 235, 0.3);" onmouseover="this.style.background='var(--primary-dark)'" onmouseout="this.style.background='var(--primary)'">
