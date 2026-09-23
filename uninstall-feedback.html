@@ -780,12 +780,12 @@
                 const recoveryBox = document.getElementById('recovery-box');
                 
                 if (whatsappValue) {
-                    successMsgEl.innerHTML = 'Your response has been saved and <strong>7 FREE extra days</strong> have been automatically added to your account! Founder Amit will reach out to you on WhatsApp (' + whatsappValue + ') within 24 hours to help resolve your issue.';
+                    successMsgEl.innerHTML = 'Thank you for your valuable feedback! If eligible, <strong>7 FREE extra days of Pro Trial</strong> have been activated on your account. Founder Amit will reach out to you directly on WhatsApp (' + whatsappValue + ') within 24 hours to help with your requirements.';
                     
-                    // Style recovery box for active bonus
+                    // Style recovery box for active bonus & returning users
                     recoveryBox.className = 'bonus-active-box';
                     recoveryBox.style.color = ''; // remove inline grey color override
-                    recoveryBox.innerHTML = '🎁 <strong>Your 7-Day Free Trial Extension is Active!</strong><br><span style="font-weight: normal; font-size: 0.85rem; opacity: 0.9;">Reinstall AutoSift below. The 7 bonus days have been successfully credited to your account.</span>';
+                    recoveryBox.innerHTML = '🎁 <strong>AutoSift Pro Extension & Founder Support</strong><br><span style="font-weight: normal; font-size: 0.85rem; opacity: 0.9;">Reinstall AutoSift below to continue using your account. If your WhatsApp number has already enjoyed an extended Pro trial, or you need custom team filters, Amit is just a message away on WhatsApp.</span>';
                 } else {
                     successMsgEl.textContent = 'Your response has been saved. We are constantly improving AutoSift based on inputs like yours.';
                     
